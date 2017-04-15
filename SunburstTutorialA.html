@@ -71,7 +71,6 @@
     and any of its attributes are inherited by its child elements.
 
 
-
     .attr('transform', [translate function]) looks a bit more complex.  As above, attr sets the value for the
     'transform' attribute. The transform attribute allows us to scale, translate (move), rotate, etc. our <g> element
     and it's children. In this case we'll move our <g> element using the translate function.
@@ -123,10 +122,6 @@
     based on the size of our <svg> element. */
     var partition = d3.partition()
         .size([2 * Math.PI, radius]);
-    /*
-    LATER: 1/2 circle, 1/4 circle, 75% of the radius
-    */
-
 
     /* var root = ...  The sunburst layout (or any hierarchical layout, for that matter) in d3 needs a "root node".
     Happily, our data is already in a hierarchical pattern and has a root node (root node name = "TOPICS").
@@ -144,8 +139,6 @@
      */
     var root = d3.hierarchy(nodeData)
         .sum(function (d) { return d.size});
-    /* LATER: if (d.children) { return 0} else { return 1 }, size = 1, size by slice count vs size by size.
-    * Add sort (or is that above?)*/
 
     /* Now we'll combine our partition variable (which creates the data structure) with our root node (the actual
     data. This line sets us up for the arc statement.
@@ -162,9 +155,13 @@
     created <g> group element.
 
     d3's "update pattern" operates as following:
-    1) g.selectAll('path') selects all existing <path> elements within our <g> element. In this case, we know that
-    none exist. That's okay, d3 still uses this step to establish where the new <path> elements will fit on the page
-    (in the svg object model). It's where we'll put the new <path> elements.
+    1) g.selectAll('path') starts with the g variable that we created way above; it references the <g> element that
+    we originally appended to our <svg> element. The selectAll gets a reference to all existing <path> elements within
+    our <g> element. That's odd, you say, since we know that there are no <path> elements in <g>. You are right. They
+    don't yet exist. But this is the way that the d3 Update Pattern works. And it'll be helpful later when you want to
+    update a d3 viz by adding new nodes to an existing set. For now, it's simple enough to recognize that d3
+    uses this step to establish where the new <path> elements will fit on the page (in the svg object model).
+    It's where we'll put the new <path> elements.
 
     2) .data(root.descendants()) tells d3 what about the <path>s that we want to exist by passing it our data. We're
     passing in the root variable calculated above with it's descendants.
@@ -201,7 +198,10 @@
     the current node has children, return the current node, otherwise, return its parent. That node's name will be
     passed to our color variable and then returned to the style attribute within each <path> element. Our path
     statement now looks like this:
-    <path d="..." style="stroke: rgb(255, 255, 255); fill: rgb(82, 84, 163);"></path> */
+    <path d="..." style="stroke: rgb(255, 255, 255); fill: rgb(82, 84, 163);"></path>
+
+    See Chris Givens' Update Pattern tutorial for another look at steps 1 - 4 above:
+    https://bl.ocks.org/cmgiven/32d4c53f19aea6e528faf10bfe4f3da9 */
     g.selectAll('path')
         .data(root.descendants())
         .enter().append('path')

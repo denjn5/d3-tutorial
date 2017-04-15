@@ -1,0 +1,18 @@
+    var partition = d3.partition()
+        .size([2 * Math.PI, radius]);
+    /*
+    LATER: 1/2 circle, 1/4 circle, 75% of the radius
+    */
+
+        var root = d3.hierarchy(nodeData)
+        .sum(function (d) { return d.size});
+    /* LATER: if (d.children) { return 0} else { return 1 }, size = 1, size by slice count vs size by size.
+    * Add sort (or is that above?)*/
+
+
+    .append("title") creates a <title> element within each <path></path> element.
+
+    .text(function (d) { return d.data.name; }) adds the name of the node to the <title> element, such as
+    <title>Topic A</title>
+
+    http://jsfiddle.net/Hm49x/
