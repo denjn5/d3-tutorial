@@ -1,11 +1,9 @@
 # A d3 v4 Sunburst: A Detailed Explaination #
 The sunburst is under represented in d3 version 4 tutorials. While it's uniquely useful for explaining relationships in hierarchical data, it's not used often. Maybe it's because the code can be confusing. It mixes html, css, svg, json, javascript, and d3. And, at our best, we're able to understand circles both in terms of degrees and radians. No wonder it can seem confusing. I'll tell you that I sometimes get turned around when reviewing my own 6-month-old code. So this sunburst tutorial is for both of us. And I'm confident that you can follow this code and build something that you're proud of. 
 
-I strive to explain everything that I can about each line, and sometimes link to helpful tutorials. If I don't explain it, or explain it well, I'd welcome your input.
+I strive to explain everything that I can about each line, and sometimes link to helpful tutorials. If I don't explain it, or explain it well, I'd welcome your input. For each section, we'll begin with a title, some code, and the explanation.
 
-For this sunburst, we will stay vanilla. No labels, no interaction. 
-
-
+## Our Web Page (HTML) ##
 ``` html
 <!DOCTYPE html>
 <head>
@@ -16,6 +14,15 @@ For this sunburst, we will stay vanilla. No labels, no interaction.
 </body>
 
 <script>
+
+</script>
+```
+This is a very basic web page. 
+* The <script> reference in the <head> points to our d3 library, that we've stored in the Libraries subdirectory.
+* We've
+
+
+``` javascript
     var nodeData = {
         "name": "TOPICS", "children": [{
             "name": "Topic A",
