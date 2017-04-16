@@ -1,7 +1,7 @@
 # d3 v4 Sunburst: A Detailed Explanation #
-I wish there were more d3 version 4 sunburst tutorials. Sunbursts are great for explaining relationships in hierarchical data. However, the code can get a bit confusing as we mix html, css, svg, json, javascript, and d3. And, bounce between radians and degrees. I sometimes struggle when reviewing my own 6-month-old code. So this sunburst tutorial is for both of us. I'm hopeful and confident that you'll be able to follow this example and build something that you're proud of. 
+Sunbursts are great for explaining relationships in hierarchical data. But the code can get a bit confusing as we mix html, css, svg, json, javascript, and d3. And, bounce between radians and degrees. 
 
-In this tutorial, I strive to explain each line, and sometimes link to other tutorials that have helped me. If I don't explain it, or explain it well, I welcome your input. For each section, we'll begin with a title, some code, and the explanation.
+In this tutorial, I strive to explain each line. If I don't explain it, or explain it well, I welcome your input. For each titled section, we'll begin with the code and then explain it. Maybe it'll help you solve a problem in your own code or build something that you're proud of. 
 
 ## A Basic Web Page (html) ##
 ``` html
@@ -16,13 +16,14 @@ In this tutorial, I strive to explain each line, and sometimes link to other tut
     </script>
 </body>
 ```
-This basic web page has includes 2 ```<script>``` tags
-1) in the <head> points to our d3 library, that we've stored in the Libraries subdirectory
-2) in the <body> will hold our d3 logic
+This very basic web page has includes 2 ```<script>``` sections
+1) In the ```<head>```: points the browser to our d3 library, that we've stored in a "Libraries" subdirectory.
+2) In the ```<body>```: will hold all of the code shared below.
 
-The <body> section also contains and <svg> element.  This is where our d3 visualization will get drawn.
+The ```<body>``` section also contains a ```<svg>``` element. This is where our d3 visualization will actually get drawn.
 
-## Our Data (json) ##
+
+## The Data (json) ##
 ``` javascript
 var nodeData = {
     "name": "TOPICS", "children": [{
@@ -38,11 +39,12 @@ var nodeData = {
     }]
 };
 ```
-JSON for a sunburst is structured as a hierarchy. Each **node** in the data (we'll also call these **arcs** when we draw them in d3 and **slices** when we're looking at our visualization), has a "name" and either "children" (with nodes under them) or a "size" (if it is childless). We'll call the very first node (```"name": "TOPICS"```) is called the **root** node. The root node is important as we create our sunbust (it's the center of the circle). We define each node in 1 of 2 ways:
+JSON for a sunburst is structured as a hierarchy. This JSON contains data about 11 **nodes**. (We'll call these **arcs** when we calculate each node's size in d3 code. And we sometimes call them **slices** when we're looking at our visualization.).  The very first node is called the **root** node (in our code above: ```"name": "TOPICS"```). The root node is a sort of anchor for our data and visualization, and we often treat it differently since it's the center of or sunbust. We define each node in the above data in 1 of 2 ways:
 
-1) ``` jacascript { "name": "abc", "children": [] }``` describes a node that has children. Size isn't defined for these nodes, because it'll be adopted (calculated by d3) based on children nodes. Children will either be more slices like this one, with children of their own, or nodes with a "size" when it has no children.
+1) ```{ "name": "abc", "children": [] }``` describes a node that has children. Size isn't defined for these nodes, because it'll be adopted (calculated by d3) based on children nodes. Children will either be more nodes like this one, with children of their own, or nodes with a "size" when it has no children.
 
-2) ```{ "name": "zyz", "size": 4 }``` describes an end slice (with no children). Slice configuration does not need to symmetrical. Often, one slice will be an end-point while another slice in the same list will have children.  Or slices will have differing numbers of children, as below. Last, more complex slice definitions are valuable, but not necessary in this simple example. */
+2) ```{ "name": "zyz", "size": 4 }``` describes an end node with no children. The hierarchy doesn't need to be symmetrical in any way if.  Nodes can have differing numbers of children, or have "sibling" nodes that have no children at all).
+
   
 ## Initialize Variables (javascript & d3) ## 
 ``` javascript
@@ -52,12 +54,9 @@ var radius = Math.min(width, height) / 2;
 var color = d3.scaleOrdinal(d3.schemeCategory20b);
 ```
 
-We set 4 variables here, ones that we'll use a few times.  They're also worth a few comments:
+```var width = 500``` creates a variable set to 500; it does not actually set the width of anything, yet. Below we'll apply this variable to the ```<svg>``` element's width attribute. We could set width directly (```<svg width=500>```). But we'll use this values a few times. If we coded it directly, we'd then need to change each occurances every time. Mistakes will happen.
 
-```var width = 500``` creates a variable set to 500, it does not actually set the width of anything, yet. That will
-happen below when we apply this variable to the ```<svg>``` element's width attribute. Why don't we set width and height directly (```<svg width=500 height=500>```)? Because we'll use these values a few times and if we code them directly, we'll have to change all of their occurances every time. Stuff will break.
-
-```var radius = Math.min(width, height) / 2``` determines which is smaller, the width or height, then it divides that value by 2 (since the radius is 1/2 of the circle's full diameter). It sets that value as our radius. This optimizes the size of our viz within the <svg> (since we don't want to leak over the edges, but we also don't want a bunch of wasted white space). Since both width and height are 500 here, the radius variable will equal 250. Eventually, this will become our sunburst's actual radius, once we do something with the variable.
+```var radius = Math.min(width, height) / 2``` determines which is smaller (the ```min```), the width or height. Then it divides that value by 2 (since the radius is 1/2 of the circle's diameter). Then we store that value as our radius. This optimizes the size of our viz within the ```<svg>``` element (since we don't want to leak over the edges, but we also don't want a bunch of wasted white space). Since both width and height are 500 here, the radius variable will equal 250. Eventually, this will become our sunburst's actual radius, once we do something with the variable.
 
 ```d3.scaleOrdinal```: Scales help us map something in our data to something in our visual. Outside of d3, *ordinal scales* indicate the direction of the underlying data and provide some nominal information (e.g., low, medium, high).  So this type of scale in d3 allows us to relate something in our data to something that has a series of named values (like an array of colors). ```schemeCategory20b``` is a d3 command that returns an array of colors. d3 has several similar options that are specifically designed to work with ```d3.scaleOrdinal()```.  The result of this line is that we'll have a variable ("color") that will return a rainbow of options for our sunburst.
 
