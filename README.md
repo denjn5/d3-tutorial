@@ -171,27 +171,32 @@ d3's "update pattern" operates as following:
 
 3) ```.enter()``` tells d3 to "connect" the originally selected ```<path>``` element with our data so that we can...
 
-4) ```.append('path')``` actually creates one new, but empty, ```<path>``` element for each node under our ```<g>``` element. The html looks something like this: ```<g transform="translate(250,250)"><path></path><path></path> . . . <path></path></g>```
+4) ```.append('path')``` actually creates one new, but empty, ```<path>``` element for each node under our ```<g>``` element. See Chris Givens' [Update Pattern](https://bl.ocks.org/cmgiven/32d4c53f19aea6e528faf10bfe4f3da9) tutorial for another look at steps 1-4 above.
 
-5) ```.attr("display", function (d) { return d.depth ? null : "none"; })``` sets the display attribute of the ```<path>``` element for our *root* node to "none". (```display="none"``` tells SVG that this element will not be rendered.) HTML: ```<g transform="translate(250,250)"><path display="none"></path><path></path> . . . <path></path></g>```
+5) ```.attr("display", function (d) { return d.depth ? null : "none"; })``` sets the display attribute of the ```<path>``` element for our *root* node to "none". (```display="none"``` tells SVG that this element will not be rendered.)
 
 6) ```.attr("d", arc)``` fills in all the "d" attributes of each ```<path>``` element with the values from our arc variable. Two important notes here: 
     * The d attribute contains the actual directions for each line of this svg ```<path>``` element, see the example below.
     * Don't confuse the the ```<path d="">``` attribute with the d variable that represents the data within or d3 script. 
-    
-After this step, our <path> elements look something like: ```<path d="M1.020538999289461e-14,-166.66666666666666A166.66666666666666,166.66666666666666,0,0,1,
-150.80450874433657,70.96321526084546L75.40225437216829,35.48160763042273A83.33333333333333,83.33333333333333,
-0,0,0,5.102694996447305e-15,-83.33333333333333Z"></path>```
 
 If you stopped here, you'd see a sunburst with each slice drawn, but all black with barely visible gray lines seperating the slices. Let's add some color:
 
-7) ```.style('stroke', '#fff')``` add ```style="stroke: rgb(255, 255, 255);"``` to our ```<path>``` element. Now the lines between our slices are white.  HTML: ```<path d="..." style="stroke: rgb(255, 255, 255);"></path>```
+7) ```.style('stroke', '#fff')``` add ```style="stroke: rgb(255, 255, 255);"``` to our ```<path>``` element. Now the lines between our slices are white.
 
 8) ```.style("fill", function (d) { return color((d.children ? d : d.parent).data.name); })``` combines the ```color``` variable we defined at the beginning (which returns an array of colors that we can step through) with our data.
     * ```(d.children ? d : d.parent)``` is a javascript inline if in the form of (condition ? expr1 : expr2) that says, if the current node has children, return the current node, otherwise, return its parent. 
-    * That node's name will be passed to our color variable and then returned to the style attribute within each ```<path>``` element. HTML:```<path d="..." style="stroke: rgb(255, 255, 255); fill: rgb(82, 84, 163);"></path>```
+    * That node's name will be passed to our color variable and then returned to the style attribute within each ```<path>``` element.
 
-See Chris Givens' [Update Pattern](https://bl.ocks.org/cmgiven/32d4c53f19aea6e528faf10bfe4f3da9) tutorial for another look at steps 1 - 4 above.
+In the end, this section of our HTML will look something like this (ellipsis indicates details that I haven't included):
+``` html
+<g transform="translate(250,250)">
+    <path display="none" d=". . ." style="stroke: rgb(255, 255, 255); fill: rgb(82, 84, 163);">
+    <path style="stroke: rgb(255, 255, 255); fill: rgb(82, 84, 163);" d="M1.020538999289461e-14,-166.66666666666666A166.66666666666666,166.66666666666666,0,0,1,
+    150.80450874433657,70.96321526084546L75.40225437216829,35.48160763042273A83.33333333333333,83.33333333333333,
+    0,0,0,5.102694996447305e-15,-83.33333333333333Z">
+    </path></path> . . . <path></path>
+</g>
+```
 
 
 
