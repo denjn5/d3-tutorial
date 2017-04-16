@@ -94,20 +94,16 @@ var g = d3.select('svg')  // returns a handle to the <svg> element
     .append('g')  // adds a <g> element to the <svg> element. It returns the <g> element
     .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');  // takes the <g> element and moves the [0,0] center over and down
 ```
-1) ```d3.select('svg')``` returns a handle to the ```<svg>``` element.
-2) ```attr('width', width)``` sets the width of ```<svg>``` and then returns the ```<svg>``` element again.
-3) ```attr('height', height)``` (same as width).
-4) ```append('g')``` adds a ```<g>``` element to the ```<svg>``` element. It returns the ```<g>``` element.
-5) ```attr('transform', ...)``` takes the ```<g>``` element and moves the [0,0] center over and down.
 Method chaining is key to understanding what's going on in most all d3 code. To fully "get" the meaning of a code block, we must understand both what the method does and what it returns. (Want more? See Scott Murray's [Chaining methods](http://alignedleft.com/tutorials/d3/chaining-methods) article.)
 
 Another way to think about the progression of our d3 is to see our html elements grow through each step. Thinking about the same 1-5 steps above, we'd see the following happen:
-1) ```<svg></svg>```
-2) ```<svg width="500"></svg>```
-3) ```<svg width="500" height="500"></svg>```
-4) ```<svg width="500" height="500"><g></g></svg>```
-5) ```<svg width="500" height="500"><g transform="translate(250,250)"></g></svg>```
-
+``` javascript
+var g = d3.select('svg')  // --> <svg></svg>
+    .attr('width', width)  // --> <svg width="500"></svg>
+    .attr('height', height)  // --> <svg width="500" height="500"></svg>
+    .append('g')  // --> <svg width="500" height="500"><g></g></svg>
+    .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');  // --> <svg width="500" height="500"><g transform="translate(250,250)"></g></svg>
+```
 
 ## Formatting the Data (d3) ##
 ``` javascript
@@ -127,6 +123,22 @@ The ```partition``` command is a special tool that will help organize our data i
 var root = d3.hierarchy(nodeData)
     .sum(function (d) { return d.size});
 ```
+The sunburst layout (or any hierarchical layout in d3) needs a **root** node. Happily, our data is already in a hierarchical pattern and has a root node ("name" : "TOPICS"). So we can pass our data directly to d3.partition with no preliminary reformatting. We use ```d3.hierarchy(nodeData)``` to tell d3, "Hey d3, our data is stored in the nodeData variable. It's already shaped in a hierarchy."
+
+```sum()``` begins to determine the size of each slice (how "long" it is, how far the slice stretches around the circle). So the sum function needs direct access to data for this calculation. 
+
+d3 has a specific pattern for retrieving your data and applying it to d3 commands, a pattern that you'll see repeatedly:
+```function(d) { return d }```. This functions accepts "d", which represents your data, and returns a value, or an array of values, based on your data. The "return d" part can get intricate. In our code, we're returning the size (d.size) to the sum function. We defined "size" in our JSON, so it's often available for a node.  When size isn't definedthis function returns 0. Two specific examples from our data:
+* "Sub A1" will have a has a size of 4.
+* "Topic A" has a size of 8, the sum of "Sub A1" and "Sub A2".
 
 
-
+## Calculate each arc (d3) ##
+``` javascript
+partition(root);
+var arc = d3.arc()
+    .startAngle(function (d) { return d.x0 })
+    .endAngle(function (d) { return d.x1 })
+    .innerRadius(function (d) { return d.y0 })
+    .outerRadius(function (d) { return d.y1 });
+```
