@@ -87,6 +87,13 @@ var g = d3.select('svg')
 
 ### Method Chaining & the HTML ###
 *Method chaining* allows us to connect multiple commands together with periods between into a single statement, like we've done above. It's important to recognize that each d3 method returns something, and the next method in the chain applies to that something. Here's the above code, with a note about what each line returns:
+``` javascript
+var g = d3.select('svg')  // returns a handle to the <svg> element
+    .attr('width', width)  // sets the width of <svg> and then returns the <svg> element again
+    .attr('height', height)  // (same as width)
+    .append('g')  // adds a <g> element to the <svg> element. It returns the <g> element
+    .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');  // takes the <g> element and moves the [0,0] center over and down
+```
 1) ```d3.select('svg')``` returns a handle to the ```<svg>``` element.
 2) ```attr('width', width)``` sets the width of ```<svg>``` and then returns the ```<svg>``` element again.
 3) ```attr('height', height)``` (same as width).
