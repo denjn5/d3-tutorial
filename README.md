@@ -9,9 +9,7 @@ In this tutorial, I strive to explain each line, and sometimes link to other tut
     <script src="Libraries/d3.v4.js"></script>
 </head>
 <body>
-    <svg>
-    <!–– d3 sunburst here ––> 
-    </svg>
+    <svg></svg>
 
     <script>
     <!–– d3 logic goodness here ––> 
@@ -70,6 +68,57 @@ var g = d3.select('svg')
     .attr('height', height)
     .append('g')
     .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
-```    
+```
+
+```d3.select('svg')``` selects our ```<svg></svg>``` element so that we can work with it. The select command finds the first element (and only the first, if there are multiple) that matches the specified selector string ("svg" in this case). If the select command doesn't find a match, it returns an empty selection. Often you'll see people create the ```<svg>``` element via code, like this: ```d3.select("body").append("svg")```
+
+```.attr('width', width)``` sets the width attribute of our selected ```<svg>``` element. In HTML, we could have set it directly with ```<svg width="500">```. But we'll use the width variable a few times, so it's better as a variable.
+
+```.append('g')``` adds a ```<g>``` element to our SVG. ```<g>``` is a special SVG element that acts as a container; it's used to group other SVG elements. Transformations applied to the ```<g>``` element are performed on all of its child elements, and any of its attributes are inherited by its child elements.
+
+
+```.attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')')``` looks a bit more complex. First we see that ```.attr('transform', ...)``` sets the value for the ```'transform'``` attribute. The transform attribute allows us to scale, translate (move), rotate, etc. our <g> element and it's children. In this case we'll move our ```<g>``` element using the translate function.
+
+```'translate(' + width / 2 + ',' + height / 2 + ')'```. If our width and height are each 500, this formula resolves to ```translate(250, 250)``` which moves our coordinate system for our ```<g>``` element 250 units right (x-axis) and 250 units down (y-axis). This can be a bit confusing, and brings up 2 questions: 
+1) Why "down"? Because SVG's coordinate system starts with 0,0 in the upper-left corner; x values move things to the right and y values move things down. 
+2) What's the point this translate statement? It moves 0,0 from the upper-left corner to the *center* of our ```<svg>``` element. Now, our ```<svg>``` container, if it's 400 wide, stretches from -200 to 200, instead of 0 to 400. (Wanna diver deeper? See [Sara Soueidan's article](https://sarasoueidan.com/blog/svg-transformations/) helps clarify the mechanics.)
+
+### Method Chaining & the HTML ###
+NOTE: d3 leverages method chaining. That means that we can sometimes connect multiple commands together into a
+single statement, like we've done below. To understand method chaining, it's important to recognize that each
+method returns something, and the next method in the chain applies to that something. To keep it simple for now,
+let's just look at how it works in the example below:
+1) ```d3.select('svg')``` returns a handle to the ```<svg>``` element. (HTML: )
+2) ```attr('width', width)``` sets the width of ```<svg>``` and then returns the ```<svg>``` element. (HTML: )
+3) ```attr('height', height)``` sets the height of ```<svg>``` and then returns the ```<svg>``` element. (HTML: )
+4) ```append('g')``` adds a ```<g>``` element to the ```<svg>``` element, then it returns the ```<g>``` element. (HTML: )
+5) ```attr('transform', ...)``` moves 0,0 (the center) of the ```<g>``` element. (HTML: )
+Method chaining happens often in Javascript and is key to understanding what's going on in the d3 code. To fully "get" the meaning of a code block, we must understand both what the method does and what it returns.
+
+Another way to think about the progression is to watch the elements grow through each step:
+1) ```<svg></svg>```
+2) ```<svg width="500"></svg>```
+3) ```<svg width="500" height="500"></svg>```
+4) ```<svg width="500" height="500"><g></g></svg>```
+5) ```<svg width="500" height="500"><g transform="translate(250,250)"></g></svg>```
+
+## Correctly Formatting the Data (d3) ##
+``` javascript
+var partition = d3.partition()
+    .size([2 * Math.PI, radius]);
+```
+The ```partition``` command is a special tool that will help transform our data (later) into the actual sunburst pattern, and ensure it's properly sized (e.g., that we use all 360 degrees of the circle, and that each slice is sized relative to the other slices.  If an underlying datum has a size that is 2 times as large as another datum, then partition helps us see that in the final product. (Though the hierarchy command below plays an important role also.)
+
+```size``` sets this partition's overall size ```["width", "height"]```.
+* 2π (aka, 2 * Math.PI) is the number of radians to set your circle a full 360°. Want a ½ circle? Set size as π (Math.PI).
+* radius sets the overall distance from the center to the outside of the circle; we set this distance way above
+based on the size of our <svg> element.
+
+## Find the Root Node (d3) ##
+``` javascript
+var root = d3.hierarchy(nodeData)
+    .sum(function (d) { return d.size});
+```
+
 
 
