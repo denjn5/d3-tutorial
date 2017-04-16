@@ -112,7 +112,7 @@ The ```partition``` command is a special tool that will help transform our data 
 ```size``` sets this partition's overall size ```["width", "height"]```.
 * 2π (aka, 2 * Math.PI) is the number of radians to set your circle a full 360°. Want a ½ circle? Set size as π (Math.PI).
 * radius sets the overall distance from the center to the outside of the circle; we set this distance way above
-based on the size of our <svg> element.
+based on the size of our ```<svg>``` element.
 
 ## Find the Root Node (d3) ##
 ``` javascript
