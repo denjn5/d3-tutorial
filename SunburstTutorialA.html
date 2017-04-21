@@ -1,24 +1,13 @@
 <!DOCTYPE html>
 <head>
-    <script src="Libraries/d3.v4.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
 </head>
 <body>
     <svg></svg>
 </body>
 
 <script>
-    /* JSON for our sunburst is formed as a hierarchy. All slides (aka, nodes) have a name and either children (with
-    nodes under them) or a size (if they have no children).  Below, each node is defined in 1 of 2 ways:
-
-    * { "name": "abc", "children": [] } describes a middle (or root) slice that has children. Size isn't defined here.
-    d3 will calculate the size of this slice as the sum of its children. Children will either be more slices like this
-    one, with children of their own, or slices with sizes that have no children.
-
-    * { "name": "zyz", "size": 4 } describes an end slice (with no children). Slice configuration does not need to
-    symmetrical. Often, one slice will be an end-point while another slice in the same list will have children.  Or
-    slices will have differing numbers of children, as below.
-
-    Last, more complex slice definitions are valuable, but not necessary in this simple example. */
+    // JSON data
     var nodeData = {
         "name": "TOPICS", "children": [{
             "name": "Topic A",
@@ -33,117 +22,28 @@
         }]
     };
 
-    /* We're mostly just setting 4 variables here. But there's a few things here that are worth commenting on:
-
-    var width = 500 creates a variable set to 500, it does not actually set the width of anything, yet. That will
-    happen below when we apply our new variable to an actual HTML element's width attribute. Why not just set width
-    and height directly? Because we'll use these same variables to also size our sunburst (radius) and to re-orient
-    the 0,0 center of the <SVG> element to the middle of the element (instead of its natural upper-left starting
-    point).
-
-    var radius = Math.min(width, height) / 2 determines which is smaller, width or height, then it divides that
-    smaller value by 2 and sets the answer to radius. This works well, since we don't want our sunburst to overflow
-    our <svg> element. Since both width and height are 500 here, the radius variable will equal 250. Eventually,
-    this will become our sunburst's radius, once we do something with the variable.
-
-    d3.scaleOrdinal: Scales help us map something in our data to something visual. Outside of d3, *ordinal scales*
-    indicate direction and provide some nominal information (e.g., low, medium, high). schemeCategory20b is a color
-    scheme in d3 that's specifically designed to fill a d3.scaleOrdinal. The result of this line is that we'll have
-    a variable (color) that's filled with a series of colors that can be doled out to represent a something in our
-    sunburst. */
+    // Variables
     var width = 500;
     var height = 500;
     var radius = Math.min(width, height) / 2;
     var color = d3.scaleOrdinal(d3.schemeCategory20b);
 
-    /* d3.select('svg') selects our <svg></svg> element so that we can work with it. The select command finds the
-    first element (and only the first, if there are multiple) that matches the specified selector string
-    ("svg" in this case). If select doesn't find a match, it returns an empty selection. Alternatively, we could have
-    skipped created the <svg> tags using d3 by selecting the body element and appending an svg element to it:
-    d3.select("body").append("svg")
-
-    .attr('width', width) sets the width attribute of our previously selected <svg> element. In HTML,
-    we could have said <svg width="500">. If the width variable was not included .attr('width') would return the value
-    of the width element.
-
-    .append('g') adds a <g> element to our SVG. <g> is a special SVG element that acts as a container; it's used
-    to group other SVG elements. Transformations applied to the <g> element are performed on all of its child elements,
-    and any of its attributes are inherited by its child elements.
-
-
-    .attr('transform', [translate function]) looks a bit more complex.  As above, attr sets the value for the
-    'transform' attribute. The transform attribute allows us to scale, translate (move), rotate, etc. our <g> element
-    and it's children. In this case we'll move our <g> element using the translate function.
-
-    'translate(' + width / 2 + ',' + height / 2 + ')'. If our width and height are each 400, this formula resolves to
-    translate(200, 200). And it will move the coordinate system for our <g> element 200 units right (x-axis) and 200
-    units down (y-axis). This can be a bit confusing, and brings up 2 questions: First, why "down"?
-    Because <svg>'s coordinate system starts with 0,0 in the upper-left corner; x values move things to the
-    right and y values move things down. Second, what's the point this translate statement? It moves 0,0 from the
-    upper-left corner to the *center* of our <svg> element. Now, our <svg> container, if it's 400 wide, stretches
-    from -200 to 200, instead of 0 to 400. If you wanna dive deeper, Sara Soueidan's article helps clarify the
-    mechanics. It's worth a read: https://sarasoueidan.com/blog/svg-transformations/.  */
-
+    // Create primary <g> element
     var g = d3.select('svg')
         .attr('width', width)
         .attr('height', height)
         .append('g')
         .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
 
-    /* (NOTE: d3 leverages method chaining. That means that we can sometimes connect multiple commands together into a
-    single statement, like we've done below. To understand method chaining, it's important to recognize that each
-    method returns something, and the next method in the chain applies to that something. To keep it simple for now,
-    let's just look at how it works in the example below:
-    1) d3.select('svg') returns a handle to the <svg> element.
-    2) attr('width', width) sets the width of <svg> and then returns the <svg> element.
-    3) attr('height', height) sets the height of <svg> and then returns the <svg> element.
-    4) append('g') adds a <g> element to the <svg> element, then it returns the <g> element.
-    5) attr('transform', ...) transforms the <g> element.
-    This chaining happens all over the place and is key to understanding d3 (and jQuery). So understanding a full
-    statement requires understanding the methods and what they return!)
-
-    Another way to think about the progression is to watch the elements grow through each step:
-    1) <svg></svg>
-    2) <svg width="500"></svg>
-    3) <svg width="500" height="500"></svg>
-    4) <svg width="500" height="500"><g></g></svg>
-    5) <svg width="500" height="500"><g transform="translate(250,250)"></g></svg>  */
-
-
-    /* The partition command is a special tool that will help transform our data (later) into the actual sunburst
-    pattern, and ensure it's properly sized (e.g., that we use all 360 degrees of the circle, and that each slice is
-    sized relative to the other slices.  If an underlying datum has a size that is 2 times as large as another datum,
-    then partition helps us see that in the final product. (Though the hierarchy command below plays an important
-    role also.)
-
-    size sets this partition's overall size ["width", "height"].
-    * 2π is the number of radians to set your circle a full 360°. Want a ½ circle? Set size as π (Math.PI).
-    * radius sets the overall distance from the center to the outside of the circle; we set this distance way above
-    based on the size of our <svg> element. */
+    // Data strucure
     var partition = d3.partition()
         .size([2 * Math.PI, radius]);
 
-    /* var root = ...  The sunburst layout (or any hierarchical layout, for that matter) in d3 needs a "root node".
-    Happily, our data is already in a hierarchical pattern and has a root node (root node name = "TOPICS").
-    So we can pass our data directly to d3.partition with no preliminary reformatting.
-
-    sum() determines the size of each slice (how "long" it is, how far the slice stretches around the
-    circle). So the sum function needs direct access to data for this calculation. d3's has a specific pattern for
-    retrieving your, a pattern that you'll see repeatedly:
-
-    function(d) { return d }. This functions accepts "d", which represents your data, and returns a value, or an array
-    of values, based on your data. The "return d" part can get pretty intricate. Below, we're simply returning the
-    size of each slice to the sum function. If size isn't defined in a particular node for our data, it returns 0.
-    For our sunburst, base on our nodeData variable, "Sub A1" will have a has a size of 4. That's easy.  "Topic A"
-    has a size of 8, the sum of "Sub A1" and "Sub A2".
-     */
+    // Find data root
     var root = d3.hierarchy(nodeData)
         .sum(function (d) { return d.size});
 
-    /* Now we'll combine our partition variable (which creates the data structure) with our root node (the actual
-    data. This line sets us up for the arc statement.
-
-    d3.arc() calculates the parameters of each arc based on our data. */
+    // Size arcs
     partition(root);
     var arc = d3.arc()
         .startAngle(function (d) { return d.x0 })
@@ -151,57 +51,7 @@
         .innerRadius(function (d) { return d.y0 })
         .outerRadius(function (d) { return d.y1 });
 
-    /* The code below takes everything we've built so far and adds a series of <path> elements to the previously
-    created <g> group element.
-
-    d3's "update pattern" operates as following:
-    1) g.selectAll('path') starts with the g variable that we created way above; it references the <g> element that
-    we originally appended to our <svg> element. The selectAll gets a reference to all existing <path> elements within
-    our <g> element. That's odd, you say, since we know that there are no <path> elements in <g>. You are right. They
-    don't yet exist. But this is the way that the d3 Update Pattern works. And it'll be helpful later when you want to
-    update a d3 viz by adding new nodes to an existing set. For now, it's simple enough to recognize that d3
-    uses this step to establish where the new <path> elements will fit on the page (in the svg object model).
-    It's where we'll put the new <path> elements.
-
-    2) .data(root.descendants()) tells d3 what about the <path>s that we want to exist by passing it our data. We're
-    passing in the root variable calculated above with it's descendants.
-
-    3) .enter() lets d3 "connect" the originally selected <path> element with our data so that we can...
-
-    4) .append('path') actually creates each new, but empty, <path> element under our <g> element. Our page looks like
-    this with one <path></path> for each node in our original data:
-    <g transform="translate(250,250)"><path></path><path></path> . . . <path></path></g>
-
-    5) .attr("display", function (d) { return d.depth ? null : "none"; }) sets the display attribute of the root
-    node / <path> element to "none". (A value of display="none" indicates that the given element will not be rendered.)
-    Thus...
-    <g transform="translate(250,250)"><path display="none"></path><path></path> . . . <path></path></g>
-
-    6) .attr("d", arc) fills in all the "d" attributes of the <path> elements with the arc values that we calculated
-    above. Two important notes here: First, the d attribute contains the actual directions for each line of this
-    svg <path> element, see the example below. Second, don't confuse the the <path d=""> attribute with the d variable
-    that represents the data within or d3 script. After this step, our <path> elements look something like:
-    <path d="M1.020538999289461e-14,-166.66666666666666A166.66666666666666,166.66666666666666,0,0,1,
-    150.80450874433657,70.96321526084546L75.40225437216829,35.48160763042273A83.33333333333333,83.33333333333333,
-    0,0,0,5.102694996447305e-15,-83.33333333333333Z"></path>
-
-    Now we've drawn the entire structure. Every slice is black and the lines between slices are barely visible gray
-    lines.  Now let's add some color:
-
-    7) .style('stroke', '#fff') add style="stroke: rgb(255, 255, 255);" to our <path> element, and colors the
-    paths (lines) between the slices white.  And our path statements look like this:
-    <path d="..." style="stroke: rgb(255, 255, 255);"></path>
-
-    8) .style("fill", function (d) { return color((d.children ? d : d.parent).data.name); }) combines our color
-    variable from way above (which returns an array of colors that we can step through) with our data.
-    (d.children ? d : d.parent) is a javascript inline if in the form of (condition ? expr1 : expr2) that says, if
-    the current node has children, return the current node, otherwise, return its parent. That node's name will be
-    passed to our color variable and then returned to the style attribute within each <path> element. Our path
-    statement now looks like this:
-    <path d="..." style="stroke: rgb(255, 255, 255); fill: rgb(82, 84, 163);"></path>
-
-    See Chris Givens' Update Pattern tutorial for another look at steps 1 - 4 above:
-    https://bl.ocks.org/cmgiven/32d4c53f19aea6e528faf10bfe4f3da9 */
+    // Put it all together
     g.selectAll('path')
         .data(root.descendants())
         .enter().append('path')

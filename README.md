@@ -1,12 +1,14 @@
-# d3 v4 Sunburst: A Detailed Explanation #
+### No Frills
+In this page, we'll do a detailed walkthrough of a basic "no frills" d3 Sunburst.  We'll add features in future tutorials. I strive to explain each line. If I don't explain it, or explain it well, I welcome your input. For each titled section, we'll begin with the code and then explain it. Maybe it'll help you solve a problem in your own code or build something that you're proud of. 
+
+On the [bl.ocks.org page](https://bl.ocks.org/denjn5/e1cdbbe586ac31747b4a304f8f86efa5), scroll to the bottom to see the uninterupted code of a Sunburst visual, based on d3 version 4. [Part 2](https://bl.ocks.org/denjn5/f059c1f78f9c39d922b1c208815d18af) builds on this tutorial, but adds labels and pulls the data from a seperate json file.
+
 Sunbursts are great for explaining relationships in hierarchical data. But the code can get confusing as we mix html, css, svg, json, javascript, and d3. And, bounce between radians and degrees. 
 
-In this tutorial, I strive to explain each line. If I don't explain it, or explain it well, I welcome your input. For each titled section, we'll begin with the code and then explain it. Maybe it'll help you solve a problem in your own code or build something that you're proud of. 
-
-## A Basic Web Page (html) ##
+## The Web Page
 ``` html
 <head>
-    <script src="Libraries/d3.v4.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
 </head>
 <body>
     <svg></svg>
@@ -17,13 +19,13 @@ In this tutorial, I strive to explain each line. If I don't explain it, or expla
 </body>
 ```
 This very basic web page has includes 2 ```<script>``` sections
-1) In the ```<head>```: points the browser to our d3 library, that we've stored in a "Libraries" subdirectory.
+1) In the ```<head>```: points the browser to our d3 library.
 2) In the ```<body>```: will hold all of the code shared below.
 
 The ```<body>``` section also contains a ```<svg>``` element. This is where our d3 visualization will actually get drawn.
 
 
-## The Data (json) ##
+## The Data
 ``` javascript
 var nodeData = {
     "name": "TOPICS", "children": [{
@@ -46,7 +48,7 @@ JSON for a sunburst is structured as a hierarchy. This JSON contains data about 
 2) ```{ "name": "zyz", "size": 4 }``` describes an end node with no children. The hierarchy doesn't need to be symmetrical in any way if.  Nodes can have differing numbers of children, or have "sibling" nodes that have no children at all).
 
   
-## Initialize Variables (javascript & d3) ## 
+## Initialize Variables
 ``` javascript
 var width = 500;
 var height = 500;
@@ -64,7 +66,7 @@ We'll set 4 variables that we can use throughout our code:
 * ```schemeCategory20b``` is a d3 command that returns an array of colors. d3 has several similar options that are specifically designed to work with ```d3.scaleOrdinal()```.  The result of this line is that we'll have a variable ("color") that will return a rainbow of options for our sunburst.
 
 
-## Setting up our SVG workspace (html & svg) ##
+## Setting up our SVG workspace
 ``` javascript
 var g = d3.select('svg')
     .attr('width', width)
@@ -85,12 +87,12 @@ var g = d3.select('svg')
     * ```'translate(' + width / 2 + ',' + height / 2 + ')'``` will resolves to ```translate(250, 250)```. This command moves our coordinate system (for ```<g>```) 250 units right (x-axis) and 250 units down (y-axis). 
 
 
-### Method Chaining & the HTML ###
+### Method Chaining & the HTML
 *Method chaining* allows us to connect multiple commands together with periods between into a single statement, like we've done above. It's important to recognize that each d3 method returns something, and the next method in the chain applies to that something. Here's the above code, with a note about what each line returns:
 ``` javascript
 var g = d3.select('svg')  // returns a handle to the <svg> element
-    .attr('width', width)  // sets the width of <svg> and then returns the <svg> element again
-    .attr('height', height)  // (same as width)
+    .attr('width', width)  // sets the width of <svg> and then returns the <svg> element again
+    .attr('height', height)  // (same as width)
     .append('g')  // adds a <g> element to the <svg> element. It returns the <g> element
     .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');  // takes the <g> element and moves the [0,0] center over and down
 ```
@@ -105,7 +107,7 @@ var g = d3.select('svg')  // --> <svg></svg>
     .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');  // --> <svg width="500" height="500"><g transform="translate(250,250)"></g></svg>
 ```
 
-## Formatting the Data (d3) ##
+## Formatting the Data
 ``` javascript
 var partition = d3.partition()
     .size([2 * Math.PI, radius]);
@@ -118,7 +120,7 @@ The ```partition``` command is a special tool that will help organize our data i
     * Want to better understand radians and how they map to degrees? Try [mathisfun: radians](https://www.mathsisfun.com/geometry/radians.html) or [Intuitive Guide to Angles, Degrees and Radians](https://betterexplained.com/articles/intuitive-guide-to-angles-degrees-and-radians/). 
 * ```radius``` takes our variable, set above, and tells d3 that this is the distance from the center to the outside of the sunburst.
 
-## Find the Root Node (d3) ##
+## Find the Root Node
 ``` javascript
 var root = d3.hierarchy(nodeData)
     .sum(function (d) { return d.size});
@@ -133,7 +135,7 @@ d3 has a specific pattern for retrieving your data and applying it to d3 command
 * "Topic A" has a size of 8, the sum of "Sub A1" and "Sub A2".
 
 
-## Calculate each arc (d3) ##
+## Calculate each arc
 ``` javascript
 partition(root);
 var arc = d3.arc()
@@ -151,7 +153,7 @@ var arc = d3.arc()
 * d.y1 is the radian location for the outside arc. If y0 and y1 are the same, our arc will be invisible. 
 
 
-## Putting it all together ##
+## Putting it all together
 ``` javascript
 g.selectAll('path')
     .data(root.descendants())
@@ -197,9 +199,3 @@ In the end, this section of our HTML will look something like this (ellipsis ind
     </path></path> . . . <path></path>
 </g>
 ```
-
-
-
-
-
-
