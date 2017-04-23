@@ -92,6 +92,8 @@ body {
 
         // Add a <g> element for each node in thd data, then append <path> elements and draw lines based on the arc
         // variable calculations. Last, color the lines and the slices.
+        /* We'll create a new variable that references our <g> elements. This will simplify future updates.
+        */
         var slice = g.selectAll('g')
             .data(root.descendants())
             .enter().append('g').attr("class", "node");
@@ -111,8 +113,11 @@ body {
             .text(function(d) { return d.parent ? d.data.name : "" });
 
         /*
-        d3.selectAll(".sizeSelect").on("click", function(d,i) { ... });
+        d3.selectAll(".sizeSelect") is using d3's select command to get a handle on the 2 
+        radio buttons above (since they both have a class="sizeSelect"). 
 
+        .on("click", function(d,i) { ... }) adds an event listener to the selected elements. The event listener will fire if,
+        in our case, one of the elements is clicked. if it is clicked
         document.getElementById("radioSize").checked === true
 
         goal: re-calculate the "value" attribute of each node.
