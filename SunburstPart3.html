@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
     <title>Sunburst Tutorial (d3 v4), Part 3</title>
-    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="Libraries/d3.v4.js"></script>
 </head>
 <style>
 @import url('https://fonts.googleapis.com/css?family=Raleway');
@@ -83,8 +83,8 @@ body {
         // Calculate the sizes of each arc that we'll draw later.
         partition(root);
         var arc = d3.arc()
-            .startAngle(function (d) { return d.x0; })
-            .endAngle(function (d) { return d.x1; })
+            .startAngle(function (d) { d.x0s = d.x0; return d.x0; })
+            .endAngle(function (d) { d.x1s = d.x1; return d.x1; })
             .innerRadius(function (d) { return d.y0; })
             .outerRadius(function (d) { return d.y1; });
 
@@ -95,9 +95,7 @@ body {
         g.selectAll('g')
             .data(root.descendants())
             .enter().append('g').attr("class", "node").append('path')
-            .attr("display", function (d) {
-                return d.depth ? null : "none";
-            })
+            .attr("display", function (d) { return d.depth ? null : "none"; })
             .attr("d", arc)
             .style('stroke', '#fff')
             .style("fill", function (d) { return color((d.children ? d : d.parent).data.name); });
@@ -135,9 +133,8 @@ body {
                 .innerRadius(function (d) { return d.y0; })
                 .outerRadius(function (d) { return d.y1; });
 
-            //g.selectAll(".node").selectAll("path").data(partition(root).descendants());
             g.selectAll(".node").selectAll("path").transition().duration(750).attrTween("d", arcTweenPath);
-            g.selectAll(".node").selectAll("text").transition("click").duration(750).attrTween("transform", arcTweenText)
+            g.selectAll(".node").selectAll("text").transition().duration(750).attrTween("transform", arcTweenText)
 
         });
 
@@ -145,7 +142,7 @@ body {
         function arcTweenPath(a, i) {
             // (a.x0s ? a.x0s : 0) -- grab the prev saved x0 or set to 0 (for 1st time through)
             // avoids the stash() and allows the sunburst to grow into being
-            var oi = d3.interpolate({ x0: (a.x0s ? a.x0s : a.x0), x1: (a.x1s ? a.x1s : a.x1) }, a);
+            var oi = d3.interpolate({ x0: a.x0s, x1: a.x1s }, a);
             function tween(t) {
                 var b = oi(t);
                 a.x0s = b.x0;
@@ -160,7 +157,7 @@ body {
           //$("#w1Jo").attr("transform").substring(10,$("#w1Jo").attr("transform").search(","))
           function arcTweenText(a, i) {
 
-            var oi = d3.interpolate({ x0: (a.x0s ? a.x0s : a.x0), x1: (a.x1s ? a.x1s : a.x1), y0: (a.y0s ? a.y0s : a.y0), y1: (a.y1s ? a.y1s : a.y1) }, a);
+            var oi = d3.interpolate({ x0: a.x0s, x1: a.x1s }, a);
             function tween(t) {
               var b = oi(t);
               var angle = (b.x0 + b.x1) / Math.PI * 90;
