@@ -1,15 +1,17 @@
+<!--- Sunburst Tutorial (d3 v4), Part 2 -->
+
 ## Sunburst Labels & an External json File
 In this tutorial, we'll begin with the "no frills" sunburst from [Tutorial 1](https://bl.ocks.org/denjn5/e1cdbbe586ac31747b4a304f8f86efa5). But we'll limit our detailed walk-through to the 2 new features:
 1) properly-rotated labels
 2) data loaded from external json file
 
-On the [bl.ocks.org page](https://bl.ocks.org/denjn5/f059c1f78f9c39d922b1c208815d18af), scroll to the bottom to see the uninterupted code of a Sunburst visual, based on d3 version 4. This tutorial builds on [Part 1](https://bl.ocks.org/denjn5/e1cdbbe586ac31747b4a304f8f86efa5).
+On the [bl.ocks.org page](https://bl.ocks.org/denjn5/f059c1f78f9c39d922b1c208815d18af), scroll to the bottom to see the uninterrupted code of a Sunburst visual, based on d3 version 4. This tutorial builds on [Part 1](https://bl.ocks.org/denjn5/e1cdbbe586ac31747b4a304f8f86efa5).
 
 Do good!  —David Richards
 
 
 ## Get the data
-In the first tutorial we began with the webpage and variable definitions. This time, we'll skip all of that and go right for the first new code: getting data from our *.json file.
+In the first tutorial we began with the web page and variable definitions. This time, we'll skip all of that and go right for the first new code: getting data from our *.json file.
 
 ``` javascript
 d3.json("data.json", function(error, nodeData) {
@@ -20,9 +22,11 @@ d3.json("data.json", function(error, nodeData) {
 });
 ```
 
-d3.json is a super-simple d3 function that allows us to pull our data from a json file (d3 has other simiilar functions for csv, tsv, etc. files). We include the filename 2 arguments
+d3.json is a super-simple d3 function that allows us to pull our data from a json file (d3 has other similar functions for csv, tsv, etc. files). We include the filename 2 arguments:
 1) "data.json" (since we don't have any folder references, it assumes that this file is in the same directory as the current file)
 2) A special _anonymous_ function that returns either an error or the data as a variable, "nodeData". All of our code that processes and presents the data typically fits within this anonymous function block.
+
+If you inspect the data.json file, you'll note that we've added some attributes (text, sentiment, source). You can ignore those for this tutorial. We'll use them in the future.
 
 
 ## Calculate Each Arc

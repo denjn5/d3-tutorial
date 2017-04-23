@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<head>
+    <title>Sunburst Tutorial (d3 v4), Part 3</title>
+    <script src="https://d3js.org/d3.v4.js"></script>
+</head>
+<style>
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+
+body {
+  font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#main {
+  float: left;
+  width: 500px;
+}
+
+#sidebar {
+  float: right;
+  width: 200px;
+}
+
+</style>
+<body>
+    <div id="main">
+        <svg></svg>
+    </div>
+    <div id="sidebar">
+        <label><input class="sizeSelect" type="radio" name="mode" value="size" id="radioSize" checked> Size</label>
+        <label><input class="sizeSelect"  type="radio" name="mode" value="count" id="radioCount"> Count</label>
+    </div>
+</body>
+
+<script>
+
+    // TODO: Make it respond to clicks. Show labels in a diff box on the page.
+    // TODO: Sort the slices
+    // TODO: Set colors based on source or sentiment
+
+    // Variables
+    var width = 500;
+    var height = 500;
+    var radius = Math.min(width, height) / 2;
+    var color = d3.scaleOrdinal(d3.schemeCategory20b);
+    var sizeIndicator = "size";
+    var colorIndicator = "sentiment";
+
+    // Size our <svg> element, add a <g> element, and move translate 0,0 to the center of the element.
+    var g = d3.select('svg')
+        .attr('width', width)
+        .attr('height', height)
+        .append('g')
+        .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
+
+    // Create our sunburst data structure and size it.
+    var partition = d3.partition()
+        .size([2 * Math.PI, radius]);
+
+    // Get the data from our JSON file
+    d3.json("data.json", function(error, nodeData) {
+        if (error) throw error;
+
+        // Find the root node of our data, and begin sizing process.
+        /* d3.hierarchy(nodeData, function children(d) { return d.children; })
+
+        sort = Sorts the children of this node, if any, and each of this node’s descendants’ children
+
+        Sort cycles through all nodes in our data, sorting them using the requested comparison. In our case, we're
+        comparing the "value" attribute that we just created for each node in .sum() above. If the "value" attribute
+        of b is greater than the "value" attribute of a, then b is placed before a. If we wanted to sort by other
+        criteria, we could pass different criteria in.
+
+        Unlike our normal data-processing function (e.g., the one in the .sum() command), the compare function needs
+        two nodes’ data (a and b).
+
+        https://github.com/d3/d3-hierarchy/blob/master/README.md#node_sort
+         */
+        var root = d3.hierarchy(nodeData)
+            .sum(function (d) { return d.size; })
+            .sort(function(a, b) { return b.value - a.value; });
+
+
+        // Calculate the sizes of each arc that we'll draw later.
+        partition(root);
+        var arc = d3.arc()
+            .startAngle(function (d) { return d.x0; })
+            .endAngle(function (d) { return d.x1; })
+            .innerRadius(function (d) { return d.y0; })
+            .outerRadius(function (d) { return d.y1; });
+
+        //g.selectAll(".node").selectAll("path").transition().duration(1000).attrTween("d", arcTweenPath);
+
+        // Add a <g> element for each node in thd data, then append <path> elements and draw lines based on the arc
+        // variable calculations. Last, color the lines and the slices.
+        g.selectAll('g')
+            .data(root.descendants())
+            .enter().append('g').attr("class", "node").append('path')
+            .attr("display", function (d) {
+                return d.depth ? null : "none";
+            })
+            .attr("d", arc)
+            .style('stroke', '#fff')
+            .style("fill", function (d) { return color((d.children ? d : d.parent).data.name); });
+
+
+        // Populate the <text> elements with our data-driven titles.
+        g.selectAll(".node")
+            .append("text")
+            .attr("transform", function(d) {
+                return "translate(" + arc.centroid(d) + ")rotate(" + computeTextRotation(d) + ")"; })
+            .attr("dx", "-20") // radius margin
+            .attr("dy", ".5em") // rotation align
+            .text(function(d) { return d.parent ? d.data.name : "" });
+
+        /*
+        d3.selectAll(".sizeSelect").on("click", function(d,i) { ... });
+
+        document.getElementById("radioSize").checked === true
+
+        goal: re-calculate the "value" attribute of each node.
+
+         */
+        d3.selectAll(".sizeSelect").on("click", function(d,i) {
+
+            // Determine how to size the slices.
+            if (document.getElementById("radioSize").checked === true) {
+              root.sum(function (d) { return d.size; });
+            } else {
+              root.count();
+            }
+
+            partition(root);
+            arc.startAngle(function (d) { return d.x0; })
+                .endAngle(function (d) { return d.x1; })
+                .innerRadius(function (d) { return d.y0; })
+                .outerRadius(function (d) { return d.y1; });
+
+            //g.selectAll(".node").selectAll("path").data(partition(root).descendants());
+            g.selectAll(".node").selectAll("path").transition().duration(750).attrTween("d", arcTweenPath);
+            g.selectAll(".node").selectAll("text").transition("click").duration(750).attrTween("transform", arcTweenText)
+
+        });
+
+        // When switching data: interpolate the arcs in data space.
+        function arcTweenPath(a, i) {
+            // (a.x0s ? a.x0s : 0) -- grab the prev saved x0 or set to 0 (for 1st time through)
+            // avoids the stash() and allows the sunburst to grow into being
+            var oi = d3.interpolate({ x0: (a.x0s ? a.x0s : a.x0), x1: (a.x1s ? a.x1s : a.x1) }, a);
+            function tween(t) {
+                var b = oi(t);
+                a.x0s = b.x0;
+                a.x1s = b.x1;
+                return arc(b);
+            }
+
+            return tween;
+        }
+
+          // When switching data: interpolate the arcs in data space.
+          //$("#w1Jo").attr("transform").substring(10,$("#w1Jo").attr("transform").search(","))
+          function arcTweenText(a, i) {
+
+            var oi = d3.interpolate({ x0: (a.x0s ? a.x0s : a.x0), x1: (a.x1s ? a.x1s : a.x1), y0: (a.y0s ? a.y0s : a.y0), y1: (a.y1s ? a.y1s : a.y1) }, a);
+            function tween(t) {
+              var b = oi(t);
+              var angle = (b.x0 + b.x1) / Math.PI * 90;
+              b.textAngle = (angle < 120 || angle > 270) ? angle : angle + 180;
+              a.centroid = arc.centroid(b);
+              return "translate(" + arc.centroid(b) + ")rotate(" + b.textAngle + ")";
+            }
+            return tween;
+          }
+
+    });
+
+
+/* Calculate the correct distance to rotate each label based on its location in the sunburst.
+* @param {d3 Node} d
+* @return {Number}
+ */
+    function computeTextRotation(d) {
+        var angle = (d.x0 + d.x1) / Math.PI * 90;
+
+        // Avoid upside-down labels.
+        return (angle < 120 || angle > 270) ? angle : angle + 180;  // "labels aligned with slices"
+
+        // Alternate label rotation
+        //return (angle < 180) ? angle - 90 : angle + 90;  // "labels as spokes"
+    }
+
+
+
+</script>

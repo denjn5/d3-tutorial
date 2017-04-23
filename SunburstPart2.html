@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <head>
+    <title>Sunburst Tutorial (d3 v4), Part 2</title>
     <script src="https://d3js.org/d3.v4.min.js"></script>
 </head>
 <body>
@@ -13,8 +14,6 @@
     var height = 500;
     var radius = Math.min(width, height) / 2;
     var color = d3.scaleOrdinal(d3.schemeCategory20b);
-    var x = d3.scaleLinear().range([0, 2 * Math.PI]);
-    var y = d3.scaleSqrt().range([0, radius]);
 
     // Size our <svg> element, add a <g> element, and move translate 0,0 to the center of the element.
     var g = d3.select('svg')
