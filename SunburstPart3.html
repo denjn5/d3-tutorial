@@ -92,18 +92,18 @@ body {
 
         // Add a <g> element for each node in thd data, then append <path> elements and draw lines based on the arc
         // variable calculations. Last, color the lines and the slices.
-        g.selectAll('g')
+        var slice = g.selectAll('g')
             .data(root.descendants())
-            .enter().append('g').attr("class", "node").append('path')
-            .attr("display", function (d) { return d.depth ? null : "none"; })
+            .enter().append('g').attr("class", "node");
+
+        slice.append('path').attr("display", function (d) { return d.depth ? null : "none"; })
             .attr("d", arc)
             .style('stroke', '#fff')
             .style("fill", function (d) { return color((d.children ? d : d.parent).data.name); });
 
 
         // Populate the <text> elements with our data-driven titles.
-        g.selectAll(".node")
-            .append("text")
+        slice.append("text")
             .attr("transform", function(d) {
                 return "translate(" + arc.centroid(d) + ")rotate(" + computeTextRotation(d) + ")"; })
             .attr("dx", "-20") // radius margin
@@ -128,13 +128,9 @@ body {
             }
 
             partition(root);
-            arc.startAngle(function (d) { return d.x0; })
-                .endAngle(function (d) { return d.x1; })
-                .innerRadius(function (d) { return d.y0; })
-                .outerRadius(function (d) { return d.y1; });
 
-            g.selectAll(".node").selectAll("path").transition().duration(750).attrTween("d", arcTweenPath);
-            g.selectAll(".node").selectAll("text").transition().duration(750).attrTween("transform", arcTweenText)
+            slice.selectAll("path").transition().duration(750).attrTween("d", arcTweenPath);
+            slice.selectAll("text").transition().duration(750).attrTween("transform", arcTweenText)
 
         });
 
@@ -160,10 +156,7 @@ body {
             var oi = d3.interpolate({ x0: a.x0s, x1: a.x1s }, a);
             function tween(t) {
               var b = oi(t);
-              var angle = (b.x0 + b.x1) / Math.PI * 90;
-              b.textAngle = (angle < 120 || angle > 270) ? angle : angle + 180;
-              a.centroid = arc.centroid(b);
-              return "translate(" + arc.centroid(b) + ")rotate(" + b.textAngle + ")";
+              return "translate(" + arc.centroid(b) + ")rotate(" + computeTextRotation(b) + ")";
             }
             return tween;
           }
@@ -184,7 +177,5 @@ body {
         // Alternate label rotation
         //return (angle < 180) ? angle - 90 : angle + 90;  // "labels as spokes"
     }
-
-
 
 </script>
