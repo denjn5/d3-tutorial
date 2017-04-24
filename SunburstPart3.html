@@ -62,6 +62,7 @@ body {
     d3.json("data.json", function(error, nodeData) {
         if (error) throw error;
 
+        // TODO: Update the json file for #2
         // Find the root node of our data, and begin sizing process.
         /* d3.hierarchy(nodeData, function children(d) { return d.children; })
 

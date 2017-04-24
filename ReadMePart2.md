@@ -10,6 +10,26 @@ On the [bl.ocks.org page](https://bl.ocks.org/denjn5/f059c1f78f9c39d922b1c208815
 Do good!  —David Richards
 
 
+## Style Block
+I'm not a fan of the default font for our sunburst labels. We'll add a style block to our html to clean it up.
+
+``` javascript
+<style>
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+
+body {
+  font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+</style>
+```
+
+The above lines import a Google Font for this page and then tell the page what to do if that font (or other fonts that we like) are not available.
+* @import url('https://fonts.googleapis.com/css?family=Raleway') gets the Raleway font. I like it. But the choices are endless (well, there's near a 1000 at [fonts.google.com](https://fonts.google.com/).
+* body { font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif; } tells our page to use Raleway, but if that's not available, work through the list of font options (the rest should be from the user's local computer).
+
+
+
+
 ## Get the data
 In the first tutorial we began with the web page and variable definitions. This time, we'll skip all of that and go right for the first new code: getting data from our *.json file.
 
