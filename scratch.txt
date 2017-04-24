@@ -16,3 +16,8 @@
     <title>Topic A</title>
 
     http://jsfiddle.net/Hm49x/
+
+
+    // TODO: Make it respond to clicks. Show labels in a diff box on the page.
+    // TODO: Set colors based on source or sentiment
+    // TODO: Only show top X values in sunburst
