@@ -225,4 +225,4 @@ In the end, this section of our HTML will look something like this (ellipsis ind
 </g>
 ```
 
-Voilà! Great job on creating your first, well-understood hierarchical visualization in d3. We've just scratched the surface.  If you're ready, join me for Tutorial 2.
+Voilà! Great job on creating your first, well-understood hierarchical visualization in d3. We've just scratched the surface.  If you're ready, join me for [Tutorial 2](https://bl.ocks.org/denjn5/f059c1f78f9c39d922b1c208815d18af).

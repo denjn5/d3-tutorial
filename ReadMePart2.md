@@ -1,6 +1,6 @@
 <!--- Sunburst Tutorial (d3 v4), Part 2 -->
 
-## Sunburst Labels & an External json File
+# Tutorial 2: Sunburst Labels & an External json File
 In this tutorial, we'll begin with the "no frills" sunburst from [Tutorial 1](https://bl.ocks.org/denjn5/e1cdbbe586ac31747b4a304f8f86efa5). But we'll limit our detailed walk-through to the 2 new features:
 1) properly-rotated labels
 2) data loaded from external json file
@@ -13,7 +13,7 @@ Do good!  —David Richards
 ## Style Block
 I'm not a fan of the default font for our sunburst labels. We'll add a style block to our html to clean it up.
 
-``` javascript
+``` html
 <style>
 @import url('https://fonts.googleapis.com/css?family=Raleway');
 
@@ -23,11 +23,9 @@ body {
 </style>
 ```
 
-The above lines import a Google Font for this page and then tell the page what to do if that font (or other fonts that we like) are not available.
-* @import url('https://fonts.googleapis.com/css?family=Raleway') gets the Raleway font. I like it. But the choices are endless (well, there's near a 1000 at [fonts.google.com](https://fonts.google.com/).
-* body { font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif; } tells our page to use Raleway, but if that's not available, work through the list of font options (the rest should be from the user's local computer).
-
-
+The ```<style>``` block creates boasts a surprisingly powerful set of tools for to enhance our user-experience. The above lines import a Google Font for this page and then tell the page what to do if that font (or other fonts that we like) are not available.
+* ```@import url('https://fonts.googleapis.com/css?family=Raleway')``` gets the Raleway font from Google ([fonts.google.com](https://fonts.google.com/)).
+* ```body { font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif; }``` tells our page to use Raleway first, but provides alternatives if it's not available.
 
 
 ## Get the data

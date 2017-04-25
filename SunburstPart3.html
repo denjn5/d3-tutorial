@@ -9,35 +9,14 @@
 body {
   font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-
-#main {
-  float: left;
-  width: 500px;
-}
-
-#sidebar {
-  float: right;
-  width: 200px;
-}
-
 </style>
 <body>
-    <div id="main">
-        <svg></svg>
-    </div>
-    <div id="sidebar">
-        <label><input class="sizeSelect" type="radio" name="mode" value="size" id="radioSize" checked> Size</label>
-        <label><input class="sizeSelect"  type="radio" name="mode" value="count" id="radioCount"> Count</label>
-    </div>
+    <svg></svg>
+    <label><input class="sizeSelect" type="radio" name="mode" value="size" checked /> Size</label>
+    <label><input class="sizeSelect"  type="radio" name="mode" value="count" /> Count</label>
 </body>
 
 <script>
-
-    /*
-    Sorted slices
-    Used user-input to update the viz (updated arc, added tweening, added radio buttons)
-
-     */
 
     // Variables
     var width = 500;
@@ -54,48 +33,24 @@ body {
         .append('g')
         .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
 
+
     // Create our sunburst data structure and size it.
     var partition = d3.partition()
         .size([2 * Math.PI, radius]);
+
 
     // Get the data from our JSON file
     d3.json("data.json", function(error, nodeData) {
         if (error) throw error;
 
-        // TODO: Update the json file for #2
-        // Find the root node of our data, and begin sizing process.
-        /* d3.hierarchy(nodeData, function children(d) { return d.children; })
 
-        sort = Sorts the children of this node, if any, and each of this node’s descendants’ children
-
-        Sort cycles through all nodes in our data, sorting them using the requested comparison. In our case, we're
-        comparing the "value" attribute that we just created for each node in .sum() above. If the "value" attribute
-        of b is greater than the "value" attribute of a, then b is placed before a. If we wanted to sort by other
-        criteria, we could pass different criteria in.
-
-        Unlike our normal data-processing function (e.g., the one in the .sum() command), the compare function needs
-        two nodes’ data (a and b).
-
-        https://github.com/d3/d3-hierarchy/blob/master/README.md#node_sort
-         */
+        // Find the root node, calculate the node.value, and sort our nodes by node.value
         var root = d3.hierarchy(nodeData)
             .sum(function (d) { return d.size; })
             .sort(function(a, b) { return b.value - a.value; });
 
 
-        // Calculate the sizes of each arc that we'll draw later.
-        /* We've made a couple of small updates to our d3.arc functions below. Down below we'll be "tweening"
-        (animating a change from one state to the next) our sunburst. At each small step of the animation, we need to
-        know what our startAngle (x0) and endAngle (x1) were originally (so that when we re-calculate arc, we have a
-        starting point. We've added:
-        * d.x0s = d.x0 to our startAngle function. The creates a new attribute for each data node named x0s. It
-        contains our startAngle so that we'll have it later.
-        * d.x1s = d.x1 to our endAngle function. It'll also help use later when we're tweening.
-
-        Also, we dropped the "var" prefix for our arc variable. The scope of a variable declared with var is its
-        current execution context (e.g., enclosing function). Dropping var makes it visible outside of the d3.json()
-        call. This allows us to place functions that use arc at the bottom for cleaner code.
-        */
+        // Calculate the size of each arc; save the initial angles for tweening.
         partition(root);
         arc = d3.arc()
             .startAngle(function (d) { d.x0s = d.x0; return d.x0; })
@@ -103,17 +58,14 @@ body {
             .innerRadius(function (d) { return d.y0; })
             .outerRadius(function (d) { return d.y1; });
 
-        //g.selectAll(".node").selectAll("path").transition().duration(1000).attrTween("d", arcTweenPath);
 
-        // Add a <g> element for each node in thd data, then append <path> elements and draw lines based on the arc
-        // variable calculations. Last, color the lines and the slices.
-        /* We'll create a new variable that references our <g> elements. This will simplify future updates.
-        */
-        // TODO: Create this slice variable in #2
+        // Add a <g> element for each node; create the slice variable since we'll refer to this selection many times
         var slice = g.selectAll('g')
             .data(root.descendants())
             .enter().append('g').attr("class", "node");
 
+
+        // Append <path> elements and draw lines based on the arc calculations. Last, color the lines and the slices.
         slice.append('path').attr("display", function (d) { return d.depth ? null : "none"; })
             .attr("d", arc)
             .style('stroke', '#fff')
@@ -124,66 +76,16 @@ body {
         slice.append("text")
             .attr("transform", function(d) {
                 return "translate(" + arc.centroid(d) + ")rotate(" + computeTextRotation(d) + ")"; })
-            .attr("dx", "-20") // radius margin
-            .attr("dy", ".5em") // rotation align
+            .attr("dx", "-20")
+            .attr("dy", ".5em")
             .text(function(d) { return d.parent ? d.data.name : "" });
 
-        /* Redraw the Sunburst Based on User Input
-        We'd like to update our Sunburst based on user input. By default, our node slices are sized based on the
-        "size" attribute within each node (or the sum of sizes from a node's children). We'd like an alternate
-        presentation where the slices are sized based only on the count of child nodes. Happily, we can use d3 to
-        handle web page interaction and events (beyond pure visualization work).
 
-        d3.selectAll(".sizeSelect") gets a handle on the 2 radio button <input class="sizeSelect"> elements we defined
-        above (in the same way that it helps us get a hold of elements within the SVG).
-
-        .on("click", function(d,i) { ... }) adds an event listener to our selected elements. The event listener will
-        fire if one of the elements is clicked (we could have called out any other compliant event) and run the code
-        that's inour function(d,i) {} block.
-
-        d3 uses the "value" attribute within each node to calculate the arc size. So we need to recalculate the
-        "value" for each node in our sunburst. But we need to know what the user clicked. d3 hands us the keyword
-        "this" to refer to the element that received that action. So we determine where the user clicked by inspecting
-        the id of the element that was clicked: this.id === "radioSize"
-
-        * If the user clicked the "Size" radio button, then we'll calculate the node.value as we did initially,
-        based on each node's (and it's child node's) sizes: root.sum(function (d) { return d.size; })
-        * If the user clicked the "Count" radio button, then we'll calculate node.value based on the count of each
-        node's children, using root.count()
-
-        partition(root) updates the node value calculations for each arch.
-
-        Now we're ready to actually update the visible sunburst on the screen, which means we'll need to update both
-        the slice paths <path d=""> and the label location and rotation (as part of the <text> element). There's a lot
-        happening in these lines, so lets break it into parts...
-
-        slice.selectAll("path").transition().duration(750).attrTween("d", arcTweenPath)
-        * slice is our previously defined d3 handle on our <g class="node"> elements.
-        * .selectAll("path") clarifies that we're only referring to the <path> element children of slice.
-        * .transition() animates our changes to the sunburst. Instead of applying changes instantaneously, this
-        transition smoothly interpolate each element from one state to the next over a given duration.
-        * .duration(750) sets the timing of our transition in milliseconds (750 = 3/4 of a second).
-        * .attrTween("d", arcTweenPath) tells d3 that we're transitioning an attribute with the selected element list
-        and it tells d3 which element and which function will do the actual calculations:
-            * "d" tells d3 to act upon the d attribute of the path element (e.g., <path d="...">). This "d" does not
-            refer to d3's ubiquitious data variable.
-            * arcTweenPath is the "tween factory" -- the local function (we'll define it below) that will caclulates
-            each step along the way.
-
-        slice.selectAll("text").transition().duration(750).attrTween("transform", arcTweenText). Note just a few
-        differences from the line above it:
-        * .selectAll("text") indicates that it's acting on our <text> element.
-        * .attrTween("transform", arcTweenText) tells d3 that we're tweening the "transform" attribute of the text
-        element (e.g., <text transform="...">).  And we'll use arcTweenText to make the calculations -- d3 calls this
-        our tween factory.
-
-         */
+        // Redraw the Sunburst Based on User Input
         d3.selectAll(".sizeSelect").on("click", function(d,i) {
 
-
             // Determine how to size the slices.
-            //if (document.getElementById("radioSize").checked === true) {
-            if (this.id === "radioSize") {
+            if (this.value === "size") {
               root.sum(function (d) { return d.size; });
             } else {
               root.count();
@@ -193,38 +95,32 @@ body {
 
             slice.selectAll("path").transition().duration(750).attrTween("d", arcTweenPath);
             slice.selectAll("text").transition().duration(750).attrTween("transform", arcTweenText);
-
         });
-
-
     });
 
 
-/* Calculate the correct distance to rotate each label based on its location in the sunburst.
-* @param {d3 Node} d
-* @return {Number}
- */
-// TODO: Update this to computeTextTransform here and in #2
+    /**
+     * Calculate the correct distance to rotate each label based on its location in the sunburst.
+     * @param {Node} d
+     * @return {Number}
+     */
     function computeTextRotation(d) {
         var angle = (d.x0 + d.x1) / Math.PI * 90;
 
-        // Avoid upside-down labels.
-        return (angle < 120 || angle > 270) ? angle : angle + 180;  // "labels aligned with slices"
-
-        // Alternate label rotation
-        //return (angle < 180) ? angle - 90 : angle + 90;  // "labels as spokes"
+        // Avoid upside-down labels
+        return (angle < 120 || angle > 270) ? angle : angle + 180;  // labels as rims
+        //return (angle < 180) ? angle - 90 : angle + 90;  // labels as spokes
     }
 
 
-    // When switching data: interpolate the arcs in data space.
+    /**
+     * When switching data: interpolate the arcs in data space.
+     * @param {Node} a
+     * @param {Number} i
+     * @return {Number}
+     */
     function arcTweenPath(a, i) {
-        // (a.x0s ? a.x0s : 0) -- grab the prev saved x0 or set to 0 (for 1st time through)
-        // avoids the stash() and allows the sunburst to grow into being
-        /* d3.interpolate encompasses a whole series of helper functions that allow us to transitions smoothly from
-        one value to another. For example d3.interpolateNumber(10, 20) might return 10, 12, 14, 16, 18, 20. We're
-        interpolating the radian values for each slice startAngle and endAngle.
 
-         */
         var oi = d3.interpolate({ x0: a.x0s, x1: a.x1s }, a);
         function tween(t) {
             var b = oi(t);
@@ -236,16 +132,20 @@ body {
         return tween;
     }
 
-    // When switching data: interpolate the arcs in data space.
-    //$("#w1Jo").attr("transform").substring(10,$("#w1Jo").attr("transform").search(","))
+    /**
+     * When switching data: interpolate the text centroids and rotation.
+     * @param {Node} a
+     * @param {Number} i
+     * @return {Number}
+     */
     function arcTweenText(a, i) {
 
-    var oi = d3.interpolate({ x0: a.x0s, x1: a.x1s }, a);
-    function tween(t) {
-        var b = oi(t);
-        return "translate(" + arc.centroid(b) + ")rotate(" + computeTextRotation(b) + ")";
-    }
-    return tween;
+        var oi = d3.interpolate({ x0: a.x0s, x1: a.x1s }, a);
+        function tween(t) {
+            var b = oi(t);
+            return "translate(" + arc.centroid(b) + ")rotate(" + computeTextRotation(b) + ")";
+        }
+        return tween;
     }
 
 </script>

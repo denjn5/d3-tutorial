@@ -21,3 +21,28 @@
     // TODO: Make it respond to clicks. Show labels in a diff box on the page.
     // TODO: Set colors based on source or sentiment
     // TODO: Only show top X values in sunburst
+
+
+    <body>
+    <div id="main">
+        <svg></svg>
+    </div>
+    <div id="sidebar">
+        <label><input class="sizeSelect" type="radio" name="mode" value="size" id="radioSize" checked> Size</label>
+        <label><input class="sizeSelect"  type="radio" name="mode" value="count" id="radioCount"> Count</label>
+    </div>
+</body>
+
+
+In our html body we've added several lines to get user input and display it properly (Tutorial 2 body contained only the <svg> tag).
+1) <div id="main">...</div> creates our main section. It contains our original <svg> element.
+2) <div id="main">...</div> creates our sidebar section.  We'll interact with the user here.
+3) <input class="sizeSelect" type="radio" name="mode" value="size" id="radioSize" checked> is our actual radio button element.
+    * class="sizeSelect" so that we can get a hold of it with d3.
+    * type="radio" tells html that this is a radio button.
+    * name="mode" tells html that all radio buttons with this name act as a unit, so if one is chosen, the others are un-chosen.
+    * value="size" is what gets returned when we test to see which radio button is selected.
+    * id="radioSize"
+
+
+d3.hierarchy(nodeData, function children(d) { return d.children; })
