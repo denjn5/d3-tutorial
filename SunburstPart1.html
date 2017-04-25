@@ -36,18 +36,22 @@
         .append('g')
         .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
 
-    // Data strucure
+    // Data Structure
     var partition = d3.partition()
         .size([2 * Math.PI, radius]);
 
     // Find data root
     var root = d3.hierarchy(nodeData)
-        .sum(function (d) { return d.size});
+        .sum(function (d) {
+            return d.size
+        });
 
     // Size arcs
     partition(root);
     var arc = d3.arc()
-        .startAngle(function (d) { return d.x0 })
+        .startAngle(function (d) {
+            return d.x0
+        })
         .endAngle(function (d) { return d.x1 })
         .innerRadius(function (d) { return d.y0 })
         .outerRadius(function (d) { return d.y1 });

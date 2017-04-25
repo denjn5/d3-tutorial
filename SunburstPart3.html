@@ -80,7 +80,7 @@ body {
 
 
         // Redraw the Sunburst Based on User Input
-        d3.selectAll(".sizeSelect").on("click", function(d,i) {
+        d3.selectAll(".sizeSelect").on("click", function(r,i) {
 
             // Determine how to size the slices.
             if (this.value === "size") {
@@ -88,6 +88,7 @@ body {
             } else {
               root.count();
             }
+            root.sort(function(a, b) { return b.value - a.value; });
 
             partition(root);
 

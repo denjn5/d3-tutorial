@@ -167,7 +167,10 @@ var arc = d3.arc()  // <-- 2
     .outerRadius(function (d) { return d.y1 });
 ```
 
-1) ```partition(root)``` combines our partition variable (which creates the data structure) with our root node (the actual data). This line sets us up for the arc statement.
+1) ```partition(root)``` combines our partition variable (which creates the data structure) with our root node (the actual data). This line sets us up for the arc statement. Advanced Note: Inspecting "d" in our functions (e.g., ```function (d) { return d.x0 }```) before and after this partition line yields an interesting finding: 
+    * Before this line, "d" for a particular node returns an object that looks just like our underlying json: ```{name: "Sub A1", size: 4}```.
+    * After this partition line, "d" for a particular node returns a d3-shaped object: ```{data: Object, height: 0, depth: 2, parent: qo, value: 4…}```. And our json attributes are tucked into the _data_ attribute.
+    
 
 2) ```d3.arc()``` calculates the size of each arc based on our JSON data. Each of the 4 variables below are staples in d3 sunbursts. They define the 4 outside lines for each arc.
     * d.x0 is the radian location for the start of the arc, as we traverse around the circle.
@@ -202,6 +205,7 @@ d3's "update pattern" operates as following:
 
 5) ```.attr("display", function (d) { return d.depth ? null : "none"; })``` sets the display attribute of the ```<path>``` element for our *root* node to "none". (```display="none"``` tells SVG that this element will not be rendered.)
     * d.depth will equal 0 for the root node, 1 for its children, 2 for "grandchildren", etc.
+    * Want more layers in your sunburst? This visualization will add as many layers as you have in your data. We've limited to just 2 layers for simplicity in our explanation. (Advanced Idea: Imagine you've added many additional layers in the json, and maybe you don't always want to show all of those layers. You could use a d.depth test to limit the number of rings that actually appear on your viz.)
 
 6) ```.attr("d", arc)``` fills in all the "d" attributes of each ```<path>``` element with the values from our arc variable. Two important notes here: 
     * The d attribute contains the actual directions for each line of this svg ```<path>``` element, see the example below.

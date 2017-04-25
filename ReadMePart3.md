@@ -96,11 +96,12 @@ d3.selectAll(".sizeSelect").on("click", function(d,i) {  // <-- 1
     } else {  // <-- 2
       root.count();  // <-- 4
     }
+    root.sort(function(a, b) { return b.value - a.value; });  // <-- 5
+    
+    partition(root);  // <-- 6
 
-    partition(root);  // <-- 5
-
-    slice.selectAll("path").transition().duration(750).attrTween("d", arcTweenPath);  // <-- 6
-    slice.selectAll("text").transition().duration(750).attrTween("transform", arcTweenText);  // <-- 7
+    slice.selectAll("path").transition().duration(750).attrTween("d", arcTweenPath);  // <-- 7
+    slice.selectAll("text").transition().duration(750).attrTween("transform", arcTweenText);  // <-- 8
 
 });
 ```
@@ -117,9 +118,11 @@ Let's break down each line above and see what it does:
 
 4) If the user clicked the "Count" radio button, then we'll calculate node.value based on the count of each node's children, using ```root.count()```.
 
-5) ```partition(root)``` updates the node value calculations for each arc.  Now we're ready to actually update the visible sunburst on the screen, which means we'll need to update both the slice paths <path d=""> and the label location and rotation (as part of the <text> element). There's a lot happening in these lines, so lets break it into parts...
+5) ```root.sort(function(a, b) { return b.value - a.value; })``` is a repeat of the sort command we did above when we first calculated the value of each node in our sunburst. We need to re-sort our data each time we update the "value". While our current data does not create an order change when we toggle between Size and Count, other data sets would create changes in the sort order. For example, you'd see a change in order if one of our topics (e.g., Topic B) had a bunch of small nodes (each with a small d.size). In that case, it would fall below other topics when _size_ is key, but rise above when ordered by _count_.
 
-6) ```slice.selectAll("path").transition().duration(750).attrTween("d", arcTweenPath)```
+6) ```partition(root)``` updates the node value calculations for each arc.  Now we're ready to actually update the visible sunburst on the screen, which means we'll need to update both the slice paths <path d=""> and the label location and rotation (as part of the <text> element). There's a lot happening in these lines, so lets break it into parts...
+
+7) ```slice.selectAll("path").transition().duration(750).attrTween("d", arcTweenPath)```
     * ```slice``` is our previously defined d3 handle on our <g class="node"> elements.
     * ```.selectAll("path")``` clarifies that we're only referring to the <path> element children of slice.
     * ```.transition()``` animates our changes to the sunburst. Instead of applying changes instantaneously, this transition smoothly interpolate each element from one state to the next over a given duration.
@@ -128,7 +131,7 @@ Let's break down each line above and see what it does:
         * ```"d"``` tells d3 to act upon the d attribute of the path element (e.g., <path d="...">). This "d" does not refer to d3's ubiquitous data variable.
         * ```arcTweenPath``` is the "tween factory" -- the local function (we'll define it below) that will calculates each step along the way.
 
-7) ```slice.selectAll("text").transition().duration(750).attrTween("transform", arcTweenText)``` has just a few differences from the line above it:
+8) ```slice.selectAll("text").transition().duration(750).attrTween("transform", arcTweenText)``` has just a few differences from the line above it:
     * ```.selectAll("text")``` indicates that it's acting on our <text> element.
     * ```.attrTween("transform", arcTweenText)``` tells d3 that we're tweening the "transform" attribute of the text element (e.g., ```<text transform="...">```).  And we'll use arcTweenText to make the calculations -- d3 calls this our tween factory.
 
@@ -184,4 +187,4 @@ function arcTweenText(a, i) {
 
 The only different line in arcTweenText (from arcTweenPath) is ```return "translate(" + arc.centroid(b) + ")rotate(" + computeTextRotation(b) + ")"```.  And we've seen this line before.  It's identical to the line we use to set the <text transform="..."> state when we first added labels in Tutorial 2. However, this time, it'll get called many times in rapid succession in order to animate the movement and rotation of our labels.
 
-Excellent! You've made it through 3 tutorials (right?). I'm hoping that you now have a much better handle on d3 interpolators and tweening. I certianly do. 
+Excellent! You've made it through 3 tutorials (right?). I'm hoping that you now have a much better handle on d3 interpolators and tweening. I certainly do. 

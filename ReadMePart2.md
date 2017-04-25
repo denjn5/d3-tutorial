@@ -124,6 +124,7 @@ Now we'll add and populate the ```<text>``` elements with our data-driven titles
 5) ```.attr("dy", ".5em")``` // Pulls our text element in closer to the center of the Sunburst, which makes our labels look centered.
 
 6) ```.text(function(d) { return d.parent ? d.data.name : "" })``` returns the "name" attribute for each node, unless that particular node has no parents (the "root" node).  In that case, it returns an empty string.
+    * This ```d.parent``` check is an alternative to the ```d.depth``` check that we did in Tutorial 1 for finding our _root_ node. 
 
 Putting this block all together, each data node has an entry that looks like:
 ``` html
