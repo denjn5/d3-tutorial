@@ -4,11 +4,6 @@
     LATER: 1/2 circle, 1/4 circle, 75% of the radius
     */
 
-        var root = d3.hierarchy(nodeData)
-        .sum(function (d) { return d.size});
-    /* LATER: if (d.children) { return 0} else { return 1 }, size = 1, size by slice count vs size by size.
-    * Add sort (or is that above?)*/
-
 
     .append("title") creates a <title> element within each <path></path> element.
 
@@ -23,15 +18,7 @@
     // TODO: Only show top X values in sunburst
 
 
-    <body>
-    <div id="main">
-        <svg></svg>
-    </div>
-    <div id="sidebar">
-        <label><input class="sizeSelect" type="radio" name="mode" value="size" id="radioSize" checked> Size</label>
-        <label><input class="sizeSelect"  type="radio" name="mode" value="count" id="radioCount"> Count</label>
-    </div>
-</body>
+
 
 
 In our html body we've added several lines to get user input and display it properly (Tutorial 2 body contained only the <svg> tag).

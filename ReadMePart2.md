@@ -1,6 +1,6 @@
 <!--- Sunburst Tutorial (d3 v4), Part 2 -->
 
-# Tutorial 2: Sunburst Labels & an External json File
+## Sunburst Labels & an External json File
 In this tutorial, we'll begin with the "no frills" sunburst from [Tutorial 1](https://bl.ocks.org/denjn5/e1cdbbe586ac31747b4a304f8f86efa5). But we'll limit our detailed walk-through to the 2 new features:
 1) properly-rotated labels
 2) data loaded from external json file
@@ -160,3 +160,5 @@ Three math-rich lines in this function:
 2) ```return (angle < 90 || angle > 270) ? angle : angle + 180``` handles rotation to avoid any upside-down labels: If rotation angle is in the 1st or 2nd quadrants (top 1/2), leave the already calc'd angle. Otherwise, flip the text over so that the text appears right-side-up.
 
 3) ```return (angle < 180) ? angle - 90 : angle + 90``` Alternatively, this line rotates the labels so that they appear in the traditional "spoke" formation. And it avoids any upside-down labels. It's currently commented out.
+
+Nice! You've made it through 2 tutorials (or maybe you wandered directly into this one). Either way, great job on making it this far. You're now able to add labels to your sunburst. We've still just scratched the surface. If you're ready, join me for [Tutorial 3](https://bl.ocks.org/denjn5/3b74baf5edc4ac93d5e487136481c601).

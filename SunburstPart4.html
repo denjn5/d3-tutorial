@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-    <title>Sunburst Tutorial (d3 v4), Part 3</title>
+    <title>Sunburst Tutorial (d3 v4), Part 4</title>
     <script src="https://d3js.org/d3.v4.min.js"></script>
 </head>
 <style>
@@ -9,14 +9,31 @@
 body {
   font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
+#main {
+  float: left;
+  width: 750px;
+}
+
+#sidebar {
+  float: right;
+  width: 100px;
+}
 </style>
-<body>
-    <svg></svg>
-    <label><input class="sizeSelect" type="radio" name="mode" value="size" checked /> Size</label>
-    <label><input class="sizeSelect"  type="radio" name="mode" value="count" /> Count</label>
+    <body>
+    <div id="main">
+        <svg></svg>
+    </div>
+    <div id="sidebar">
+        <label><input class="sizeSelect" type="radio" name="mode" value="size" id="radioSize" checked> Size</label>
+        <label><input class="sizeSelect"  type="radio" name="mode" value="count" id="radioCount"> Count</label>
+    </div>
 </body>
 
 <script>
+
+    // TODO: Respond to click slice click even, place text in sidebar
+    // TODO: Top 1, 2, or All Topics
 
     // Variables
     var width = 500;
@@ -93,6 +110,13 @@ body {
 
             slice.selectAll("path").transition().duration(750).attrTween("d", arcTweenPath);
             slice.selectAll("text").transition().duration(750).attrTween("transform", arcTweenText);
+        });
+
+
+        // Redraw the Sunburst Based on User Input
+        slice.on("click", function(d,i) {
+
+            alert(this.text)
         });
     });
 

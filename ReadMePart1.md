@@ -201,6 +201,7 @@ d3's "update pattern" operates as following:
 4) ```.append('path')``` actually creates one new, but empty, ```<path>``` element for each node under our ```<g>``` element. See Chris Givens' [Update Pattern](https://bl.ocks.org/cmgiven/32d4c53f19aea6e528faf10bfe4f3da9) tutorial for another look at steps 1-4 above.
 
 5) ```.attr("display", function (d) { return d.depth ? null : "none"; })``` sets the display attribute of the ```<path>``` element for our *root* node to "none". (```display="none"``` tells SVG that this element will not be rendered.)
+    * d.depth will equal 0 for the root node, 1 for its children, 2 for "grandchildren", etc.
 
 6) ```.attr("d", arc)``` fills in all the "d" attributes of each ```<path>``` element with the values from our arc variable. Two important notes here: 
     * The d attribute contains the actual directions for each line of this svg ```<path>``` element, see the example below.

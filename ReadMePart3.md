@@ -125,8 +125,8 @@ Let's break down each line above and see what it does:
     * ```.transition()``` animates our changes to the sunburst. Instead of applying changes instantaneously, this transition smoothly interpolate each element from one state to the next over a given duration.
     * ```.duration(750)``` sets the timing of our transition in milliseconds (750 = 3/4 of a second).
     * ```.attrTween("d", arcTweenPath)``` tells d3 that we're transitioning an attribute with the selected element list and it tells d3 which element and which function will do the actual calculations:
-        * ```"d"``` tells d3 to act upon the d attribute of the path element (e.g., <path d="...">). This "d" does not refer to d3's ubiquitious data variable.
-        * ```arcTweenPath``` is the "tween factory" -- the local function (we'll define it below) that will caclulates each step along the way.
+        * ```"d"``` tells d3 to act upon the d attribute of the path element (e.g., <path d="...">). This "d" does not refer to d3's ubiquitous data variable.
+        * ```arcTweenPath``` is the "tween factory" -- the local function (we'll define it below) that will calculates each step along the way.
 
 7) ```slice.selectAll("text").transition().duration(750).attrTween("transform", arcTweenText)``` has just a few differences from the line above it:
     * ```.selectAll("text")``` indicates that it's acting on our <text> element.
@@ -134,7 +134,7 @@ Let's break down each line above and see what it does:
 
 
 ## The "Tween" Factory that Animates the Arc Update
-The arcTweenPath function gets called one time for each node in our sunburst. It's job is to return a new function (tween) that gets run a bunch of times in rapid succession. tween's job is to recalcuate the startAngle (x0) and endAngle (x1) incrementally, moving from the "old" value to the "new" value.
+The arcTweenPath function gets called one time for each node in our sunburst. It's job is to return a new function (tween) that gets run a bunch of times in rapid succession. tween's job is to recalculate the startAngle (x0) and endAngle (x1) incrementally, moving from the "old" value to the "new" value.
 
 ``` javascript
 function arcTweenPath(a, i) {
@@ -151,13 +151,37 @@ function arcTweenPath(a, i) {
 }
 ```
 
-1) d3.interpolate() encompasses a whole series of helper functions that allow us to transitions smoothly from one value to another. For example d3.interpolateNumber(10, 20) might return 10, 12, 14, 16, 18, 20. We're interpolating the radian values for each slice startAngle and endAngle.
+1) d3.interpolate(a,b) encompasses a whole series of helper functions that allow us to transitions smoothly from one value to another. For example ```d3.interpolateNumber(10, 20)``` might return 10, 12, 14, 16, 18, 20. We're interpolating the radian values for each slice startAngle and endAngle. Interpolate will calculate the range of values for any variable that it finds in both the _a_ and _b_ positions (_x0_ and _x1_ in our case). It will keep the final value throughout the process for any variable it finds only in the b position (all of the rest of the attributes of _a_--which you'll remember represents the current node)
+    * ```var oi = d3.interpolate({ x0: a.x0s, x1: a.x1s }, a)``` returns a function that will be called iteratively for values x0 and x1. It uses the x0s and x1s values that we stashed in the node data when we calculated the arc.
+    * See [d3-interpolate](https://github.com/d3/d3-interpolate/blob/master/README.md) for more details.
 
-2) function tween(t) {} 
+2) ```function tween(t) {}``` will get passed back to the ```attrTween()``` function above. It'll get run numerous times in rapid succession (almost 50 times per node in this example). Its job is to recalculate the startAngle (x0) and endAngle (x1) incrementally, moving from the "old" value to the "new" value.
 
-3) 
+3) In tween(t), t is a number between 0 and 1. When we submit it to oi, our interpolator (in the statement ```var b = oi(t)```) will return the value for each variable a commensurate distance through the interpolation. From our example above, if ```var oi = d3.interpolateNumber(10, 20)``` and ```t = 0.1```, then ```oi(t)``` would equal 11. (Okay, I'm rounding here to keep it simple. So it will return a number close to 11.) Then when t = 0.5, oi(t) will yield 15 (roughly).
+    * NOTE: This line creates a full node equal to the one we started with (a), but x0 and x1 have the interpolated value.
 
-4)
+4) ```a.x0s = b.x0``` stashes our current new x0 value for the next iteration. This is very similar to what we did when we calculated arc above. (Frankly, I keep wanting to delete this line since it seems redundant to our arc calculation stash. But when I do, the animation gets clunky. I haven't worked out why yet, so I'm leaving this line in place.)
  
-5) 
+5) As mentioned above, _b_ represents a full node of data (it has all of the same attributes and attribute values as node _a_, with the exception of the interpolated values). So we'll send node _b_ into the _arc_ generator function and return that arc to the ```attrTween()``` function above. attrTween will populate the d attribute in the path element (e.g., ```<path d="...">```).
 
+6) return tween sends the newly created tween function back to ```attrTween()``` so that it can do all of the great work we talked about above.
+
+
+## The "Tween" Factory that Animates the Text Location and Rotation
+The arcTweenText function operate nearly identically to arcTweenPath, and shares most of the same lines.  However, instead of recreating the arc path repeatedly this will recreate the text transform attribute repeatedly.
+
+``` javascript
+function arcTweenText(a, i) {
+
+    var oi = d3.interpolate({ x0: a.x0s, x1: a.x1s }, a);
+    function tween(t) {
+        var b = oi(t);
+        return "translate(" + arc.centroid(b) + ")rotate(" + computeTextRotation(b) + ")";
+    }
+    return tween;
+}
+```
+
+The only different line in arcTweenText (from arcTweenPath) is ```return "translate(" + arc.centroid(b) + ")rotate(" + computeTextRotation(b) + ")"```.  And we've seen this line before.  It's identical to the line we use to set the <text transform="..."> state when we first added labels in Tutorial 2. However, this time, it'll get called many times in rapid succession in order to animate the movement and rotation of our labels.
+
+Excellent! You've made it through 3 tutorials (right?). I'm hoping that you now have a much better handle on d3 interpolators and tweening. I certianly do. 
