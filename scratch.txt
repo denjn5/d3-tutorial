@@ -18,8 +18,26 @@
     // TODO: Only show top X values in sunburst
 
 
+<style>
+#main {
+  float: left;
+  width: 750px;
+}
 
-
+#sidebar {
+  float: right;
+  width: 100px;
+}
+</style>
+<body>
+    <div id="main">
+        <svg></svg>
+    </div>
+    <div id="sidebar">
+        <label><input class="sizeSelect" type="radio" name="mode" value="size" id="radioSize" checked> Size</label>
+        <label><input class="sizeSelect"  type="radio" name="mode" value="count" id="radioCount"> Count</label>
+    </div>
+</body>
 
 In our html body we've added several lines to get user input and display it properly (Tutorial 2 body contained only the <svg> tag).
 1) <div id="main">...</div> creates our main section. It contains our original <svg> element.
@@ -33,3 +51,39 @@ In our html body we've added several lines to get user input and display it prop
 
 
 d3.hierarchy(nodeData, function children(d) { return d.children; })
+
+
+
+        // Redraw the Sunburst Based on User Input
+        slice.on("click", function(d,i) {
+            var sequenceArray = d.ancestors().reverse();
+            sequenceArray.shift(); // remove root node from the array
+
+            slice.style("opacity", 0.4);
+            slice.filter(function(d) {
+                if (sequenceArray.indexOf(d) === sequenceArray.length - 1) {
+                    if (d.lastClicked) {
+                        d.lastClicked = false;
+                        slice.style("opacity", 1);
+
+                    } else {
+                        d.lastClicked = true;
+                    }
+
+                    //d3.select("#sidebar").data(d)
+                    //    .enter().append("hellow");
+                } else {
+                    d.lastClicked = false;
+
+                }
+
+
+            return (sequenceArray.indexOf(d) >= 0); })
+                .style("opacity", 1);
+
+            //d3.select("#sidebar").text("another!");
+
+
+            // TODO: Write text to #sidebar
+            // TODO: Make the labels "non selectable"
+        });

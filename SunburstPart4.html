@@ -12,26 +12,12 @@ body {
 
 text {
     pointer-events: none;  /* Make text "non selectable" */
-}
-
-#main {
-  float: left;
-  width: 750px;
-}
-
-#sidebar {
-  float: right;
-  width: 100px;
-}
-</style>
+}</style>
 <body>
-    <div id="main">
-        <svg></svg>
-    </div>
-    <div id="sidebar">
-        <label><input class="sizeSelect" type="radio" name="mode" value="size" id="radioSize" checked> Size</label>
-        <label><input class="sizeSelect"  type="radio" name="mode" value="count" id="radioCount"> Count</label>
-    </div>
+    <svg></svg>
+    <label><input class="sizeSelect" type="radio" name="mode" value="size" id="radioSize" checked> Size</label>
+    <label><input class="sizeSelect"  type="radio" name="mode" value="count" id="radioCount"> Count</label>
+
 </body>
 
 <script>
@@ -64,7 +50,7 @@ text {
 
 
         // Find the root node, calculate the node.value, and sort our nodes by node.value
-        var root = d3.hierarchy(nodeData)
+        root = d3.hierarchy(nodeData)
             .sum(function (d) { return d.size; })
             .sort(function(a, b) { return b.value - a.value; });
 
@@ -121,37 +107,31 @@ text {
 
 
         // Redraw the Sunburst Based on User Input
-        slice.on("click", function(d,i) {
-            var sequenceArray = d.ancestors().reverse();
-            sequenceArray.shift(); // remove root node from the array
+        slice.on("click", function(c,i) {
+
+            clicked = c;
+            var rootPath = clicked.path(root).reverse();
+            rootPath.shift(); // remove root node from the array
 
             slice.style("opacity", 0.4);
             slice.filter(function(d) {
-                if (sequenceArray.indexOf(d) === sequenceArray.length - 1) {
-                    if (d.lastClicked) {
-                        d.lastClicked = false;
-                        slice.style("opacity", 1);
+                if (d === clicked && d.prevClicked) {
+                    d.prevClicked = false;
+                    slice.style("opacity", 1);
+                    return true;
 
-                    } else {
-                        d.lastClicked = true;
-                    }
-
-                    //d3.select("#sidebar").data(d)
-                    //    .enter().append("hellow");
+                } else if (d === clicked) {
+                    d.prevClicked = true;
+                    return true;
                 } else {
-                    d.lastClicked = false;
-
+                    d.prevClicked = false;
+                    return (rootPath.indexOf(d) >= 0);
                 }
-
-
-            return (sequenceArray.indexOf(d) >= 0); })
+            })
                 .style("opacity", 1);
 
             //d3.select("#sidebar").text("another!");
 
-
-            // TODO: Write text to #sidebar
-            // TODO: Make the labels "non selectable"
         });
     });
 
