@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="c441bad2-191d-45b8-ba10-9352e30e64c0" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ReadMePart3.md" afterPath="$PROJECT_DIR$/ReadMePart3.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SunburstPart3.html" afterPath="$PROJECT_DIR$/SunburstPart3.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SunburstPart4.html" afterPath="$PROJECT_DIR$/SunburstPart4.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -30,30 +32,15 @@
       <file leaf-file-name="SunburstPart4.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/SunburstPart4.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="713">
-              <caret line="148" column="43" lean-forward="false" selection-start-line="148" selection-start-column="43" selection-end-line="148" selection-end-column="43" />
+            <state relative-caret-position="90">
+              <caret line="6" column="63" lean-forward="true" selection-start-line="6" selection-start-column="63" selection-end-line="6" selection-end-column="63" />
               <folding>
-                <element signature="e#3348#3864#0" expanded="true" />
-                <element signature="e#4167#4731#0" expanded="true" />
-                <element signature="e#5511#5763#0" expanded="true" />
-                <element signature="e#5602#5735#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SunburstPart3.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SunburstPart3.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="275">
-              <caret line="90" column="12" lean-forward="true" selection-start-line="90" selection-start-column="12" selection-end-line="90" selection-end-column="68" />
-              <folding>
-                <element signature="e#2655#2757#0" expanded="true" />
-                <element signature="e#3721#3959#0" expanded="true" />
-                <element signature="e#3813#3930#0" expanded="true" />
-                <element signature="e#4154#4406#0" expanded="true" />
-                <element signature="e#4245#4378#0" expanded="true" />
-                <element signature="e#4606#4865#0" expanded="true" />
+                <element signature="e#1590#5009#0" expanded="true" />
+                <element signature="e#3414#3930#0" expanded="true" />
+                <element signature="e#4025#5001#0" expanded="true" />
+                <element signature="e#4233#4797#0" expanded="true" />
+                <element signature="e#5631#5883#0" expanded="true" />
+                <element signature="e#5722#5855#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -69,6 +56,8 @@
       <find>&quot;</find>
       <find>partition(roo</find>
       <find>data st</find>
+      <find>actual</find>
+      <find>sizeSelect</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -83,15 +72,15 @@
         <option value="$PROJECT_DIR$/README2.md" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/SunburstPart3a.html" />
-        <option value="$PROJECT_DIR$/SunburstPart2.html" />
         <option value="$PROJECT_DIR$/scratch.txt" />
         <option value="$PROJECT_DIR$/ReadMePart2.md" />
         <option value="$PROJECT_DIR$/ReadMePart1.md" />
         <option value="$PROJECT_DIR$/SunburstPart1.html" />
         <option value="$PROJECT_DIR$/data.json" />
-        <option value="$PROJECT_DIR$/ReadMePart3.md" />
+        <option value="$PROJECT_DIR$/SunburstPart2.html" />
         <option value="$PROJECT_DIR$/SunburstPart3.html" />
         <option value="$PROJECT_DIR$/SunburstPart4.html" />
+        <option value="$PROJECT_DIR$/ReadMePart3.md" />
       </list>
     </option>
   </component>
@@ -564,7 +553,14 @@
       <option name="project" value="LOCAL" />
       <updated>1493155788642</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="A fully commented d3 v4 sunburst diagram.">
+      <created>1493175881444</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1493175881444</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TodoView">
@@ -670,17 +666,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SunburstPart2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1">
-          <caret line="24" column="73" lean-forward="false" selection-start-line="24" selection-start-column="73" selection-end-line="24" selection-end-column="73" />
-          <folding>
-            <element signature="e#1025#2572#0" expanded="false" />
-            <element signature="e#2774#3033#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/scratch.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -724,6 +709,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/SunburstPart2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="1" lean-forward="false" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ReadMePart2.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -738,8 +731,8 @@
     <entry file="file://$PROJECT_DIR$/ReadMePart3.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="665">
-            <caret line="189" column="125" lean-forward="false" selection-start-line="189" selection-start-column="125" selection-end-line="189" selection-end-column="125" />
+          <first_editor relative-caret-position="498">
+            <caret line="121" column="105" lean-forward="false" selection-start-line="121" selection-start-column="105" selection-end-line="121" selection-end-column="105" />
             <folding />
           </first_editor>
           <second_editor />
@@ -748,28 +741,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/SunburstPart3.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="90" column="12" lean-forward="true" selection-start-line="90" selection-start-column="12" selection-end-line="90" selection-end-column="68" />
+        <state relative-caret-position="75">
+          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="15" selection-end-column="8" />
           <folding>
-            <element signature="e#2655#2757#0" expanded="true" />
-            <element signature="e#3721#3959#0" expanded="true" />
-            <element signature="e#3813#3930#0" expanded="true" />
-            <element signature="e#4154#4406#0" expanded="true" />
-            <element signature="e#4245#4378#0" expanded="true" />
-            <element signature="e#4606#4865#0" expanded="true" />
+            <element signature="e#1290#3602#0" expanded="true" />
+            <element signature="e#2725#2827#0" expanded="true" />
+            <element signature="e#3078#3594#0" expanded="true" />
+            <element signature="e#3791#4029#0" expanded="true" />
+            <element signature="e#3883#4000#0" expanded="true" />
+            <element signature="e#4224#4476#0" expanded="true" />
+            <element signature="e#4315#4448#0" expanded="true" />
+            <element signature="e#4676#4935#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/SunburstPart4.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="713">
-          <caret line="148" column="43" lean-forward="false" selection-start-line="148" selection-start-column="43" selection-end-line="148" selection-end-column="43" />
+        <state relative-caret-position="90">
+          <caret line="6" column="63" lean-forward="true" selection-start-line="6" selection-start-column="63" selection-end-line="6" selection-end-column="63" />
           <folding>
-            <element signature="e#3348#3864#0" expanded="true" />
-            <element signature="e#4167#4731#0" expanded="true" />
-            <element signature="e#5511#5763#0" expanded="true" />
-            <element signature="e#5602#5735#0" expanded="true" />
+            <element signature="e#1590#5009#0" expanded="true" />
+            <element signature="e#3414#3930#0" expanded="true" />
+            <element signature="e#4025#5001#0" expanded="true" />
+            <element signature="e#4233#4797#0" expanded="true" />
+            <element signature="e#5631#5883#0" expanded="true" />
+            <element signature="e#5722#5855#0" expanded="true" />
           </folding>
         </state>
       </provider>

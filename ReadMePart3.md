@@ -14,7 +14,19 @@ If you're viewing this on [bl.ocks.org page](https://bl.ocks.org/denjn5/3b74baf5
 Do good!  —David Richards
 
 
-## Formatting Our Pae
+## Make Labels "Non-Selectable"
+In Tutorial 2, the label text was selectable.  That'll get annoying as we're clicking around on an interactive viz. We've added a line to our CSS to avoid that.
+
+``` html
+<style>
+text { pointer-events: none; }  /* Make text "non selectable" */
+</style>
+```
+
+The new style directive ```text { pointer-events: none; }``` tells our page that whatever is in the ```<text>``` element is not selectable with the mouse-pointer
+
+
+## Formatting Our Page
 We'll begin by dividing our page into 2 sections (main on the left, and sidebar on the right) and use the CSS style section to tell the browser how big each section is.
 
 ``` html
@@ -25,16 +37,16 @@ We'll begin by dividing our page into 2 sections (main on the left, and sidebar 
 </body>
 ```
 
-In our html body we've added two lines after our <svg> tag to get user input.
+In our html body we've added two lines after our ```<svg>``` tag to get user input. 
 
-<input class="sizeSelect" type="radio" name="mode" value="size" id="radioSize" checked> is our actual radio button element.  
+```<input class="sizeSelect" type="radio" name="mode" value="size" id="radioSize" checked>``` is our actual radio button element.  
 * class="sizeSelect" so that we can get a hold of it with d3.
 * type="radio" tells html that this is a radio button.
 * name="mode" tells html that all radio buttons with this name act as a unit, so if one is chosen, the others are un-chosen.
 * value="size" is what we'll test for to see which radio button the user clicked.
 * checked sets our default value.
 
-Enclosing the input element and related label with a label element (<label><input ...> Size</label>) allows users to click on the word "Size" as if it's part of the radio button. Much more intuitive than forcing them to click the exact radio button.
+Enclosing the input element and related label with a label element (```<label><input ...> Size</label>```) allows users to click on the word "Size" as if it's part of the radio button. Much more intuitive than forcing them to click the exact radio button.
 
 The 2nd line is nearly identical to the first.  It creates the "Count" radio button.
 
@@ -107,7 +119,7 @@ d3.selectAll(".sizeSelect").on("click", function(d,i) {  // <-- 1
 ```
 
 Let's break down each line above and see what it does:
-1) d3.selectAll(".sizeSelect") gets a handle on the 2 radio button <input class="sizeSelect"> elements we defined above (in the same way that it helps us get a hold of elements within the SVG).
+1) ```d3.selectAll(".sizeSelect")``` gets a handle on the 2 radio button ```<input class="sizeSelect">``` elements we defined above (in the same way that it helps us get a hold of elements within the SVG).
     * ```.on("click", function(d,i) { ... })``` adds an event listener to our selected elements. The event listener will fire if one of the elements is clicked (we could have called out any other compliant event) and run the code that's in our ```function(d,i) {}``` block.
     * The ```function(d,i) {}``` returns the object where the event occurred as keyword "this". So it'll represent one or the other of our radio button elements.
 
