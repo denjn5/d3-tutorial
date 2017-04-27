@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c441bad2-191d-45b8-ba10-9352e30e64c0" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/docs/ReadMePart1.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SunburstPart4.html" afterPath="$PROJECT_DIR$/SunburstPart4.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scratch.txt" afterPath="$PROJECT_DIR$/scratch.txt" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -28,16 +28,32 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="SunburstPart4.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SunburstPart4.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SunburstPart4.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="619">
-              <caret line="128" column="17" lean-forward="false" selection-start-line="128" selection-start-column="17" selection-end-line="128" selection-end-column="17" />
+            <state relative-caret-position="416">
+              <caret line="72" column="37" lean-forward="false" selection-start-line="72" selection-start-column="37" selection-end-line="72" selection-end-column="37" />
               <folding>
-                <element signature="e#3245#3761#0" expanded="true" />
-                <element signature="e#5273#5525#0" expanded="true" />
-                <element signature="e#5364#5497#0" expanded="true" />
+                <element signature="e#1917#1975#0" expanded="true" />
+                <element signature="e#3318#3834#0" expanded="true" />
+                <element signature="e#3929#4716#0" expanded="true" />
+                <element signature="e#4158#4611#0" expanded="true" />
+                <element signature="e#5346#5598#0" expanded="true" />
+                <element signature="e#5437#5570#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ReadMePart1.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/docs/ReadMePart1.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="0">
+                <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+                <folding />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
@@ -157,6 +173,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/docs" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
@@ -573,7 +590,14 @@
       <option name="project" value="LOCAL" />
       <updated>1493176631993</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="A fully commented d3 v4 sunburst diagram.">
+      <created>1493205189610</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1493205189610</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TodoView">
@@ -768,13 +792,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/SunburstPart4.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="619">
-          <caret line="128" column="17" lean-forward="false" selection-start-line="128" selection-start-column="17" selection-end-line="128" selection-end-column="17" />
+        <state relative-caret-position="416">
+          <caret line="72" column="37" lean-forward="false" selection-start-line="72" selection-start-column="37" selection-end-line="72" selection-end-column="37" />
           <folding>
-            <element signature="e#3245#3761#0" expanded="true" />
-            <element signature="e#5273#5525#0" expanded="true" />
-            <element signature="e#5364#5497#0" expanded="true" />
+            <element signature="e#1917#1975#0" expanded="true" />
+            <element signature="e#3318#3834#0" expanded="true" />
+            <element signature="e#3929#4716#0" expanded="true" />
+            <element signature="e#4158#4611#0" expanded="true" />
+            <element signature="e#5346#5598#0" expanded="true" />
+            <element signature="e#5437#5570#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/ReadMePart1.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="0">
+            <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <folding />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>

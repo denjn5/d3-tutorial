@@ -30,6 +30,8 @@ text {
     var height = 500;
     var radius = Math.min(width, height) / 2;
     var color = d3.scaleOrdinal(d3.schemeCategory20b);
+    var maxDepth = 1;
+    var maxTopics = 2;
 
     // Size our <svg> element, add a <g> element, and move translate 0,0 to the center of the element.
     var g = d3.select('svg')
@@ -58,7 +60,9 @@ text {
         // Calculate the size of each arc; save the initial angles for tweening.
         partition(root);
         arc = d3.arc()
-            .startAngle(function (d) { d.x0s = d.x0; return d.x0; })
+            .startAngle(function (d) {
+                d.x0s = d.x0; return d.x0;
+            })
             .endAngle(function (d) { d.x1s = d.x1; return d.x1; })
             .innerRadius(function (d) { return d.y0; })
             .outerRadius(function (d) { return d.y1; });
