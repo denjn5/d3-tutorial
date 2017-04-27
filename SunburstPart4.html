@@ -14,9 +14,12 @@ text {
     pointer-events: none;  /* Make text "non selectable" */
 }</style>
 <body>
-    <svg></svg>
-    <label><input class="sizeSelect" type="radio" name="mode" value="size" id="radioSize" checked> Size</label>
-    <label><input class="sizeSelect"  type="radio" name="mode" value="count" id="radioCount"> Count</label>
+    <svg></svg><br>
+    Size: <label><input class="sizeSelect" type="radio" name="sizeSelect" value="size" checked> Size</label>
+    <label><input class="sizeSelect"  type="radio" name="sizeSelect" value="count"> Count</label><br>
+    Show: <label><input class="showSelect" type="radio" name="showSelect" value="top5" checked> Top 5</label>
+    <label><input class="showSelect"  type="radio" name="showSelect" value="top10"> Top 10</label>
+    <label><input class="showSelect" type="radio" name="showSelect" value="all"> All</label>
 
 </body>
 
@@ -50,11 +53,13 @@ text {
     d3.json("data.json", function(error, nodeData) {
         if (error) throw error;
 
+        var showNodes = JSON.parse(JSON.stringify(nodeData));
+
 
         // Find the root node, calculate the node.value, and sort our nodes by node.value
-        root = d3.hierarchy(nodeData)
+        root = d3.hierarchy(showNodes)
             .sum(function (d) { return d.size; })
-            .sort(function(a, b) { return b.value - a.value; });
+            .sort(function (a, b) { return b.value - a.value; });
 
 
         // Calculate the size of each arc; save the initial angles for tweening.
@@ -107,6 +112,53 @@ text {
 
             slice.selectAll("path").transition().duration(750).attrTween("d", arcTweenPath);
             slice.selectAll("text").transition().duration(750).attrTween("transform", arcTweenText);
+        };
+
+        // Redraw the Sunburst Based on User Input
+        d3.selectAll(".showSelect").on("click", showChooser);
+
+        function showChooser(r, i) {
+            //alert(this.value);
+            var showCount;
+
+            // Determine how to size the slices.
+            if (this.value === "top5") {
+                showCount = 1;
+            } else if (this.value === "top10") {
+                showCount = 2;
+            } else {
+                showCount = 100;
+            }
+
+            var showNodes = JSON.parse(JSON.stringify(nodeData));
+            showNodes.children.splice(showCount, (showNodes.children.length - showCount));
+
+                    // Find the root node, calculate the node.value, and sort our nodes by node.value
+            root = d3.hierarchy(showNodes)
+                .sum(function (d) { return d.size; })
+                .sort(function (a, b) { return b.value - a.value; });
+
+            partition(root);
+
+            // Add a <g> element for each node; create the slice variable since we'll refer to this selection many times
+            var slice = g.selectAll('g')
+                .data(root.descendants())
+                .exit().remove();
+
+//            // Append <path> elements and draw lines based on the arc calculations. Last, color the lines and the slices.
+//            slice.append('path').attr("display", function (d) { return d.depth ? null : "none"; })
+//                .attr("d", arc)
+//                .style('stroke', '#fff')
+//                .style("fill", function (d) { return color((d.children ? d : d.parent).data.name); });
+//
+//
+//            // Populate the <text> elements with our data-driven titles.
+//            slice.append("text")
+//                .attr("transform", function(d) {
+//                    return "translate(" + arc.centroid(d) + ")rotate(" + computeTextRotation(d) + ")"; })
+//                .attr("dx", "-20")
+//                .attr("dy", ".5em")
+//                .text(function(d) { return d.parent ? d.data.name : "" });
         };
 
 

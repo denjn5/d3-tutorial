@@ -1,0 +1,16 @@
+{
+    "name": "TOPICS", "children": [{
+        "name": "Topic A",
+        "children": [{"name": "Sub A1", "size": 5, "text": "A story", "sentiment": 0.8, "source": "dictionary"},
+            {"name": "Sub A2", "size": 5, "text": "A note", "sentiment": 0.3, "source": "dictionary"}]
+    }, {
+        "name": "Topic B",
+        "children": [{"name": "Sub B1", "size": 5, "text": "A vignette", "sentiment": 0.5, "source": "newspaper"},
+            {"name": "Sub B2", "size": 3, "text": "A tall-tale", "sentiment": 0.2, "source": "friend"},
+            {"name": "Sub B3", "size": 4, "text": "A joke", "sentiment": 0.8, "source": "email"}]
+    }, {
+        "name": "Topic C",
+        "children": [{"name": "Sub A1", "size": 4, "text": "A narrative", "sentiment": 0.2, "source": "newspaper"},
+            {"name": "Sub A2", "size": 4, "text": "A chronology", "sentiment": 0.3, "source": "email"}]
+    }]
+}
