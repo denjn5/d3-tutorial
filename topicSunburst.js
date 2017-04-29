@@ -3,6 +3,19 @@
  */
 
 
+/*
+List of items
+Title/Author. Text (first 50 words with elipsis)....
+Left (icon) = link to source
+Right (sentiment color)
+
+Sort by: Time, Source, Sentiment, Title, Topic
+
+Phase 2: Like, Junk
+
+ */
+
+
 // Variables
 var width = 500;
 var height = 500;
@@ -57,12 +70,13 @@ function drawSunburst(data) {
     newSlice.append("text")
         .attr("transform", function(d) {
             return "translate(" + arc.centroid(d) + ")rotate(" + computeTextRotation(d) + ")"; })
-        .attr("dx", "-20")
-        .attr("dy", ".5em")
-        .text(function(d) { return (d.parent ? d.data.name : "") });
+        .attr("dx", function(d) { return (d.parent? "-20" : "-40")} )
+        .attr("dy", function(d) { return (d.parent? ".5em" : "-2em")})
+        .text(function(d) { return d.data.name });
 
     newSlice.on("click", highlightSelectedSlice);
 }
+
 
 d3.selectAll("input[name=topTopicsSelect]").on("click", showTopTopics);
 d3.selectAll("input[name=dateSelect]").on("click", showDate);
@@ -99,6 +113,7 @@ function showDate() {
     alert("Not yet implemented: " + this.value);
 }
 
+
 function getData() {
 
     switch(this.value) {
@@ -112,7 +127,7 @@ function getData() {
             corpus = "corpusA.json";
     }
 
-        // Get the data from our JSON file
+    // Get the data from our JSON file
     d3.json(corpus, function(error, nodeData) {
         if (error) throw error;
 
@@ -123,6 +138,7 @@ function getData() {
     });
 
 }
+
 
 // Redraw the Sunburst Based on User Input
 function showTopTopics(r, i) {
@@ -138,9 +154,6 @@ function showTopTopics(r, i) {
         default:
             root.sum(function (d) { d.topSize = d.size; return d.topSize; });
     }
-
-
-    //root.sort(function(a, b) { return b.value - a.value; });
 
     partition(root);
 

@@ -2,49 +2,49 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Tell Me More</title>
+  <title>Tell Me</title>
   <meta name="description" content="">
   <meta name="David Richards" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="Libraries/css/bootstrap.css">
   <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="Libraries/normalize.css">
-  <link rel="stylesheet" href="Libraries/skeleton.css">
   <link rel="icon" type="image/png" href="Libraries/chat.png">
   <script src="https://d3js.org/d3.v4.min.js"></script>
 
 </head>
+<style>
+body {
+    font-family: 'Raleway', Arial, sans-serif;
+}
+</style>
 <body>
     <div class="container" style="margin-top: 2%">
 
         <div class="row">
-            <div class="one columns">
-                <img src="Libraries/chat.png" height="60" width="60"/>
+            <div class="col-sm-1">
+                <img src="Libraries/chat.png" height="50" width="50"/>
             </div>
-            <div class="five columns">
-                <h1>Tell&nbsp;Me&nbsp;More</h1>
+            <div class="col-sm-5">
+                <h1>Tell&nbsp;Me</h1>
             </div>
-            <div class="six columns">
-                <input class="corpus" type="button" value="Corpus A">
-                <input class="corpus" type="button" value="Corpus B">
+            <div class="col-sm-6">
+                <input class="btn corpus" type="button" value="Corpus A">
+                <input class="btn corpus" type="button" value="Corpus B">
 
             </div>
         </div>
         <div class="row" style="margin-bottom: 2%">
-            <div class="seven columns">
-                <svg></svg>
-            </div>
-            <div class="five columns">
-
-            </div>
-        </div>
-        <div class="row">
-            <div>
+            <div class="col-sm-7" style="text-align: center">
+                <svg></svg><br>
                 <b>Show:</b>&nbsp;&nbsp;<label><input type="radio" name="topTopicsSelect" value="top5">&nbsp;Top 3</label>&nbsp;
                 <label><input type="radio" name="topTopicsSelect" value="top10">&nbsp;Top 6</label>&nbsp;
                 <label><input type="radio" name="topTopicsSelect" value="all" checked>&nbsp;All</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
                 <b>When:</b>&nbsp;&nbsp;<label><input type="radio" name="dateSelect" value="today" checked>&nbsp;Today</label>&nbsp;
                 <label><input type="radio" name="dateSelect" value="yesterday">&nbsp;Yesterday</label>
+            </div>
+            <div class="col-sm-5" id="sidebar">
+
             </div>
         </div>
 

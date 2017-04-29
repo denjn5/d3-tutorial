@@ -87,3 +87,31 @@ d3.hierarchy(nodeData, function children(d) { return d.children; })
             // TODO: Write text to #sidebar
             // TODO: Make the labels "non selectable"
         });
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+"<li class='positive twitter'><b><a href='https://twitter.com/' target='_blank'>Author</a></b>. All of the tweet text here.</li>",
+    "<li class='negative reddit'><a href='https://reddit.com/' target='_blank'><b>Title</b></a>. The first 30 words of the article<a href='#' onClick='textToggle('1')'>...</a><span style='visibility: hidden' id='1'>The 'rest' of the article here.</span></li>",
+    "<li class='semipositive twitter'><a href='https://twitter.com/' target='_blank'><b>Author</b></a>. The whole thing right here</li>",
+    "<li class='facebook'><a href='https://facebook.com/' target='_blank'><b>Title</b></a>. The first 30 words of the article<a href='#' onClick='textToggle('2')'>...</a><span style='visibility: hidden' id='2'>The 'rest' of the article here.</span></li>",
+    "<li class='youtube'><a href='https://youtube.com/' target='_blank'><b>Title</b></a>. The first 30 words of the article<a href='#' onClick='textToggle('3')'>...</a><span style='visibility: hidden' id='3'>The 'rest' of the article here.</span></li>",
+    "<li class='seminegative twitter'><a href='https://twitter.com/' target='_blank'><b>Author</b></a>. Should all fit here. =)</li>'"
+        
+        
