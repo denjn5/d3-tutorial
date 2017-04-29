@@ -1,5 +1,5 @@
 {
-        "name": "TOPICS", "children": [{
+        "name": "CORPUS A", "children": [{
             "name": "Topic A",
             "children": [{"name": "Sub A1", "size": 4, "rank": 1}, {"name": "Sub A2", "size": 4, "rank": 1}]
         }, {

@@ -8,6 +8,7 @@ var width = 500;
 var height = 500;
 var radius = Math.min(width, height) / 2;
 var color = d3.scaleOrdinal(d3.schemeCategory20b);
+var corpus = "corpusA.json";
 
 
 // Size our <svg> element, add a <g> element, and move translate 0,0 to the center of the element.
@@ -21,16 +22,9 @@ var g = d3.select('svg')
 var partition = d3.partition()
     .size([2 * Math.PI, radius]);
 
-// Get the data from our JSON file
-d3.json("data.json", function(error, nodeData) {
-    if (error) throw error;
+getData();
 
-    allNodes = nodeData;
-    var showNodes = JSON.parse(JSON.stringify(nodeData));
-    drawSunburst(allNodes, true);
-});
-
-function drawSunburst(data, firstRun) {
+function drawSunburst(data) {
 
     // Find the root node, calculate the node.value, and sort our nodes by node.value
     root = d3.hierarchy(data)
@@ -50,34 +44,13 @@ function drawSunburst(data, firstRun) {
     newSlice = slice.enter().append('g').attr("class", "node").merge(slice);
     slice.exit().remove();
 
-    // TRY 1: ID selection that's has been drawn previously... (requires us to set "drawn" down below)
-    // newSlice.filter( function(d) { return !d.drawn; }).append('path')
-    //    .attr("display", function (d) { return d.depth ? null : "none"; }).style('stroke', '#fff');
-
-    // TRY 2: Only create paths on "first run"
-    if (firstRun) {
-        // slice.selectAll('path').remove();
-        newSlice.append('path').attr("display", function (d) { return d.depth ? null : "none"; })
-            //.transition().duration(750).attrTween("d", arcTweenPath)
-            .attr("d", arc)
-            .style('stroke', '#fff')
-            .style("fill", function (d) { return color((d.children ? d : d.parent).data.name); });
-
-        // newSlice.append('path').attr("display", function (d) { return d.depth ? null : "none"; }).style('stroke', '#fff');
-    }
-
-    // TRY 1&2: Set path-d and color always. But this isn't using new arc...?
-    newSlice.selectAll('path').attr("d", arc).style("fill", function (d) { return color((d.children ? d : d.parent).data.name); });
-
-
 
     // Append <path> elements and draw lines based on the arc calculations. Last, color the lines and the slices.
-    // slice.selectAll('path').remove();
-    // newSlice.append('path').attr("display", function (d) { return d.depth ? null : "none"; })
-    //     .transition().duration(750).attrTween("d", arcTweenPath)
-    //     //.attr("d", arc)
-    //     .style('stroke', '#fff')
-    //     .style("fill", function (d) { return color((d.children ? d : d.parent).data.name); });
+    slice.selectAll('path').remove();
+    newSlice.append('path').attr("display", function (d) { return d.depth ? null : "none"; })
+        .attr("d", arc)
+        .style('stroke', '#fff')
+        .style("fill", function (d) { return color((d.children ? d : d.parent).data.name); });
 
     // Populate the <text> elements with our data-driven titles.
     slice.selectAll('text').remove();
@@ -86,13 +59,15 @@ function drawSunburst(data, firstRun) {
             return "translate(" + arc.centroid(d) + ")rotate(" + computeTextRotation(d) + ")"; })
         .attr("dx", "-20")
         .attr("dy", ".5em")
-        .text(function(d) { return d.parent ? d.data.name : "" });
+        .text(function(d) { return (d.parent ? d.data.name : "") });
 
     newSlice.on("click", highlightSelectedSlice);
-};
+}
 
-d3.selectAll(".showSelect").on("click", showTopTopics);
-d3.selectAll(".sizeSelect").on("click", sliceSizer);
+d3.selectAll("input[name=topTopicsSelect]").on("click", showTopTopics);
+d3.selectAll("input[name=dateSelect]").on("click", showDate);
+d3.selectAll("input.corpus").on("click", getData);
+
 
 // Redraw the Sunburst Based on User Input
 function highlightSelectedSlice(c,i) {
@@ -115,53 +90,65 @@ function highlightSelectedSlice(c,i) {
             d.prevClicked = false;
             return (rootPath.indexOf(d) >= 0);
         }
-    })
-        .style("opacity", 1);
+    }).style("opacity", 1);
 
-    //d3.select("#sidebar").text("another!");
+}
 
-};
+
+function showDate() {
+    alert("Not yet implemented: " + this.value);
+}
+
+function getData() {
+
+    switch(this.value) {
+        case "Corpus A":
+            corpus = "corpusA.json";
+            break;
+        case "Corpus B":
+            corpus = "corpusB.json";
+            break;
+        default:
+            corpus = "corpusA.json";
+    }
+
+        // Get the data from our JSON file
+    d3.json(corpus, function(error, nodeData) {
+        if (error) throw error;
+
+        allNodes = nodeData;
+        var showNodes = JSON.parse(JSON.stringify(nodeData));
+
+        drawSunburst(allNodes);
+    });
+
+}
 
 // Redraw the Sunburst Based on User Input
-function sliceSizer(r, i) {
+function showTopTopics(r, i) {
 
-    // Determine how to size the slices.
-    if (this.value === "size") {
-        root.sum(function (d) { return d.size; });
-    } else {
-        root.sum(function (d) {
-            d.size = (d.top <= 10) ? d.size : 0;
-            return d.size; });
-        //root.count();
+
+    switch(this.value) {
+        case "top5":
+            root.sum(function (d) { d.topSize = (d.rank <= 3) ? d.size : 0; return d.topSize; });
+            break;
+        case "top10":
+            root.sum(function (d) { d.topSize = (d.rank <= 6) ? d.size : 0; return d.topSize; });
+            break;
+        default:
+            root.sum(function (d) { d.topSize = d.size; return d.topSize; });
     }
-    root.sort(function(a, b) { return b.value - a.value; });
+
+
+    //root.sort(function(a, b) { return b.value - a.value; });
 
     partition(root);
 
     newSlice.selectAll("path").transition().duration(750).attrTween("d", arcTweenPath);
-    newSlice.selectAll("text").transition().duration(750).attrTween("transform", arcTweenText);
-};
+    newSlice.selectAll("text").transition().duration(750).attrTween("transform", arcTweenText)
+        .attr("opacity", function (d) { return d.x1 - d.x0 > 0.01 ? 1 : 0; });
+}
 
-// Redraw the Sunburst Based on User Input
-function showTopTopics(r, i) {
-    //alert(this.value);
-    var showCount;
-
-    // Determine how to size the slices.
-    if (this.value === "top5") {
-        showCount = 1;
-    } else if (this.value === "top10") {
-        showCount = 2;
-    } else {
-        showCount = 100;
-    }
-
-    var showNodes = JSON.parse(JSON.stringify(allNodes));
-    showNodes.children.splice(showCount, (showNodes.children.length - showCount));
-
-    drawSunburst(showNodes, true);
-
-};
 
 /**
  * When switching data: interpolate the arcs in data space.
@@ -183,21 +170,6 @@ function arcTweenPath(a, i) {
     return tween;
 }
 
-function arcTweenPathFull(a, i) {
-
-    var oi = d3.interpolate({ x0: (a.x0f ? a.x0f : 0), x1: (a.x1f ? a.x1f : 0), y0: (a.y0f ? a.y0f : 0), y1: (a.y1f ? a.y1f : 0) }, a);
-
-    function tween(t) {
-        var b = oi(t);
-        a.x0f = b.x0;
-        a.x1f = b.x1;
-        a.y0f = b.y0;
-        a.y1f = b.y1;
-        return arc(b);
-    }
-
-    return tween;
-}
 
 /**
  * When switching data: interpolate the text centroids and rotation.
@@ -226,4 +198,4 @@ function computeTextRotation(d) {
     // Avoid upside-down labels
     return (angle < 120 || angle > 270) ? angle : angle + 180;  // labels as rims
     //return (angle < 180) ? angle - 90 : angle + 90;  // labels as spokes
-    }
+}
