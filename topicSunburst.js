@@ -4,21 +4,25 @@
 
 
 /*
-List of items
-Title/Author. Text (first 50 words with elipsis)....
-Left (icon) = link to source
-Right (sentiment color)
+TODO: Fix article inclusion
+TODO: Fix color palette (reds / greens for article, blue range for sunburst, [?] for corpus buttons)
+TODO: Colorblind option (orange / blue for article, blue range for sunburst, [?] for corpus buttons)
+TODO: Add colorblind toggle
+TODO: Default sunburst to Top 5 (update labels)
 
-Sort by: Time, Source, Sentiment, Title, Topic
 
-Phase 2: Like, Junk
+
+Phase 2:
+* Article Sort
+* Article Like, Junk (bad match)
+* Improve chooser button coloring (once we have 3)
 
  */
 
 
 // Variables
-var width = 500;
-var height = 500;
+var width = 400;
+var height = 400;
 var radius = Math.min(width, height) / 2;
 var color = d3.scaleOrdinal(d3.schemeCategory20b);
 var corpus = "corpusA.json";
@@ -71,7 +75,7 @@ function drawSunburst(data) {
         .attr("transform", function(d) {
             return "translate(" + arc.centroid(d) + ")rotate(" + computeTextRotation(d) + ")"; })
         .attr("dx", function(d) { return (d.parent? "-20" : "-40")} )
-        .attr("dy", function(d) { return (d.parent? ".5em" : "-2em")})
+        .attr("dy", function(d) { return (d.parent? ".5em" : "-3em")})
         .text(function(d) { return d.data.name });
 
     newSlice.on("click", highlightSelectedSlice);
@@ -82,22 +86,35 @@ d3.selectAll("input[name=topTopicsSelect]").on("click", showTopTopics);
 d3.selectAll("input[name=dateSelect]").on("click", showDate);
 d3.selectAll("input.corpus").on("click", getData);
 
-
 // Redraw the Sunburst Based on User Input
 function highlightSelectedSlice(c,i) {
 
-    clicked = c;
+    var clicked = c;
+    //var div = d3.select("#sidebar").selectAll("div").data(c.data.articles);
     var rootPath = clicked.path(root).reverse();
     rootPath.shift(); // remove root node from the array
 
     newSlice.style("opacity", 0.4);
     newSlice.filter(function(d) {
         if (d === clicked && d.prevClicked) {
+            // var div = d3.select("#sidebar").selectAll("div").data();
+            // div.exit().remove();
+
             d.prevClicked = false;
             newSlice.style("opacity", 1);
             return true;
 
         } else if (d === clicked) {
+
+            d3.select("#sidebar").selectAll("div").data(c.data.articles)
+                .enter().append('div').classed('row', true)
+                .append('div').classed('bs-callout', true).classed( 'bs-callout-positive', function(d) {return d.sentiment === 1 })
+                .classed( 'bs-callout-negative', function(d) {return d.sentiment === 0 })
+                .html( function(d) { return d.html; });
+
+
+            d3.selectAll(".textToggle").on("click", textToggle);
+
             d.prevClicked = true;
             return true;
         } else {
@@ -105,6 +122,10 @@ function highlightSelectedSlice(c,i) {
             return (rootPath.indexOf(d) >= 0);
         }
     }).style("opacity", 1);
+
+
+
+
 
 }
 
@@ -211,4 +232,22 @@ function computeTextRotation(d) {
     // Avoid upside-down labels
     return (angle < 120 || angle > 270) ? angle : angle + 180;  // labels as rims
     //return (angle < 180) ? angle - 90 : angle + 90;  // labels as spokes
+}
+
+function textToggle() {
+    var string = document.getElementById(this.id + 't');
+    if (string.style.display === 'none') {
+        string.style.display = '';
+    } else {
+        string.style.display = 'none';
+    }
+}
+
+function textToggleX() {
+    var string = document.getElementById(this.id + 't');
+    if (string.style.visibility === 'hidden') {
+        string.style.visibility = '';
+    } else {
+        string.style.visibility = 'hidden';
+    }
 }

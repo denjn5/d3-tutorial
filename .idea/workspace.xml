@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c441bad2-191d-45b8-ba10-9352e30e64c0" name="Default" comment="A fully commented d3 v4 sunburst diagram.">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/list.html" />
+    <list default="true" id="c441bad2-191d-45b8-ba10-9352e30e64c0" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/corpusA.json" afterPath="$PROJECT_DIR$/corpusA.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/corpusB.json" afterPath="$PROJECT_DIR$/corpusB.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scratch.txt" afterPath="$PROJECT_DIR$/scratch.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/topicSunburst.js" afterPath="$PROJECT_DIR$/topicSunburst.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -32,57 +29,35 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="282">
-              <caret line="23" column="32" lean-forward="false" selection-start-line="23" selection-start-column="24" selection-end-line="23" selection-end-column="32" />
+            <state relative-caret-position="885">
+              <caret line="59" column="22" lean-forward="false" selection-start-line="59" selection-start-column="22" selection-end-line="59" selection-end-column="22" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="e#876#882#0" expanded="true" />
+                <element signature="e#1310#1316#0" expanded="true" />
+                <element signature="e#1318#1324#0" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="e#1301#1307#0" expanded="true" />
-                <element signature="e#1307#1313#0" expanded="true" />
-                <element signature="e#1376#1382#0" expanded="true" />
-                <element signature="e#1395#1401#0" expanded="true" />
-                <element signature="e#1482#1488#0" expanded="true" />
-                <element signature="e#1501#1507#0" expanded="true" />
-                <element signature="e#1594#1600#0" expanded="true" />
-                <element signature="e#1611#1617#0" expanded="true" />
-                <element signature="e#1617#1623#0" expanded="true" />
-                <element signature="e#1623#1629#0" expanded="true" />
-                <element signature="e#1629#1635#0" expanded="true" />
-                <element signature="e#1635#1641#0" expanded="true" />
-                <element signature="e#1671#1677#0" expanded="true" />
-                <element signature="e#1677#1683#0" expanded="true" />
-                <element signature="e#1750#1756#0" expanded="true" />
-                <element signature="e#1769#1775#0" expanded="true" />
-                <element signature="e#1855#1861#0" expanded="true" />
+                <element signature="e#1851#1857#1" expanded="true" />
+                <element signature="e#1889#1895#0" expanded="true" />
+                <element signature="e#1895#1901#0" expanded="true" />
+                <element signature="e#1964#1970#0" expanded="true" />
+                <element signature="e#1983#1989#0" expanded="true" />
+                <element signature="e#2070#2076#0" expanded="true" />
+                <element signature="e#2089#2095#0" expanded="true" />
+                <element signature="e#2182#2188#0" expanded="true" />
+                <element signature="e#2199#2205#0" expanded="true" />
+                <element signature="e#2205#2211#0" expanded="true" />
+                <element signature="e#2211#2217#0" expanded="true" />
+                <element signature="e#2217#2223#0" expanded="true" />
+                <element signature="e#2223#2229#0" expanded="true" />
+                <element signature="e#2258#2264#0" expanded="true" />
+                <element signature="e#2264#2270#0" expanded="true" />
+                <element signature="e#2337#2343#0" expanded="true" />
+                <element signature="e#2356#2362#0" expanded="true" />
+                <element signature="e#2442#2448#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="list.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/list.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="675">
-              <caret line="41" column="335" lean-forward="false" selection-start-line="41" selection-start-column="335" selection-end-line="41" selection-end-column="335" />
-              <folding>
-                <element signature="e#1928#2137#0" expanded="true" />
-                <marker date="1493477559000" expanded="true" signature="1363:1381" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="corpusB.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/corpusB.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="21" column="30" lean-forward="true" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -90,32 +65,34 @@
       <file leaf-file-name="topicSunburst.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/topicSunburst.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="39">
-              <caret line="65" column="51" lean-forward="false" selection-start-line="65" selection-start-column="51" selection-end-line="65" selection-end-column="51" />
+            <state relative-caret-position="72">
+              <caret line="92" column="6" lean-forward="false" selection-start-line="92" selection-start-column="6" selection-end-line="92" selection-end-column="6" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
-                <element signature="e#2356#2454#0" expanded="true" />
-                <element signature="n#!!block;n#highlightSelectedSlice#0" expanded="true" />
-                <element signature="e#3165#3525#0" expanded="true" />
+                <element signature="n#!!block;n#drawSunburst#0" expanded="true" />
+                <element signature="e#2584#2682#0" expanded="true" />
+                <element signature="e#3474#4423#0" expanded="true" />
                 <element signature="n#!!block;n#showDate#0" expanded="true" />
                 <element signature="n#!!block;n#getData#0" expanded="true" />
-                <element signature="e#3983#4147#0" expanded="true" />
+                <element signature="e#4885#5049#0" expanded="true" />
                 <element signature="n#!!block;n#showTopTopics#0" expanded="true" />
                 <element signature="n#!!block;n#arcTweenPath#0" expanded="true" />
                 <element signature="n#!!block;n#tween#0;n#!!block;n#arcTweenPath#0" expanded="true" />
                 <element signature="n#!!block;n#arcTweenText#0" expanded="true" />
                 <element signature="n#!!block;n#tween#0;n#!!block;n#arcTweenText#0" expanded="true" />
                 <element signature="n#!!block;n#computeTextRotation#0" expanded="true" />
+                <element signature="n#!!block;n#textToggle#0" expanded="true" />
+                <element signature="n#!!block;n#textToggleX#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="scratch.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/scratch.txt">
+      <file leaf-file-name="corpusA.json" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/corpusA.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="601">
-              <caret line="110" column="259" lean-forward="false" selection-start-line="110" selection-start-column="4" selection-end-line="110" selection-end-column="259" />
+            <state relative-caret-position="135">
+              <caret line="6" column="181" lean-forward="false" selection-start-line="6" selection-start-column="181" selection-end-line="6" selection-end-column="181" />
               <folding />
             </state>
           </provider>
@@ -155,6 +132,8 @@
       <find>center</find>
       <find>Corp B</find>
       <find>more</find>
+      <find>th</find>
+      <find>font</find>
     </findStrings>
     <replaceStrings>
       <replace>^t</replace>
@@ -192,12 +171,12 @@
         <option value="$PROJECT_DIR$/corpus1.json" />
         <option value="$PROJECT_DIR$/corpus2.json" />
         <option value="$PROJECT_DIR$/scratch.txt" />
-        <option value="$PROJECT_DIR$/corpusA.json" />
-        <option value="$PROJECT_DIR$/topicSunburst.js" />
         <option value="$PROJECT_DIR$/corpusB.json" />
         <option value="$PROJECT_DIR$/docs/index2.html" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/list.html" />
+        <option value="$PROJECT_DIR$/corpusA.json" />
+        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/topicSunburst.js" />
       </list>
     </option>
   </component>
@@ -268,21 +247,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="css" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="D3Tutorials" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="d3Tutorial" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="docs" />
+              <option name="myItemId" value="js" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -655,7 +620,14 @@
       <option name="project" value="LOCAL" />
       <updated>1493432975897</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="index.html / topicSunburst.js -- GOOD">
+      <created>1493477801516</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1493477801516</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TodoView">
@@ -702,7 +674,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="A fully commented d3 v4 sunburst diagram." />
-    <option name="LAST_COMMIT_MESSAGE" value="A fully commented d3 v4 sunburst diagram." />
+    <MESSAGE value="index.html / topicSunburst.js -- GOOD" />
+    <option name="LAST_COMMIT_MESSAGE" value="index.html / topicSunburst.js -- GOOD" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -717,26 +690,27 @@
           <caret line="14" column="7" lean-forward="false" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
           <folding>
             <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="e#876#882#0" expanded="true" />
+            <element signature="e#1310#1316#0" expanded="true" />
+            <element signature="e#1318#1324#0" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="e#1301#1307#0" expanded="true" />
-            <element signature="e#1307#1313#0" expanded="true" />
-            <element signature="e#1376#1382#0" expanded="true" />
-            <element signature="e#1395#1401#0" expanded="true" />
-            <element signature="e#1482#1488#0" expanded="true" />
-            <element signature="e#1501#1507#0" expanded="true" />
-            <element signature="e#1594#1600#0" expanded="true" />
-            <element signature="e#1611#1617#0" expanded="true" />
-            <element signature="e#1617#1623#0" expanded="true" />
-            <element signature="e#1623#1629#0" expanded="true" />
-            <element signature="e#1629#1635#0" expanded="true" />
-            <element signature="e#1635#1641#0" expanded="true" />
-            <element signature="e#1671#1677#0" expanded="true" />
-            <element signature="e#1677#1683#0" expanded="true" />
-            <element signature="e#1750#1756#0" expanded="true" />
-            <element signature="e#1769#1775#0" expanded="true" />
-            <element signature="e#1855#1861#0" expanded="true" />
+            <element signature="e#1851#1857#1" expanded="true" />
+            <element signature="e#1889#1895#0" expanded="true" />
+            <element signature="e#1895#1901#0" expanded="true" />
+            <element signature="e#1964#1970#0" expanded="true" />
+            <element signature="e#1983#1989#0" expanded="true" />
+            <element signature="e#2070#2076#0" expanded="true" />
+            <element signature="e#2089#2095#0" expanded="true" />
+            <element signature="e#2182#2188#0" expanded="true" />
+            <element signature="e#2199#2205#0" expanded="true" />
+            <element signature="e#2205#2211#0" expanded="true" />
+            <element signature="e#2211#2217#0" expanded="true" />
+            <element signature="e#2217#2223#0" expanded="true" />
+            <element signature="e#2223#2229#0" expanded="true" />
+            <element signature="e#2258#2264#0" expanded="true" />
+            <element signature="e#2264#2270#0" expanded="true" />
+            <element signature="e#2337#2343#0" expanded="true" />
+            <element signature="e#2356#2362#0" expanded="true" />
+            <element signature="e#2442#2448#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -755,18 +729,20 @@
           <caret line="13" column="19" lean-forward="false" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="19" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <element signature="e#2356#2454#0" expanded="true" />
-            <element signature="n#!!block;n#highlightSelectedSlice#0" expanded="true" />
-            <element signature="e#3165#3525#0" expanded="true" />
+            <element signature="n#!!block;n#drawSunburst#0" expanded="true" />
+            <element signature="e#2584#2682#0" expanded="true" />
+            <element signature="e#3474#4423#0" expanded="true" />
             <element signature="n#!!block;n#showDate#0" expanded="true" />
             <element signature="n#!!block;n#getData#0" expanded="true" />
-            <element signature="e#3983#4147#0" expanded="true" />
+            <element signature="e#4885#5049#0" expanded="true" />
             <element signature="n#!!block;n#showTopTopics#0" expanded="true" />
             <element signature="n#!!block;n#arcTweenPath#0" expanded="true" />
             <element signature="n#!!block;n#tween#0;n#!!block;n#arcTweenPath#0" expanded="true" />
             <element signature="n#!!block;n#arcTweenText#0" expanded="true" />
             <element signature="n#!!block;n#tween#0;n#!!block;n#arcTweenText#0" expanded="true" />
             <element signature="n#!!block;n#computeTextRotation#0" expanded="true" />
+            <element signature="n#!!block;n#textToggle#0" expanded="true" />
+            <element signature="n#!!block;n#textToggleX#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -882,14 +858,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SunburstPart1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="645">
-          <caret line="60" column="9" lean-forward="false" selection-start-line="60" selection-start-column="9" selection-end-line="60" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/docs/SunburstPart1.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -915,14 +883,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SunburstPart3.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="73" lean-forward="true" selection-start-line="9" selection-start-column="73" selection-end-line="9" selection-end-column="73" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/SunburstPart4b.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -935,13 +895,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-626">
           <caret line="38" column="7" lean-forward="true" selection-start-line="38" selection-start-column="7" selection-end-line="38" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="35" column="58" lean-forward="false" selection-start-line="35" selection-start-column="34" selection-end-line="35" selection-end-column="58" />
         </state>
       </provider>
     </entry>
@@ -965,22 +918,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="15" column="30" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="27" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/corpusA.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="55" lean-forward="false" selection-start-line="1" selection-start-column="55" selection-end-line="1" selection-end-column="55" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Libraries/skeleton.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="176" column="21" lean-forward="true" selection-start-line="176" selection-start-column="2" selection-end-line="176" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1008,36 +945,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/topicSunburst.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="39">
-          <caret line="65" column="51" lean-forward="false" selection-start-line="65" selection-start-column="51" selection-end-line="65" selection-end-column="51" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#2356#2454#0" expanded="true" />
-            <element signature="n#!!block;n#highlightSelectedSlice#0" expanded="true" />
-            <element signature="e#3165#3525#0" expanded="true" />
-            <element signature="n#!!block;n#showDate#0" expanded="true" />
-            <element signature="n#!!block;n#getData#0" expanded="true" />
-            <element signature="e#3983#4147#0" expanded="true" />
-            <element signature="n#!!block;n#showTopTopics#0" expanded="true" />
-            <element signature="n#!!block;n#arcTweenPath#0" expanded="true" />
-            <element signature="n#!!block;n#tween#0;n#!!block;n#arcTweenPath#0" expanded="true" />
-            <element signature="n#!!block;n#arcTweenText#0" expanded="true" />
-            <element signature="n#!!block;n#tween#0;n#!!block;n#arcTweenText#0" expanded="true" />
-            <element signature="n#!!block;n#computeTextRotation#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/scratch.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="601">
@@ -1054,10 +961,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/docs/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="35" column="58" lean-forward="false" selection-start-line="35" selection-start-column="34" selection-end-line="35" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Libraries/skeleton.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="258">
+          <caret line="121" column="6" lean-forward="false" selection-start-line="121" selection-start-column="2" selection-end-line="121" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="675">
-          <caret line="41" column="335" lean-forward="false" selection-start-line="41" selection-start-column="335" selection-end-line="41" selection-end-column="335" />
+        <state relative-caret-position="337">
+          <caret line="43" column="0" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="51" selection-end-column="56" />
           <folding>
             <element signature="e#1928#2137#0" expanded="true" />
             <marker date="1493477559000" expanded="true" signature="1363:1381" ph="..." />
@@ -1065,33 +996,82 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/SunburstPart3.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="14" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="23" column="32" lean-forward="false" selection-start-line="23" selection-start-column="24" selection-end-line="23" selection-end-column="32" />
+        <state relative-caret-position="885">
+          <caret line="59" column="22" lean-forward="false" selection-start-line="59" selection-start-column="22" selection-end-line="59" selection-end-column="22" />
           <folding>
             <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="e#876#882#0" expanded="true" />
+            <element signature="e#1310#1316#0" expanded="true" />
+            <element signature="e#1318#1324#0" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="e#1301#1307#0" expanded="true" />
-            <element signature="e#1307#1313#0" expanded="true" />
-            <element signature="e#1376#1382#0" expanded="true" />
-            <element signature="e#1395#1401#0" expanded="true" />
-            <element signature="e#1482#1488#0" expanded="true" />
-            <element signature="e#1501#1507#0" expanded="true" />
-            <element signature="e#1594#1600#0" expanded="true" />
-            <element signature="e#1611#1617#0" expanded="true" />
-            <element signature="e#1617#1623#0" expanded="true" />
-            <element signature="e#1623#1629#0" expanded="true" />
-            <element signature="e#1629#1635#0" expanded="true" />
-            <element signature="e#1635#1641#0" expanded="true" />
-            <element signature="e#1671#1677#0" expanded="true" />
-            <element signature="e#1677#1683#0" expanded="true" />
-            <element signature="e#1750#1756#0" expanded="true" />
-            <element signature="e#1769#1775#0" expanded="true" />
-            <element signature="e#1855#1861#0" expanded="true" />
+            <element signature="e#1851#1857#1" expanded="true" />
+            <element signature="e#1889#1895#0" expanded="true" />
+            <element signature="e#1895#1901#0" expanded="true" />
+            <element signature="e#1964#1970#0" expanded="true" />
+            <element signature="e#1983#1989#0" expanded="true" />
+            <element signature="e#2070#2076#0" expanded="true" />
+            <element signature="e#2089#2095#0" expanded="true" />
+            <element signature="e#2182#2188#0" expanded="true" />
+            <element signature="e#2199#2205#0" expanded="true" />
+            <element signature="e#2205#2211#0" expanded="true" />
+            <element signature="e#2211#2217#0" expanded="true" />
+            <element signature="e#2217#2223#0" expanded="true" />
+            <element signature="e#2223#2229#0" expanded="true" />
+            <element signature="e#2258#2264#0" expanded="true" />
+            <element signature="e#2264#2270#0" expanded="true" />
+            <element signature="e#2337#2343#0" expanded="true" />
+            <element signature="e#2356#2362#0" expanded="true" />
+            <element signature="e#2442#2448#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SunburstPart1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="840">
+          <caret line="60" column="9" lean-forward="false" selection-start-line="60" selection-start-column="9" selection-end-line="60" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/topicSunburst.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="92" column="6" lean-forward="false" selection-start-line="92" selection-start-column="6" selection-end-line="92" selection-end-column="6" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!block;n#drawSunburst#0" expanded="true" />
+            <element signature="e#2584#2682#0" expanded="true" />
+            <element signature="e#3474#4423#0" expanded="true" />
+            <element signature="n#!!block;n#showDate#0" expanded="true" />
+            <element signature="n#!!block;n#getData#0" expanded="true" />
+            <element signature="e#4885#5049#0" expanded="true" />
+            <element signature="n#!!block;n#showTopTopics#0" expanded="true" />
+            <element signature="n#!!block;n#arcTweenPath#0" expanded="true" />
+            <element signature="n#!!block;n#tween#0;n#!!block;n#arcTweenPath#0" expanded="true" />
+            <element signature="n#!!block;n#arcTweenText#0" expanded="true" />
+            <element signature="n#!!block;n#tween#0;n#!!block;n#arcTweenText#0" expanded="true" />
+            <element signature="n#!!block;n#computeTextRotation#0" expanded="true" />
+            <element signature="n#!!block;n#textToggle#0" expanded="true" />
+            <element signature="n#!!block;n#textToggleX#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/corpusA.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="6" column="181" lean-forward="false" selection-start-line="6" selection-start-column="181" selection-end-line="6" selection-end-column="181" />
+          <folding />
         </state>
       </provider>
     </entry>
