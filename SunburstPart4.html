@@ -7,34 +7,67 @@
 @import url('https://fonts.googleapis.com/css?family=Raleway');
 
 body {
-  font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 text {
     pointer-events: none;  /* Make text "non selectable" */
-}</style>
-<body>
-    <svg></svg><br>
-    Size: <label><input class="sizeSelect" type="radio" name="sizeSelect" value="size" checked> Size</label>
-    <label><input class="sizeSelect"  type="radio" name="sizeSelect" value="count"> Count</label><br>
-    Show: <label><input class="showSelect" type="radio" name="showSelect" value="top5" checked> Top 5</label>
-    <label><input class="showSelect"  type="radio" name="showSelect" value="top10"> Top 10</label>
-    <label><input class="showSelect" type="radio" name="showSelect" value="all"> All</label>
+}
 
+#main {
+  float: left;
+  width: 500px;
+}
+
+#sidebar {
+  float: right;
+  width: 300px;
+}
+
+button {
+    border: none;
+    color: white;
+    padding: 6px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+#leftButton {
+    border-radius: 10px 3px 3px 10px;
+}
+
+#rightButton {
+    border-radius: 3px 10px 10px 3px;
+}
+
+</style>
+<body>
+    <div id="main">
+        <svg></svg>
+    </div>
+    <div id="sidebar">
+        Size: <label><input class="sizeSelect" type="radio" name="sizeSelect" value="size" checked> Size</label>
+        <label><input class="sizeSelect"  type="radio" name="sizeSelect" value="count"> Count</label><br>
+        Show: <label><input class="showSelect" type="radio" name="showSelect" value="top5"> Top 1</label>
+        <label><input class="showSelect"  type="radio" name="showSelect" value="top10"> Top 2</label>
+        <label><input class="showSelect" type="radio" name="showSelect" value="all" checked> All</label><br>
+        <button id="leftButton">Button 1</button> <button id="rightButton">Button 2</button>
+    </div>
 </body>
 
 <script>
-
-    // TODO: Respond to click slice click even, place text in sidebar
-    // TODO: Top 1, 2, or All Topics
 
     // Variables
     var width = 500;
     var height = 500;
     var radius = Math.min(width, height) / 2;
     var color = d3.scaleOrdinal(d3.schemeCategory20b);
-    var maxDepth = 1;
-    var maxTopics = 2;
+    var color2 = d3.scaleOrdinal(d3.schemeCategory20b);
+
+    d3.selectAll('button').style("background-color",
+    color2()
+    );
 
     // Size our <svg> element, add a <g> element, and move translate 0,0 to the center of the element.
     var g = d3.select('svg')
@@ -43,154 +76,138 @@ text {
         .append('g')
         .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
 
-
     // Create our sunburst data structure and size it.
     var partition = d3.partition()
         .size([2 * Math.PI, radius]);
-
 
     // Get the data from our JSON file
     d3.json("data.json", function(error, nodeData) {
         if (error) throw error;
 
+        allNodes = nodeData;
         var showNodes = JSON.parse(JSON.stringify(nodeData));
+        drawSunburst(allNodes);
+    });
 
+    function drawSunburst(data) {
 
         // Find the root node, calculate the node.value, and sort our nodes by node.value
-        root = d3.hierarchy(showNodes)
+        root = d3.hierarchy(data)
             .sum(function (d) { return d.size; })
             .sort(function (a, b) { return b.value - a.value; });
-
 
         // Calculate the size of each arc; save the initial angles for tweening.
         partition(root);
         arc = d3.arc()
-            .startAngle(function (d) {
-                d.x0s = d.x0; return d.x0;
-            })
+            .startAngle(function (d) { d.x0s = d.x0; return d.x0; })
             .endAngle(function (d) { d.x1s = d.x1; return d.x1; })
             .innerRadius(function (d) { return d.y0; })
             .outerRadius(function (d) { return d.y1; });
 
-
         // Add a <g> element for each node; create the slice variable since we'll refer to this selection many times
-        var slice = g.selectAll('g')
-            .data(root.descendants())
-            .enter().append('g').attr("class", "node");
+        slice = g.selectAll('g.node').data(root.descendants(), function(d) { return d.data.name; }); // .enter().append('g').attr("class", "node");
+        newSlice = slice.enter().append('g').attr("class", "node").merge(slice);
+        slice.exit().remove();
 
+        // TRY 1: ID selection that's has been drawn previously... (requires us to set "drawn" down below)
+        //newSlice.filter ( function(d) { return !d.drawn; }).append('path')
+        //    .attr("display", function (d) { return d.depth ? null : "none"; }).style('stroke', '#fff');
+
+        // TRY 2: Only create paths on "first run"
+        //if (firstRun) {
+        //    newSlice.append('path').attr("display", function (d) { return d.depth ? null : "none"; }).style('stroke', '#fff');
+        //}
+
+        // TRY 1&2: Set path-d and color always. But this isn't using new arc...?
+        //newSlice.selectAll('path').attr("d", arc).style("fill", function (d) { return color((d.children ? d : d.parent).data.name); });
 
         // Append <path> elements and draw lines based on the arc calculations. Last, color the lines and the slices.
-        slice.append('path').attr("display", function (d) { return d.depth ? null : "none"; })
+        slice.selectAll('path').remove();
+        newSlice.append('path').attr("display", function (d) { return d.depth ? null : "none"; })
             .attr("d", arc)
             .style('stroke', '#fff')
             .style("fill", function (d) { return color((d.children ? d : d.parent).data.name); });
 
-
         // Populate the <text> elements with our data-driven titles.
-        slice.append("text")
+        slice.selectAll('text').remove();
+        newSlice.append("text")
             .attr("transform", function(d) {
                 return "translate(" + arc.centroid(d) + ")rotate(" + computeTextRotation(d) + ")"; })
             .attr("dx", "-20")
             .attr("dy", ".5em")
             .text(function(d) { return d.parent ? d.data.name : "" });
 
+        newSlice.on("click", highlightSelectedSlice);
+    };
 
-        // Redraw the Sunburst Based on User Input
-        d3.selectAll(".sizeSelect").on("click", sizeChooser);
+    d3.selectAll(".showSelect").on("click", showTopTopics);
+    d3.selectAll(".sizeSelect").on("click", sliceSizer);
 
-        function sizeChooser(r, i) {
+    // Redraw the Sunburst Based on User Input
+    function highlightSelectedSlice(c,i) {
 
-            // Determine how to size the slices.
-            if (this.value === "size") {
-              root.sum(function (d) { return d.size; });
+        clicked = c;
+        var rootPath = clicked.path(root).reverse();
+        rootPath.shift(); // remove root node from the array
+
+        newSlice.style("opacity", 0.4);
+        newSlice.filter(function(d) {
+            if (d === clicked && d.prevClicked) {
+                d.prevClicked = false;
+                newSlice.style("opacity", 1);
+                return true;
+
+            } else if (d === clicked) {
+                d.prevClicked = true;
+                return true;
             } else {
-              root.count();
+                d.prevClicked = false;
+                return (rootPath.indexOf(d) >= 0);
             }
-            root.sort(function(a, b) { return b.value - a.value; });
+        })
+            .style("opacity", 1);
 
-            partition(root);
+        //d3.select("#sidebar").text("another!");
 
-            slice.selectAll("path").transition().duration(750).attrTween("d", arcTweenPath);
-            slice.selectAll("text").transition().duration(750).attrTween("transform", arcTweenText);
-        };
+    };
 
-        // Redraw the Sunburst Based on User Input
-        d3.selectAll(".showSelect").on("click", showChooser);
+    // Redraw the Sunburst Based on User Input
+    function sliceSizer(r, i) {
 
-        function showChooser(r, i) {
-            //alert(this.value);
-            var showCount;
+        // Determine how to size the slices.
+        if (this.value === "size") {
+            root.sum(function (d) { return d.size; });
+        } else {
+            root.count();
+        }
+        root.sort(function(a, b) { return b.value - a.value; });
 
-            // Determine how to size the slices.
-            if (this.value === "top5") {
-                showCount = 1;
-            } else if (this.value === "top10") {
-                showCount = 2;
-            } else {
-                showCount = 100;
-            }
+        partition(root);
 
-            var showNodes = JSON.parse(JSON.stringify(nodeData));
-            showNodes.children.splice(showCount, (showNodes.children.length - showCount));
+        newSlice.selectAll("path").transition().duration(750).attrTween("d", arcTweenPath);
+        newSlice.selectAll("text").transition().duration(750).attrTween("transform", arcTweenText);
+    };
 
-                    // Find the root node, calculate the node.value, and sort our nodes by node.value
-            root = d3.hierarchy(showNodes)
-                .sum(function (d) { return d.size; })
-                .sort(function (a, b) { return b.value - a.value; });
+    // Redraw the Sunburst Based on User Input
+    function showTopTopics(r, i) {
+        //alert(this.value);
+        var showCount;
 
-            partition(root);
+        // Determine how to size the slices.
+        if (this.value === "top5") {
+            showCount = 1;
+        } else if (this.value === "top10") {
+            showCount = 2;
+        } else {
+            showCount = 100;
+        }
 
-            // Add a <g> element for each node; create the slice variable since we'll refer to this selection many times
-            var slice = g.selectAll('g')
-                .data(root.descendants())
-                .exit().remove();
+        var showNodes = JSON.parse(JSON.stringify(allNodes));
+        showNodes.children.splice(showCount, (showNodes.children.length - showCount));
 
-//            // Append <path> elements and draw lines based on the arc calculations. Last, color the lines and the slices.
-//            slice.append('path').attr("display", function (d) { return d.depth ? null : "none"; })
-//                .attr("d", arc)
-//                .style('stroke', '#fff')
-//                .style("fill", function (d) { return color((d.children ? d : d.parent).data.name); });
-//
-//
-//            // Populate the <text> elements with our data-driven titles.
-//            slice.append("text")
-//                .attr("transform", function(d) {
-//                    return "translate(" + arc.centroid(d) + ")rotate(" + computeTextRotation(d) + ")"; })
-//                .attr("dx", "-20")
-//                .attr("dy", ".5em")
-//                .text(function(d) { return d.parent ? d.data.name : "" });
-        };
+        drawSunburst(showNodes);
 
-
-        // Redraw the Sunburst Based on User Input
-        slice.on("click", function(c,i) {
-
-            clicked = c;
-            var rootPath = clicked.path(root).reverse();
-            rootPath.shift(); // remove root node from the array
-
-            slice.style("opacity", 0.4);
-            slice.filter(function(d) {
-                if (d === clicked && d.prevClicked) {
-                    d.prevClicked = false;
-                    slice.style("opacity", 1);
-                    return true;
-
-                } else if (d === clicked) {
-                    d.prevClicked = true;
-                    return true;
-                } else {
-                    d.prevClicked = false;
-                    return (rootPath.indexOf(d) >= 0);
-                }
-            })
-                .style("opacity", 1);
-
-            //d3.select("#sidebar").text("another!");
-
-        });
-    });
-
+    };
 
     /**
      * When switching data: interpolate the arcs in data space.
@@ -227,7 +244,6 @@ text {
         }
         return tween;
     }
-
 
     /**
      * Calculate the correct distance to rotate each label based on its location in the sunburst.
