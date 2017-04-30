@@ -1,5 +1,5 @@
 {
-    "name": "CORPUS A", "updated": "2017-04-10 8:15 AM ET", "children": [{
+    "name": "CORPUS A", "run_date": "2017-04-10 8:15 AM ET", "children": [{
         "name": "Topic A",
         "children": [{"name": "Sub A1", "size": 4, "rank": 1, "articles":
           [{"html": "<a href='https://twitter.com/' target='_blank'><img src='//logo.clearbit.com/twitter.com?size=40' class='img' /></a><b>Author</b>. All of the tweet text here.", "sentiment": 1, "source": "twitter"},

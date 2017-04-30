@@ -49,30 +49,30 @@ text {
 
         <div class="row">
             <div class="col-sm-6 vertical-align text-center">
-                <img src="Libraries/chat.png" height="50" width="50"/>
+                <img src="Libraries/chat.png" height="40" width="40"/>
                 <span class="align-top h1">Tell&nbsp;Me&nbsp;More</span>
             </div>
             <div class="col-sm-6 text-center">
 
                 <div class="btn-group pull-right" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-default">Corpus A</button>
-                    <button type="button" class="btn btn-default">Corpus B</button>
+                    <button type="button" class="btn btn-default corpus" id="corpusA">Corpus A</button>
+                    <button type="button" class="btn btn-default corpus" id="corpusB">Corpus B</button>
                 </div>
 
 
             </div>
         </div>
         <div class="row" style="margin-bottom: 2%">
-            <div class="col-sm-7 text-center">
+            <div class="col-sm-6 text-center">
                 <svg></svg><br>&nbsp;<br>
-                <b>Show</b>&nbsp;&nbsp;<label><input type="radio" name="topTopicsSelect" value="top5">&nbsp;Top 3</label>&nbsp;
-                <label><input type="radio" name="topTopicsSelect" value="top10">&nbsp;Top 6</label>&nbsp;
-                <label><input type="radio" name="topTopicsSelect" value="all" checked>&nbsp;All</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <b>Show</b>&nbsp;&nbsp;<label><input type="radio" name="topTopicsSelect" value="top5" id="top5">&nbsp;Top 5</label>&nbsp;
+                <label><input type="radio" name="topTopicsSelect" value="top10" id="top10">&nbsp;Top 10</label>&nbsp;
+                <label><input type="radio" name="topTopicsSelect" value="all" id="all" checked>&nbsp;All</label><br>
 
-                <b>When</b>&nbsp;&nbsp;<label><input type="radio" name="dateSelect" value="today" checked>&nbsp;Today</label>&nbsp;
-                <label><input type="radio" name="dateSelect" value="yesterday">&nbsp;Yesterday</label>
+                <b>When</b>&nbsp;&nbsp;<label><input type="radio" name="dateSelect" value="today" id="today" checked>&nbsp;Today</label>&nbsp;
+                <label><input type="radio" name="dateSelect" value="yesterday" id="yesterday">&nbsp;Yesterday</label>
             </div>
-            <div class="col-sm-5" id="sidebar">
+            <div class="col-sm-6" id="sidebar"><span class="h3"></span>
 
             </div>
         </div>

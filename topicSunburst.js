@@ -4,18 +4,21 @@
 
 
 /*
+TODO: Rotate labels
+
 TODO: Fix article inclusion
 TODO: Fix color palette (reds / greens for article, blue range for sunburst, [?] for corpus buttons)
 TODO: Colorblind option (orange / blue for article, blue range for sunburst, [?] for corpus buttons)
 TODO: Add colorblind toggle
-TODO: Default sunburst to Top 5 (update labels)
-
+TODO: Fix root label.
+TODO: Shrink center (root)?
 
 
 Phase 2:
 * Article Sort
 * Article Like, Junk (bad match)
 * Improve chooser button coloring (once we have 3)
+* Default sunburst to Top 5 (update labels)
 
  */
 
@@ -74,9 +77,13 @@ function drawSunburst(data) {
     newSlice.append("text")
         .attr("transform", function(d) {
             return "translate(" + arc.centroid(d) + ")rotate(" + computeTextRotation(d) + ")"; })
-        .attr("dx", function(d) { return (d.parent? "-20" : "-40")} )
-        .attr("dy", function(d) { return (d.parent? ".5em" : "-3em")})
-        .text(function(d) { return d.data.name });
+        .attr("dx", function(d) { return (d.parent? "-30" : "")} )  // "-20" for rim labels
+        .attr("dy", function(d) { return (d.parent? ".25em" : "-3em")}) // ".5em" for rim labels
+        .text(function(d) {
+            return d.data.name.split(' ').slice(0,2).join(' ')
+        })
+        .attr("opacity", function (d) { return d.x1 - d.x0 > 0.06 ? 1 : 0; });
+    // TODO: Text "wrap" for longer lines... (and add ellipsis for strings longer than 2 words)
 
     newSlice.on("click", highlightSelectedSlice);
 }
@@ -84,7 +91,7 @@ function drawSunburst(data) {
 
 d3.selectAll("input[name=topTopicsSelect]").on("click", showTopTopics);
 d3.selectAll("input[name=dateSelect]").on("click", showDate);
-d3.selectAll("input.corpus").on("click", getData);
+d3.selectAll("button.corpus").on("click", getData);
 
 // Redraw the Sunburst Based on User Input
 function highlightSelectedSlice(c,i) {
@@ -96,24 +103,31 @@ function highlightSelectedSlice(c,i) {
 
     newSlice.style("opacity", 0.4);
     newSlice.filter(function(d) {
+        // We clicked on the last slice clicked & this is the node: unchoose everything
         if (d === clicked && d.prevClicked) {
-            // var div = d3.select("#sidebar").selectAll("div").data();
-            // div.exit().remove();
+            d3.select("#sidebar").selectAll("span").text("");
+            d3.select("#sidebar").selectAll("div").remove();
 
             d.prevClicked = false;
             newSlice.style("opacity", 1);
             return true;
 
-        } else if (d === clicked) {
+        } else if (d === clicked) { // Clicked a new node & this is the node: update path
 
-            d3.select("#sidebar").selectAll("div").data(c.data.articles)
-                .enter().append('div').classed('row', true)
-                .append('div').classed('bs-callout', true).classed( 'bs-callout-positive', function(d) {return d.sentiment === 1 })
-                .classed( 'bs-callout-negative', function(d) {return d.sentiment === 0 })
-                .html( function(d) { return d.html; });
+            try {
+                d3.select("#sidebar").selectAll("span").text( function(d) { return c.data.name });
 
+                // Add texts to the sidebar...
+                var divs = d3.select("#sidebar").selectAll("div").data(c.data.text_ids);
+                var newDivs = divs.enter().append('div').classed('row', true)
+                    .append('div').classed('bs-callout', true)
+                    //.classed('bs-callout-positive', function (d) { return d.sentiment === 1  })
+                    //.classed('bs-callout-negative', function (d) { return d.sentiment === 0 })
+                    .html(function (d) { return d; }).merge(divs);
+                divs.exit().remove();
 
-            d3.selectAll(".textToggle").on("click", textToggle);
+                d3.selectAll(".textToggle").on("click", textToggle);
+            } catch (e) { }
 
             d.prevClicked = true;
             return true;
@@ -123,10 +137,6 @@ function highlightSelectedSlice(c,i) {
         }
     }).style("opacity", 1);
 
-
-
-
-
 }
 
 
@@ -135,18 +145,22 @@ function showDate() {
 }
 
 
+
 function getData() {
 
-    switch(this.value) {
-        case "Corpus A":
-            corpus = "corpusA.json";
+    switch(this.id) {
+        case "corpusA":
+            corpus = "Data/corpusATopics.json";
             break;
-        case "Corpus B":
-            corpus = "corpusB.json";
+        case "corpusB":
+            corpus = "Data/corpusBTopics.json";
             break;
         default:
-            corpus = "corpusA.json";
+            corpus = "Data/corpusATopics.json";
     }
+
+
+    document.getElementById('all').checked = true;
 
     // Get the data from our JSON file
     d3.json(corpus, function(error, nodeData) {
@@ -167,10 +181,13 @@ function showTopTopics(r, i) {
 
     switch(this.value) {
         case "top5":
-            root.sum(function (d) { d.topSize = (d.rank <= 3) ? d.size : 0; return d.topSize; });
+            root.sum(function (d) {
+                d.topSize = (d.rank <= 5) ? d.size : 0;
+                return d.topSize;
+            });
             break;
         case "top10":
-            root.sum(function (d) { d.topSize = (d.rank <= 6) ? d.size : 0; return d.topSize; });
+            root.sum(function (d) { d.topSize = (d.rank <= 10) ? d.size : 0; return d.topSize; });
             break;
         default:
             root.sum(function (d) { d.topSize = d.size; return d.topSize; });
@@ -180,7 +197,7 @@ function showTopTopics(r, i) {
 
     newSlice.selectAll("path").transition().duration(750).attrTween("d", arcTweenPath);
     newSlice.selectAll("text").transition().duration(750).attrTween("transform", arcTweenText)
-        .attr("opacity", function (d) { return d.x1 - d.x0 > 0.01 ? 1 : 0; });
+        .attr("opacity", function (d) { return d.x1 - d.x0 > 0.06 ? 1 : 0; });
 }
 
 
@@ -221,6 +238,7 @@ function arcTweenText(a, i) {
     return tween;
 }
 
+
 /**
  * Calculate the correct distance to rotate each label based on its location in the sunburst.
  * @param {Node} d
@@ -230,9 +248,10 @@ function computeTextRotation(d) {
     var angle = (d.x0 + d.x1) / Math.PI * 90;
 
     // Avoid upside-down labels
-    return (angle < 120 || angle > 270) ? angle : angle + 180;  // labels as rims
-    //return (angle < 180) ? angle - 90 : angle + 90;  // labels as spokes
+    //return (angle < 120 || angle > 270) ? angle : angle + 180;  // labels as rims
+    return (angle < 180) ? angle - 90 : angle + 90;  // labels as spokes
 }
+
 
 function textToggle() {
     var string = document.getElementById(this.id + 't');
@@ -240,14 +259,5 @@ function textToggle() {
         string.style.display = '';
     } else {
         string.style.display = 'none';
-    }
-}
-
-function textToggleX() {
-    var string = document.getElementById(this.id + 't');
-    if (string.style.visibility === 'hidden') {
-        string.style.visibility = '';
-    } else {
-        string.style.visibility = 'hidden';
     }
 }
