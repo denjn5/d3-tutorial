@@ -121,8 +121,9 @@ function selectSlice(c) {
                     d3.select("#sidebar").selectAll("span").text(c.data.name);
 
                     // Add texts to the sidebar...
-                    var divs = d3.select("#sidebar").selectAll("div").data(c.data.text_ids);
-                    divs.enter().append("div").classed("row", true)
+                    // TODO: Do I really want to name this "id"?
+                    var divs = d3.select("#sidebar").selectAll("div").data(c.data.id);
+                    var newDivs = divs.enter().append("div").classed("row", true)
                         .append("div").classed("bs-callout", true)
                         //.classed("bs-callout-positive", function (d) { return d.sentiment === 1  })
                         //.classed("bs-callout-negative", function (d) { return d.sentiment === 0 })
