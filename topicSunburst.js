@@ -24,9 +24,9 @@ var width = 400;
 var height = 400;
 var radius = Math.min(width, height) / 2;
 var color = d3.scaleOrdinal(d3.schemeCategory20b);
-var corpus = "corpusA.json";
 var arc;
-var allNodes;
+var allTopicsData;
+var allTextsData;
 var slice;
 var newSlice;
 var root;
@@ -44,7 +44,7 @@ var g = d3.select("svg")
 var partition = d3.partition()
     .size([2 * Math.PI, radius]);
 
-getData();
+getTopicsData();
 
 function drawSunburst(data) {
 
@@ -92,11 +92,11 @@ function drawSunburst(data) {
 
 d3.selectAll("input[name=topTopicsSelect]").on("click", showTopTopics);
 d3.selectAll("input[name=dateSelect]").on("click", showDate);
-d3.selectAll("button.corpus").on("click", getData);
+d3.selectAll("button.corpus").on("click", getTopicsData);
 
 // Redraw the Sunburst Based on User Input
 function selectSlice(c) {
-
+    getTextsData();
     var clicked = c;
     try {
 
@@ -109,7 +109,7 @@ function selectSlice(c) {
         // We clicked on the last slice clicked & this is the node: unchoose everything
             if (d === clicked && d.prevClicked) {
                 d3.select("#sidebar").selectAll("span").text("");
-                d3.select("#sidebar").selectAll("div").remove();
+                d3.select("#sidebar").selectAll("li").remove();
 
                 d.prevClicked = false;
                 newSlice.style("opacity", 1);
@@ -122,13 +122,17 @@ function selectSlice(c) {
 
                     // Add texts to the sidebar...
                     // TODO: Do I really want to name this "id"?
-                    var divs = d3.select("#sidebar").selectAll("div").data(c.data.id);
-                    var newDivs = divs.enter().append("div").classed("row", true)
-                        .append("div").classed("bs-callout", true)
-                        //.classed("bs-callout-positive", function (d) { return d.sentiment === 1  })
-                        //.classed("bs-callout-negative", function (d) { return d.sentiment === 0 })
-                        .html(function (d) { return d; }).merge(divs);
+                    var divs = d3.select("#sidebar").selectAll("divs").data(
+                        allTextsData,
+                        function(d) { return d; }).style("color", "blue");
+                    // var divs = d3.select("#sidebar").selectAll("divs").data(c.data.id,
+                    //     function(d) { return d; }).style("color", "blue");
+                    var newDivs = divs.enter().append("divs").style("color", "green")
+                        .merge(divs).style("color", "orange")
+                        .text(function (d) { return d; });
+
                     divs.exit().remove();
+
 
                     d3.selectAll(".textToggle").on("click", textToggle);
                 } catch (e) { }
@@ -158,7 +162,7 @@ function showDate() {
 
 
 
-function getData() {
+function getTopicsData() {
 
     switch(this.id) {
         case "corpusA":
@@ -171,18 +175,43 @@ function getData() {
             corpus = "Data/corpusATopics.json";
     }
 
-    //document.getElementById("all").checked = true;
-
     // Get the data from our JSON file
-    d3.json(corpus, function(error, nodeData) {
+    d3.json(corpus, function(error, topicsData) {
         if (error) throw error;
 
-        allNodes = nodeData;
-        var showNodes = JSON.parse(JSON.stringify(nodeData));
+        allTopicsData = topicsData;
+        var showTopicNodes = JSON.parse(JSON.stringify(topicsData));
 
-        drawSunburst(showNodes);
+        drawSunburst(showTopicNodes);
         showTopTopics();
         selectSlice();
+    });
+
+}
+
+function getTextsData() {
+
+    switch(this.id) {
+        case "corpusA":
+            corpus = "Data/corpusATexts.json";
+            break;
+        case "corpusB":
+            corpus = "Data/corpusBTexts.json";
+            break;
+        default:
+            corpus = "Data/corpusATexts.json";
+    }
+
+    // Get the data from our JSON file
+    d3.json(corpus, function(error, textsData) {
+        if (error) throw error;
+
+        allTextsData = textsData;
+        var showTextsNodes = JSON.parse(JSON.stringify(textsData));
+
+        //drawSunburst(showNodes);
+        //showTopTopics();
+        //selectSlice();
     });
 
 }
