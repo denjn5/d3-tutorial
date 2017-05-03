@@ -109,7 +109,7 @@ function selectSlice(c) {
         // We clicked on the last slice clicked & this is the node: unchoose everything
             if (d === clicked && d.prevClicked) {
                 d3.select("#sidebar").selectAll("span").text("");
-                d3.select("#sidebar").selectAll("li").remove();
+                d3.select("#sidebar").selectAll("div").remove();
 
                 d.prevClicked = false;
                 newSlice.style("opacity", 1);
@@ -122,14 +122,10 @@ function selectSlice(c) {
 
                     // Add texts to the sidebar...
                     // TODO: Do I really want to name this "id"?
-                    var divs = d3.select("#sidebar").selectAll("divs").data(
-                        allTextsData,
-                        function(d) { return d; }).style("color", "blue");
-                    // var divs = d3.select("#sidebar").selectAll("divs").data(c.data.id,
-                    //     function(d) { return d; }).style("color", "blue");
-                    var newDivs = divs.enter().append("divs").style("color", "green")
-                        .merge(divs).style("color", "orange")
-                        .text(function (d) { return d; });
+                    var divs = d3.select("#sidebar").selectAll("divs")
+                        .data( allTextsData, function(d) { return d; });
+                    var newDivs = divs.enter().append("divs").merge(divs)
+                        .html(function (d) {return d.htmlCard; });
 
                     divs.exit().remove();
 
