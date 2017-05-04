@@ -45,6 +45,11 @@ var partition = d3.partition()
     .size([2 * Math.PI, radius]);
 
 getTopicsData();
+getTextsData();
+
+d3.selectAll("input[name=topTopicsSelect]").on("click", showTopTopics);
+d3.selectAll("input[name=dateSelect]").on("click", showDate);
+d3.selectAll("button.corpus").on("click", getTopicsData);
 
 function drawSunburst(data) {
 
@@ -90,13 +95,9 @@ function drawSunburst(data) {
 }
 
 
-d3.selectAll("input[name=topTopicsSelect]").on("click", showTopTopics);
-d3.selectAll("input[name=dateSelect]").on("click", showDate);
-d3.selectAll("button.corpus").on("click", getTopicsData);
-
 // Redraw the Sunburst Based on User Input
 function selectSlice(c) {
-    getTextsData();
+
     var clicked = c;
     try {
 
@@ -123,12 +124,13 @@ function selectSlice(c) {
                     // Add texts to the sidebar...
                     // TODO: Do I really want to name this "id"?
                     var divs = d3.select("#sidebar").selectAll("divs")
-                        .data( allTextsData, function(d) { return d; });
+                        .data(allTextsData.filter(function(text) {
+                                return text['topics'].indexOf(c.data.name) >= 0; }),
+                            function(d) { return d; });
                     var newDivs = divs.enter().append("divs").merge(divs)
                         .html(function (d) {return d.htmlCard; });
-
+                    // stylesheet.insertRule("mark { background-color: yellow;}", 0);
                     divs.exit().remove();
-
 
                     d3.selectAll(".textToggle").on("click", textToggle);
                 } catch (e) { }
@@ -160,15 +162,11 @@ function showDate() {
 
 function getTopicsData() {
 
-    switch(this.id) {
-        case "corpusA":
-            corpus = "Data/corpusATopics.json";
-            break;
-        case "corpusB":
-            corpus = "Data/corpusBTopics.json";
-            break;
-        default:
-            corpus = "Data/corpusATopics.json";
+    var corpus;
+    if (this.id !== "corpusA") {
+        corpus = "Data/corpusATopics.json";
+    } else {
+        corpus = "Data/corpusBTopics.json";
     }
 
     // Get the data from our JSON file
@@ -187,15 +185,11 @@ function getTopicsData() {
 
 function getTextsData() {
 
-    switch(this.id) {
-        case "corpusA":
-            corpus = "Data/corpusATexts.json";
-            break;
-        case "corpusB":
-            corpus = "Data/corpusBTexts.json";
-            break;
-        default:
-            corpus = "Data/corpusATexts.json";
+    var corpus;
+    if (this.id !== "corpusA") {
+        corpus = "Data/corpusATexts.json";
+    } else {
+        corpus = "Data/corpusBTexts.json";
     }
 
     // Get the data from our JSON file
@@ -203,11 +197,6 @@ function getTextsData() {
         if (error) throw error;
 
         allTextsData = textsData;
-        var showTextsNodes = JSON.parse(JSON.stringify(textsData));
-
-        //drawSunburst(showNodes);
-        //showTopTopics();
-        //selectSlice();
     });
 
 }
