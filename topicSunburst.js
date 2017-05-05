@@ -30,10 +30,14 @@ var allTextsData;
 var slice;
 var newSlice;
 var root;
-var corpusA = 'Matthew';  // These MUST be named the same as the buttonGroupIDs
-var corpusB = 'Jonah';
-var corpusC = 'Revelation';
+var corpusA = 'Genesis';  // These variable names bind us to the buttonGroupIDs
+var corpusB = 'Jonah';  // And the variable values must correspond to the file name
+var corpusC = 'Revelation';  // And these values are used for the buttonGroup labels.
 
+
+document.getElementById("corpusA").innerHTML = corpusA;
+document.getElementById("corpusB").innerHTML = corpusB;
+document.getElementById("corpusC").innerHTML = corpusC;
 
 // Size our <svg> element, add a <g> element, and move translate 0,0 to the center of the element.
 var g = d3.select("svg")
@@ -125,7 +129,7 @@ function selectSlice(c) {
             } else if (d === clicked) { // Clicked a new node & this is the node: update path
 
                 try {
-                    d3.select("#sidebar").selectAll("span").text(c.data.name);
+                    document.getElementById("topicName").innerHTML = "Topic: '" + c.data.name + "'";
 
                     // Add texts to the sidebar...
                     // TODO: Do I really want to name this "id"?
@@ -164,8 +168,13 @@ function showDate() {
 
 function getTopicsData() {
 
-    var corpusName = ((this.id) ? window[this.id] : corpusA);
+    // Update the sunburst center corpus name
+    var corpusName = (this.id ? window[this.id] : corpusA);
     document.getElementById("corpusName").innerHTML = corpusName;
+
+    //document.getElementById("corpusA").classed('btn-primary', (this.id ? true : false));
+    //document.getElementById("corpusB").innerHTML = corpusB;
+    //document.getElementById("corpusC").innerHTML = corpusC;
 
     // this line assumes that we have a variable with the same name as the this.id assigned (at the top of the file).
     var corpusPath = "Data/Topics-" + corpusName + ".json";

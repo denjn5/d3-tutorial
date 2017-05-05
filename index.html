@@ -22,8 +22,10 @@
         font-family: 'Raleway', Arial, sans-serif;
     }
 
+
+
     text {
-        pointer-events: none; /* Make text "non selectable" */
+        pointer-events: none; /* Make sunburst labels non-selectable */
     }
 
     .bs-callout {
@@ -34,16 +36,21 @@
         border-radius: 3px;
     }
 
-    .bs-callout-positive {
+    .bs-callout-pos {
         border-left-color: #5cb85c;
     }
 
-    .bs-callout-negative {
+    .bs-callout-neg {
         border-left-color: #d9534f;
     }
 
     mark {
         background-color: transparent;
+    }
+
+    .titleImage {
+            position: absolute;
+            top: 0px;
     }
 
     #corpusName {
@@ -58,7 +65,7 @@
 
     .card {
         position: relative;
-        width: 500px;
+        width: 100%;
         height: 94px;
         overflow: hidden;
     }
@@ -88,7 +95,7 @@
     .cardText {
         position: absolute;
         top: 30px;
-        width: 425px;
+        width: calc(100% - 64px);
         text-align: left;
     }
 
@@ -99,25 +106,26 @@
 
     <div class="row">
         <!-- Sunburst Column w/ 3 rows: Title, Sunburst, User Controls -->
-        <div class="col-sm-6">
+        <div class="col-md-6">
             <div class="row">  <!-- Title -->
-                <div class="col-sm-12 vertical-align text-center">
-                    <img src="Logos/chat.png" height="40" width="40"/>
+                <div class="col-md-12 text-center" style="line-height: 50px;">
+                    <img class="titleImage" src="Logos/chat.png" height="40"/>
                     <span class="align-top h1">Tell&nbsp;Me&nbsp;More</span>
                 </div>
             </div>
 
             <div class="row">  <!-- Sunburst -->
-                <div class="col-sm-12 text-center">
-                    <div id="corpusName" class="h4">
+                <div class="col-md-12 text-center">
 
-                    </div>
-                    <svg></svg>
+                    <svg>
+                        <text x="50%" y="48%" alignment-baseline="middle" text-anchor="middle" id="corpusName" class="h4">TEXT</text>
+
+                    </svg>
                 </div>
             </div>
 
             <div class="row">  <!-- Corpus Selector -->
-                <div class="col-sm-12 text-center">
+                <div class="col-md-12 text-center">
                     <br>&nbsp;<br>
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <button type="button" class="btn btn-primary corpus" id="corpusA">Corpus A</button>
@@ -129,17 +137,21 @@
             </div>
 
             <div class="row">  <!-- User Controls -->
-                <div class="col-sm-12 text-center">
-                    <b>Show</b>&nbsp;&nbsp;<label><input type="radio" name="topTopicsSelect" value="top5" id="top5">&nbsp;Top
-                    5</label>&nbsp;
-                    <label><input type="radio" name="topTopicsSelect" value="top10" id="top10" checked>&nbsp;Top
-                        10</label>&nbsp;
-                    <label><input type="radio" name="topTopicsSelect" value="all" id="all">&nbsp;All</label><br>
+                <div class="col-md-12 text-center">
+                    <b>Show</b>&nbsp;&nbsp;
+                    <label>
+                        <input type="radio" name="topTopicsSelect" value="top5" id="top5">&nbsp;Top 5</label>
+                    &nbsp;<label>
+                    <input type="radio" name="topTopicsSelect" value="top10" id="top10" checked>&nbsp;Top 10</label>
+                    &nbsp;<label>
+                    <input type="radio" name="topTopicsSelect" value="all" id="all">&nbsp;All</label>
+                    <br>
 
-                    <b>When</b>&nbsp;&nbsp;<label><input type="radio" name="dateSelect" value="today" id="today"
-                                                         checked>&nbsp;Today</label>&nbsp;
-                    <label><input type="radio" name="dateSelect" value="yesterday"
-                                  id="yesterday">&nbsp;Yesterday</label>
+                    <b>When</b>&nbsp;&nbsp;<label>
+                    <input type="radio" name="dateSelect" value="today" id="today" checked>&nbsp;Today</label>
+                    &nbsp;<label>
+                    <input type="radio" name="dateSelect" value="yesterday" id="yesterday">&nbsp;Yesterday</label>
+                    <br>&nbsp;<br>
                 </div>
             </div>
 
@@ -147,16 +159,16 @@
         </div>
 
         <!-- Texts Column w/ 2 rows: Topic, Texts -->
-        <div class="col-sm-6">
+        <div class="col-md-6">
             <div class="row">  <!-- Topic -->
-                <div class="col-sm-12 text-center">
+                <div class="col-md-12"><span id="topicName" class="h3"></span>
                 </div>
             </div>
 
             <div class="row">  <!-- Texts -->
-                <div class="col-sm-12 text-center">
-                    <div class="col-sm-6" id="sidebar"><span class="h3"></span>
-                    </div>
+                <div id="sidebar" class="col-md-12 text-center">
+
+
                 </div>
             </div>
         </div>

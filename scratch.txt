@@ -1,3 +1,14 @@
+
+    // TODO: Fix Page Title Centering (vert)
+    // TODO: Fix card text width (variable?)
+    // TODO: Fix Topics file pull (it's not pulling...)
+    // TODO: Fix sunburst center title centering
+    // TODO: Add Jesus & God as NERs to spaCy
+
+
+
+
+
     var partition = d3.partition()
         .size([2 * Math.PI, radius]);
     /*
