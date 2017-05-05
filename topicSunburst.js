@@ -20,8 +20,8 @@ Phase 2:
  */
 
 // Variables
-var width = 400;
-var height = 400;
+var width = 500;
+var height = 500;
 var radius = Math.min(width, height) / 2;
 var color = d3.scaleOrdinal(d3.schemeCategory20b);
 var arc;
@@ -30,6 +30,9 @@ var allTextsData;
 var slice;
 var newSlice;
 var root;
+var corpusA = 'Matthew';  // These MUST be named the same as the buttonGroupIDs
+var corpusB = 'Jonah';
+var corpusC = 'Revelation';
 
 
 // Size our <svg> element, add a <g> element, and move translate 0,0 to the center of the element.
@@ -68,7 +71,8 @@ function drawSunburst(data) {
         .outerRadius(function (d) { return d.y1; });
 
     // Add a <g> element for each node; create the slice variable since we'll refer to this selection many times
-    slice = g.selectAll("g.node").data(root.descendants(), function(d) { return d.data.name; }); // .enter().append('g').attr("class", "node");
+    slice = g.selectAll("g.node").data(root.descendants(), function(d) { return d.data.name; });
+    // .enter().append('g').attr("class", "node");
     newSlice = slice.enter().append("g").attr("class", "node").merge(slice);
     slice.exit().remove();
 
@@ -78,17 +82,19 @@ function drawSunburst(data) {
     newSlice.append("path").attr("display", function (d) { return d.depth ? null : "none"; })
         .attr("d", arc)
         .style("stroke", "#fff")
-        .style("fill", function (d) { return color((d.children ? d : d.parent).data.name); });
+        .style("fill", function (d) { return color((d.children ? d : d.parent).data.name); })
+        .attr("display", function(d) { return d.depth ? null : "none"; });
 
     // Populate the <text> elements with our data-driven titles.
     slice.selectAll("text").remove();
     newSlice.append("text")
-        .attr("transform", function(d) {
-            return "translate(" + arc.centroid(d) + ")rotate(" + computeTextRotation(d) + ")"; })
+        //.attr("transform", function(d) {
+         //   return "translate(" + arc.centroid(d) + ")rotate(" + computeTextRotation(d) + ")"; })
         .attr("dx", function(d) { return (d.parent ? "-30" : ""); } )  // "-20" for rim labels
         .attr("dy", function(d) { return (d.parent ? ".25em" : "-3em"); }) // ".5em" for rim labels
         .text(function(d) { return d.data.name.split(" ").slice(0,2).join(" "); })
-        .attr("opacity", function (d) { return d.x1 - d.x0 > 0.06 ? 1 : 0; });
+        .attr("display", function(d) { return d.depth ? null : "none"; });
+        //.attr("opacity", function (d) { return d.x1 - d.x0 > 0.06 ? 1 : 0; });
     // TODO: Text "wrap" for longer lines... (and add ellipsis for strings longer than 2 words)
 
     newSlice.on("click", selectSlice);
@@ -99,7 +105,7 @@ function drawSunburst(data) {
 function selectSlice(c) {
 
     var clicked = c;
-    try {
+    //try {
 
         //var div = d3.select("#sidebar").selectAll("div").data(c.data.articles);
         var rootPath = clicked.path(root).reverse();
@@ -125,11 +131,9 @@ function selectSlice(c) {
                     // TODO: Do I really want to name this "id"?
                     var divs = d3.select("#sidebar").selectAll("divs")
                         .data(allTextsData.filter(function(text) {
-                                return text['topics'].indexOf(c.data.name) >= 0; }),
-                            function(d) { return d; });
+                                return text['topics'].indexOf(c.data.name) >= 0; }));
                     var newDivs = divs.enter().append("divs").merge(divs)
                         .html(function (d) {return d.htmlCard; });
-                    // stylesheet.insertRule("mark { background-color: yellow;}", 0);
                     divs.exit().remove();
 
                     d3.selectAll(".textToggle").on("click", textToggle);
@@ -142,14 +146,12 @@ function selectSlice(c) {
                 return (rootPath.indexOf(d) >= 0);
             }
         }).style("opacity", 1);
-    } catch(e) {
-        newSlice.filter(function(d) { d.prevClicked = false; return true; }).style("opacity", 1);
-        d3.select("#sidebar").selectAll("span").text("");
-        d3.select("#sidebar").selectAll("div").remove();
-
-    }
-
-
+    // } catch(e) {
+    //     newSlice.filter(function(d) { d.prevClicked = false; return true; }).style("opacity", 1);
+    //     d3.select("#sidebar").selectAll("span").text("");
+    //     d3.select("#sidebar").selectAll("div").remove();
+    //
+    // }
 
 }
 
@@ -162,15 +164,14 @@ function showDate() {
 
 function getTopicsData() {
 
-    var corpus;
-    if (this.id !== "corpusA") {
-        corpus = "Data/corpusATopics.json";
-    } else {
-        corpus = "Data/corpusBTopics.json";
-    }
+    var corpusName = ((this.id) ? window[this.id] : corpusA);
+    document.getElementById("corpusName").innerHTML = corpusName;
+
+    // this line assumes that we have a variable with the same name as the this.id assigned (at the top of the file).
+    var corpusPath = "Data/Topics-" + corpusName + ".json";
 
     // Get the data from our JSON file
-    d3.json(corpus, function(error, topicsData) {
+    d3.json(corpusPath, function(error, topicsData) {
         if (error) throw error;
 
         allTopicsData = topicsData;
@@ -185,15 +186,11 @@ function getTopicsData() {
 
 function getTextsData() {
 
-    var corpus;
-    if (this.id !== "corpusA") {
-        corpus = "Data/corpusATexts.json";
-    } else {
-        corpus = "Data/corpusBTexts.json";
-    }
+    // this line assumes that we have a variable with the same name as the this.id assigned (at the top of the file).
+    var corpusPath = "Data/Texts-" + ((this.id) ? window[this.id] : corpusA) + ".json";
 
     // Get the data from our JSON file
-    d3.json(corpus, function(error, textsData) {
+    d3.json(corpusPath, function(error, textsData) {
         if (error) throw error;
 
         allTextsData = textsData;

@@ -8,81 +8,163 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="Libraries/css/bootstrap.min.css">
     <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
-    <link rel="icon" type="image/png" href="Libraries/chat.png">
+    <link rel="icon" type="image/png" href="Logos/chat.png">
     <script src="https://d3js.org/d3.v4.min.js"></script>
 
 </head>
 <style>
-label, .h1 {
-    font-weight: 300;
-}
-body {
-    font-weight: 300;
-    font-family: 'Raleway', Arial, sans-serif;
-}
+    label, .h1 {
+        font-weight: 300;
+    }
 
-text {
-    pointer-events: none;  /* Make text "non selectable" */
-}
-.img {
-    padding-right: 8px;
-}
+    body {
+        font-weight: 300;
+        font-family: 'Raleway', Arial, sans-serif;
+    }
 
-.bs-callout {
-    padding: 8px;
-    margin: 6px 0;
-    border: 1px solid #eee;
-    border-right-width: 7px;
-    border-radius: 3px;
-}
+    text {
+        pointer-events: none; /* Make text "non selectable" */
+    }
 
-.bs-callout-positive {
-    border-right-color: #5cb85c;
-}
+    .bs-callout {
+        padding: 8px;
+        margin: 6px 0;
+        border: 1px solid #eee;
+        border-left-width: 7px;
+        border-radius: 3px;
+    }
 
-.bs-callout-negative {
-    border-right-color: #d9534f;
-}
+    .bs-callout-positive {
+        border-left-color: #5cb85c;
+    }
 
-mark.son {
-    background-color: transparent;
-}
+    .bs-callout-negative {
+        border-left-color: #d9534f;
+    }
+
+    mark {
+        background-color: transparent;
+    }
+
+    #corpusName {
+        position: absolute;
+        top: 220px;
+        left: 190px;
+        width: 150px;
+        text-align: center;
+        color: #666;
+        z-index: -1;
+    }
+
+    .card {
+        position: relative;
+        width: 500px;
+        height: 94px;
+        overflow: hidden;
+    }
+
+    .cardTitle {
+        position: absolute;
+        top: 0px;
+        right: 8px;
+        text-align: right;
+    }
+
+    .cardTime {
+        position: absolute;
+        top: 0px;
+        left: 8px;
+        text-align: left;
+        color: lightgray;
+    }
+
+    .cardImage {
+        position: absolute;
+        top: 30px;
+        right: 8px;
+        text-align: right;
+    }
+
+    .cardText {
+        position: absolute;
+        top: 30px;
+        width: 425px;
+        text-align: left;
+    }
+
+
 </style>
 <body>
-    <div class="container" style="margin: 2%">
+<div class="container" style="margin: 2%">
 
-        <div class="row">
-            <div class="col-sm-6 vertical-align text-center">
-                <img src="Libraries/chat.png" height="40" width="40"/>
-                <span class="align-top h1">Tell&nbsp;Me&nbsp;More</span>
-            </div>
-            <div class="col-sm-6 text-center">
-
-                <div class="btn-group pull-right" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-default corpus" id="corpusA">Corpus A</button>
-                    <button type="button" class="btn btn-default corpus" id="corpusB">Corpus B</button>
+    <div class="row">
+        <!-- Sunburst Column w/ 3 rows: Title, Sunburst, User Controls -->
+        <div class="col-sm-6">
+            <div class="row">  <!-- Title -->
+                <div class="col-sm-12 vertical-align text-center">
+                    <img src="Logos/chat.png" height="40" width="40"/>
+                    <span class="align-top h1">Tell&nbsp;Me&nbsp;More</span>
                 </div>
-
-
             </div>
+
+            <div class="row">  <!-- Sunburst -->
+                <div class="col-sm-12 text-center">
+                    <div id="corpusName" class="h4">
+
+                    </div>
+                    <svg></svg>
+                </div>
+            </div>
+
+            <div class="row">  <!-- Corpus Selector -->
+                <div class="col-sm-12 text-center">
+                    <br>&nbsp;<br>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-primary corpus" id="corpusA">Corpus A</button>
+                        <button type="button" class="btn btn-default corpus" id="corpusB">Corpus B</button>
+                        <button type="button" class="btn btn-default corpus" id="corpusC">Corpus C</button>
+                    </div>
+                    <br>&nbsp;<br>
+                </div>
+            </div>
+
+            <div class="row">  <!-- User Controls -->
+                <div class="col-sm-12 text-center">
+                    <b>Show</b>&nbsp;&nbsp;<label><input type="radio" name="topTopicsSelect" value="top5" id="top5">&nbsp;Top
+                    5</label>&nbsp;
+                    <label><input type="radio" name="topTopicsSelect" value="top10" id="top10" checked>&nbsp;Top
+                        10</label>&nbsp;
+                    <label><input type="radio" name="topTopicsSelect" value="all" id="all">&nbsp;All</label><br>
+
+                    <b>When</b>&nbsp;&nbsp;<label><input type="radio" name="dateSelect" value="today" id="today"
+                                                         checked>&nbsp;Today</label>&nbsp;
+                    <label><input type="radio" name="dateSelect" value="yesterday"
+                                  id="yesterday">&nbsp;Yesterday</label>
+                </div>
+            </div>
+
+
         </div>
-        <div class="row" style="margin-bottom: 2%">
-            <div class="col-sm-6 text-center">
-                <svg></svg><br>&nbsp;<br>
-                <b>Show</b>&nbsp;&nbsp;<label><input type="radio" name="topTopicsSelect" value="top5" id="top5">&nbsp;Top 5</label>&nbsp;
-                <label><input type="radio" name="topTopicsSelect" value="top10" id="top10" checked>&nbsp;Top 10</label>&nbsp;
-                <label><input type="radio" name="topTopicsSelect" value="all" id="all">&nbsp;All</label><br>
 
-                <b>When</b>&nbsp;&nbsp;<label><input type="radio" name="dateSelect" value="today" id="today" checked>&nbsp;Today</label>&nbsp;
-                <label><input type="radio" name="dateSelect" value="yesterday" id="yesterday">&nbsp;Yesterday</label>
+        <!-- Texts Column w/ 2 rows: Topic, Texts -->
+        <div class="col-sm-6">
+            <div class="row">  <!-- Topic -->
+                <div class="col-sm-12 text-center">
+                </div>
             </div>
-            <div class="col-sm-6" id="sidebar"><span class="h3"></span>
 
+            <div class="row">  <!-- Texts -->
+                <div class="col-sm-12 text-center">
+                    <div class="col-sm-6" id="sidebar"><span class="h3"></span>
+                    </div>
+                </div>
             </div>
         </div>
 
     </div>
 
-  <script src="topicSunburst.js"></script>
+</div>
+
+<script src="topicSunburst.js"></script>
 </body>
 </html>
