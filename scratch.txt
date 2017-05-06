@@ -1,131 +1,48 @@
 
-    // TODO: Fix Page Title Centering (vert)
-    // TODO: Fix card text width (variable?)
-    // TODO: Fix Topics file pull (it's not pulling...)
-    // TODO: Fix sunburst center title centering
-    // TODO: Add Jesus & God as NERs to spaCy
+
+Important:
+
+// FIXME: PAGE TITLE: Fix centering
+// FIXME: TEXTS: Why is it not pulling file?
+// FIXME: SHOW CARDS: Make outer ring work
+// FIXME: CORPUS BUTTONS: Highlight Selected
+// TODO: SUNBURST COLORS: Base on provided range (to create color consistency) [see old sunburst work]
+// TODO: POPUP MODAL: Add to show long-form content
+// TODO: CORPUS BUTTONS: Drive based on found files
+// TODO: DOCUMENT: Better document all methods
+// TODO: AS OF: Add topics file "as of" stamp to the sunburst center title (light gray?)
 
 
+Other:
+// TODO: NERs: Add Jesus & God to spaCy
+// TODO: BOOTSTRAP: Get "partial" file based on features we use (http://getbootstrap.com/customize/)
+// TODO: RALEWAY: Get from local
+// FEATURE: [A] POPOVER TITLES: Add to sunburst?
+// FEATURE: [B] MARKED text: (a) Highlight (b) Show it in Card
+// FEATURE: [C] Order Cards based on best one for this topic (e.g., Gensim's top sentence feature)
 
 
-
+Tutorial Ideas:
     var partition = d3.partition()
         .size([2 * Math.PI, radius]);
     /*
     LATER: 1/2 circle, 1/4 circle, 75% of the radius
     */
 
-
+TITLES:
     .append("title") creates a <title> element within each <path></path> element.
 
     .text(function (d) { return d.data.name; }) adds the name of the node to the <title> element, such as
     <title>Topic A</title>
 
-    http://jsfiddle.net/Hm49x/
+TEXT TOGGLE FUNCTION
 
 
-    // TODO: Make it respond to clicks. Show labels in a diff box on the page.
-    // TODO: Set colors based on source or sentiment
-    // TODO: Only show top X values in sunburst
-
-
-<style>
-#main {
-  float: left;
-  width: 750px;
+function textToggle() {
+    var string = document.getElementById(this.id + "t");
+    if (string.style.display === "none") {
+        string.style.display = "";
+    } else {
+        string.style.display = "none";
+    }
 }
-
-#sidebar {
-  float: right;
-  width: 100px;
-}
-</style>
-<body>
-    <div id="main">
-        <svg></svg>
-    </div>
-    <div id="sidebar">
-        <label><input class="sizeSelect" type="radio" name="mode" value="size" id="radioSize" checked> Size</label>
-        <label><input class="sizeSelect"  type="radio" name="mode" value="count" id="radioCount"> Count</label>
-    </div>
-</body>
-
-In our html body we've added several lines to get user input and display it properly (Tutorial 2 body contained only the <svg> tag).
-1) <div id="main">...</div> creates our main section. It contains our original <svg> element.
-2) <div id="main">...</div> creates our sidebar section.  We'll interact with the user here.
-3) <input class="sizeSelect" type="radio" name="mode" value="size" id="radioSize" checked> is our actual radio button element.
-    * class="sizeSelect" so that we can get a hold of it with d3.
-    * type="radio" tells html that this is a radio button.
-    * name="mode" tells html that all radio buttons with this name act as a unit, so if one is chosen, the others are un-chosen.
-    * value="size" is what gets returned when we test to see which radio button is selected.
-    * id="radioSize"
-
-
-d3.hierarchy(nodeData, function children(d) { return d.children; })
-
-
-
-        // Redraw the Sunburst Based on User Input
-        slice.on("click", function(d,i) {
-            var sequenceArray = d.ancestors().reverse();
-            sequenceArray.shift(); // remove root node from the array
-
-            slice.style("opacity", 0.4);
-            slice.filter(function(d) {
-                if (sequenceArray.indexOf(d) === sequenceArray.length - 1) {
-                    if (d.lastClicked) {
-                        d.lastClicked = false;
-                        slice.style("opacity", 1);
-
-                    } else {
-                        d.lastClicked = true;
-                    }
-
-                    //d3.select("#sidebar").data(d)
-                    //    .enter().append("hellow");
-                } else {
-                    d.lastClicked = false;
-
-                }
-
-
-            return (sequenceArray.indexOf(d) >= 0); })
-                .style("opacity", 1);
-
-            //d3.select("#sidebar").text("another!");
-
-
-            // TODO: Write text to #sidebar
-            // TODO: Make the labels "non selectable"
-        });
-        
-        
-        
-        
-        
-        
-        
-        mark {
-    background-color: yellow;
-    color: black;
-}
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-"<li class='positive twitter'><b><a href='https://twitter.com/' target='_blank'>Author</a></b>. All of the tweet text here.</li>",
-    "<li class='negative reddit'><a href='https://reddit.com/' target='_blank'><b>Title</b></a>. The first 30 words of the article<a href='#' onClick='textToggle('1')'>...</a><span style='visibility: hidden' id='1'>The 'rest' of the article here.</span></li>",
-    "<li class='semipositive twitter'><a href='https://twitter.com/' target='_blank'><b>Author</b></a>. The whole thing right here</li>",
-    "<li class='facebook'><a href='https://facebook.com/' target='_blank'><b>Title</b></a>. The first 30 words of the article<a href='#' onClick='textToggle('2')'>...</a><span style='visibility: hidden' id='2'>The 'rest' of the article here.</span></li>",
-    "<li class='youtube'><a href='https://youtube.com/' target='_blank'><b>Title</b></a>. The first 30 words of the article<a href='#' onClick='textToggle('3')'>...</a><span style='visibility: hidden' id='3'>The 'rest' of the article here.</span></li>",
-    "<li class='seminegative twitter'><a href='https://twitter.com/' target='_blank'><b>Author</b></a>. Should all fit here. =)</li>'"
-        
-        

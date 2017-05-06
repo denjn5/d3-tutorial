@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
     <title>Tell Me More</title>
+    <link rel="icon" type="image/png" href="Logos/chat.png">
     <meta charset="utf-8">
-    <meta name="description" content="">
+    <meta name="Explore topics for a set of texts usind d3 Sunburst and python Topic Modeling" content="">
     <meta name="David Richards" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="Libraries/css/bootstrap.min.css">
+    <link rel="stylesheet" href="Libraries/bootstrap-css/bootstrap.min.css">
     <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
-    <link rel="icon" type="image/png" href="Logos/chat.png">
-    <script src="https://d3js.org/d3.v4.min.js"></script>
-
+    <script src="Libraries/d3/d3.v4.min.js"></script>
+    <!-- local: Libraries/d3bootstrap-js4.js | cdn: https://d3js.org/d3.v4.min.js -->
 </head>
 <style>
     label, .h1 {
@@ -99,6 +99,12 @@
         text-align: left;
     }
 
+    .cardMore {
+        position: absolute;
+        top: 75px;
+        right: 8px;
+    }
+
 
 </style>
 <body>
@@ -161,7 +167,7 @@
         <!-- Texts Column w/ 2 rows: Topic, Texts -->
         <div class="col-md-6">
             <div class="row">  <!-- Topic -->
-                <div class="col-md-12"><span id="topicName" class="h3"></span>
+                <div class="col-md-12 h3" id="topicName">
                 </div>
             </div>
 

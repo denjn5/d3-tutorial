@@ -52,11 +52,12 @@ var partition = d3.partition()
     .size([2 * Math.PI, radius]);
 
 getTopicsData();
-getTextsData();
+// getTextsFile();
 
 d3.selectAll("input[name=topTopicsSelect]").on("click", showTopTopics);
 d3.selectAll("input[name=dateSelect]").on("click", showDate);
 d3.selectAll("button.corpus").on("click", getTopicsData);
+
 
 function drawSunburst(data) {
 
@@ -112,14 +113,15 @@ function selectSlice(c) {
     //try {
 
         //var div = d3.select("#sidebar").selectAll("div").data(c.data.articles);
-        var rootPath = clicked.path(root).reverse();
+        var rootPathOrig = clicked.path(root);
+        var rootPath = rootPathOrig.reverse();
         rootPath.shift(); // remove root node from the array
 
         newSlice.style("opacity", 0.4);
         newSlice.filter(function(d) {
         // We clicked on the last slice clicked & this is the node: unchoose everything
             if (d === clicked && d.prevClicked) {
-                d3.select("#sidebar").selectAll("span").text("");
+                d3.select("#topicName").html("");
                 d3.select("#sidebar").selectAll("div").remove();
 
                 d.prevClicked = false;
@@ -128,8 +130,8 @@ function selectSlice(c) {
 
             } else if (d === clicked) { // Clicked a new node & this is the node: update path
 
-                try {
-                    document.getElementById("topicName").innerHTML = "Topic: '" + c.data.name + "'";
+                // try {
+                    d3.select("#topicName").html("Topic: '" + c.data.name + "'");
 
                     // Add texts to the sidebar...
                     // TODO: Do I really want to name this "id"?
@@ -139,9 +141,7 @@ function selectSlice(c) {
                     var newDivs = divs.enter().append("divs").merge(divs)
                         .html(function (d) {return d.htmlCard; });
                     divs.exit().remove();
-
-                    d3.selectAll(".textToggle").on("click", textToggle);
-                } catch (e) { }
+                //} catch (e) { }
 
                 d.prevClicked = true;
                 return true;
@@ -165,8 +165,11 @@ function showDate() {
 }
 
 
-
 function getTopicsData() {
+
+    // Clear the sidebar
+    d3.select("#topicName").html("");
+    d3.select("#sidebar").selectAll("div").remove();
 
     // Update the sunburst center corpus name
     var corpusName = (this.id ? window[this.id] : corpusA);
@@ -188,30 +191,40 @@ function getTopicsData() {
 
         drawSunburst(showTopicNodes);
         showTopTopics();
-        selectSlice();
+        // selectSlice();
+        getTextsFile();
     });
 
 }
 
-function getTextsData() {
+/**
+ * Get the correct Texts file based on the corpus button selection.
+ */
+function getTextsFile() {
 
-    // this line assumes that we have a variable with the same name as the this.id assigned (at the top of the file).
+    // IMP: Must have var with the same name as this.id (assigned at top of the file currently).
     var corpusPath = "Data/Texts-" + ((this.id) ? window[this.id] : corpusA) + ".json";
 
     // Get the data from our JSON file
     d3.json(corpusPath, function(error, textsData) {
         if (error) throw error;
 
+        // Store texts data for use throughout this page.
         allTextsData = textsData;
     });
 
 }
 
 
-// Redraw the Sunburst Based on User Input
+/**
+ * Redraw the sunburst based on user selection of how many topics they want to see. We don't remove slices, we set their
+ * size to 0. And we animate the transition. "Top 10" is the default, so this gets called even at initial build.
+ */
 function showTopTopics() {
 
-    //if (this.value === "top5") {
+    // Create a "topSize" variable to store the size (0 or actual) based on user selection. Return that to the d3.sum
+    // function.
+    // TODO: Currently I stash a "rank" in all slices. Maybe better to base below calc on either local *or* parent rank?
     if (document.getElementById("top5").checked) {
         root.sum(function (d) { d.topSize = (d.rank <= 5) ? d.size : 0; return d.topSize; });
     } else if (document.getElementById("top10").checked) {
@@ -220,8 +233,8 @@ function showTopTopics() {
         root.sum(function (d) { d.topSize = d.size; return d.topSize; });
     }
 
+    // Recalculate partition data and then animate the redraw of both slices and text.
     partition(root);
-
     newSlice.selectAll("path").transition().duration(750).attrTween("d", arcTweenPath);
     newSlice.selectAll("text").transition().duration(750).attrTween("transform", arcTweenText)
         .attr("opacity", function (d) { return d.x1 - d.x0 > 0.06 ? 1 : 0; });
@@ -275,14 +288,4 @@ function computeTextRotation(d) {
     // Avoid upside-down labels
     //return (angle < 120 || angle > 270) ? angle : angle + 180;  // labels as rims
     return (angle < 180) ? angle - 90 : angle + 90;  // labels as spokes
-}
-
-
-function textToggle() {
-    var string = document.getElementById(this.id + "t");
-    if (string.style.display === "none") {
-        string.style.display = "";
-    } else {
-        string.style.display = "none";
-    }
 }
