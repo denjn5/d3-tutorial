@@ -30,6 +30,7 @@ var allTextsData;
 var slice;
 var newSlice;
 var root;
+var currentCorpus;
 var corpusA = 'Genesis';  // These variable names bind us to the buttonGroupIDs
 var corpusB = 'Jonah';  // And the variable values must correspond to the file name
 var corpusC = 'Revelation';  // And these values are used for the buttonGroup labels.
@@ -51,12 +52,13 @@ var g = d3.select("svg")
 var partition = d3.partition()
     .size([2 * Math.PI, radius]);
 
-getTopicsData();
+changeSelectedCorpus();
+// getTopicsData();
 // getTextsFile();
 
 d3.selectAll("input[name=topTopicsSelect]").on("click", showTopTopics);
 d3.selectAll("input[name=dateSelect]").on("click", showDate);
-d3.selectAll("button.corpus").on("click", getTopicsData);
+d3.selectAll("button.corpus").on("click", changeSelectedCorpus);
 
 
 function drawSunburst(data) {
@@ -165,22 +167,34 @@ function showDate() {
 }
 
 
-function getTopicsData() {
+function changeSelectedCorpus() {
 
-    // Clear the sidebar
+    currentCorpus = (this.id ? window[this.id] : corpusA);
+
+    getTopicsData();
+    getTextsFile();
+
+    // Update Page Labels
+    d3.select("#corpusName").html(currentCorpus);
     d3.select("#topicName").html("");
     d3.select("#sidebar").selectAll("div").remove();
 
-    // Update the sunburst center corpus name
-    var corpusName = (this.id ? window[this.id] : corpusA);
-    document.getElementById("corpusName").innerHTML = corpusName;
+    // Update Corpus Buttons
+    d3.selectAll(".corpus").classed("btn-primary", false);
+    if (this.id === "corpusB") {
+        d3.selectAll("#corpusB").classed("btn-primary", true);
+    } else if (this.id === "corpusC") {
+        d3.selectAll("#corpusC").classed("btn-primary", true);
+    } else {
+        d3.selectAll("#corpusA").classed("btn-primary", true);
+    }
 
-    //document.getElementById("corpusA").classed('btn-primary', (this.id ? true : false));
-    //document.getElementById("corpusB").innerHTML = corpusB;
-    //document.getElementById("corpusC").innerHTML = corpusC;
+}
+
+function getTopicsData() {
 
     // this line assumes that we have a variable with the same name as the this.id assigned (at the top of the file).
-    var corpusPath = "Data/Topics-" + corpusName + ".json";
+    var corpusPath = "Data/Topics-" + currentCorpus + ".json";
 
     // Get the data from our JSON file
     d3.json(corpusPath, function(error, topicsData) {
@@ -191,8 +205,7 @@ function getTopicsData() {
 
         drawSunburst(showTopicNodes);
         showTopTopics();
-        // selectSlice();
-        getTextsFile();
+
     });
 
 }
@@ -203,7 +216,7 @@ function getTopicsData() {
 function getTextsFile() {
 
     // IMP: Must have var with the same name as this.id (assigned at top of the file currently).
-    var corpusPath = "Data/Texts-" + ((this.id) ? window[this.id] : corpusA) + ".json";
+    var corpusPath = "Data/Texts-" + currentCorpus + ".json";
 
     // Get the data from our JSON file
     d3.json(corpusPath, function(error, textsData) {

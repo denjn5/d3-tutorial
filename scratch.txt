@@ -3,9 +3,7 @@
 Important:
 
 // FIXME: PAGE TITLE: Fix centering
-// FIXME: TEXTS: Why is it not pulling file?
 // FIXME: SHOW CARDS: Make outer ring work
-// FIXME: CORPUS BUTTONS: Highlight Selected
 // TODO: SUNBURST COLORS: Base on provided range (to create color consistency) [see old sunburst work]
 // TODO: POPUP MODAL: Add to show long-form content
 // TODO: CORPUS BUTTONS: Drive based on found files
