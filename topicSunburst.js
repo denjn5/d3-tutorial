@@ -2,22 +2,7 @@
  * Created by drichards on 4/28/17.
  */
 
-/*
 
-TODO: Document functions and variables
-TODO: Rotate labels
-TODO: Fix article inclusion
-TODO: Fix color palette (reds / greens for article, blue range for sunburst, [?] for corpus buttons)
-TODO: Fix root label.
-TODO: Shrink center (root)?
-
-Phase 2:
-* Article Sort
-* Article Like, Junk (bad match)
-* Improve chooser button coloring (once we have 3)
-* Default sunburst to Top 5 (update labels)
-* Colorblind palette and toggle
- */
 
 // Variables
 var width = 500;

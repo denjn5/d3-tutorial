@@ -2,22 +2,32 @@
 
 Important:
 
-// FIXME: PAGE TITLE: Fix centering
-// FIXME: SHOW CARDS: Make outer ring work
-// FIXME: TOPX: When selecting new TopX, unselect
-// TODO: DOCUMENTATION: Improve!
-
+FIXME: PAGE TITLE: Fix centering
+FIXME: SHOW CARDS: Make outer ring work
+FIXME: TOPX: When selecting new TopX, unselect
+TODO: DOCUMENTATION: Improve!
+TODO: Shrink center (root)?
+TODO: Long-line wrap?
 
 Other:
-// TODO: NERs: Add Jesus & God to spaCy
-// TODO: AS OF: Only include time if a/o is today
-// TODO: CARD EXPAND: Add "shorter" icon
-// TODO: CORPUS BUTTONS: Drive based on found files
-// TODO: BOOTSTRAP: Get "partial" file based on features we use (http://getbootstrap.com/customize/)
-// TODO: RALEWAY: Get from local
-// FEATURE: [A] POPOVER TITLES: Add to sunburst?
-// FEATURE: [B] MARKED text: (a) Highlight (b) Show it in Card
-// FEATURE: [C] Order Cards based on best one for this topic (e.g., Gensim's top sentence feature)
+TODO: NERs: Add Jesus & God to spaCy
+TODO: AS OF: Only include time if a/o is today
+TODO: CARD EXPAND: Add "shorter" icon
+TODO: CORPUS BUTTONS: Drive based on found files
+TODO: BOOTSTRAP: Get "partial" file based on features we use (http://getbootstrap.com/customize/)
+TODO: RALEWAY: Get from local
+TODO: COLORS: (a) colorblind
+FEATURE: [A] POPOVER TITLES: Add to sunburst?
+FEATURE: [B] MARKED text: (a) Highlight (b) Show it in Card
+FEATURE: [C] Order Cards based on best one for this topic (e.g., Gensim's top sentence feature)
+
+/*
+
+Phase 2:
+* Article Sort
+* Article Like, Junk (bad match)
+* Default sunburst to Top 5 (update labels)
+ */
 
 
 Tutorial Ideas:
