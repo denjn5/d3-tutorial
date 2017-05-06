@@ -22,16 +22,15 @@
         font-family: 'Raleway', Arial, sans-serif;
     }
 
-
-
     text {
         pointer-events: none; /* Make sunburst labels non-selectable */
+        fill: white;
     }
 
     .bs-callout {
         padding: 8px;
         margin: 6px 0;
-        border: 1px solid #eee;
+        border: 1px solid lightgray;
         border-left-width: 7px;
         border-radius: 3px;
     }
@@ -49,18 +48,12 @@
     }
 
     .titleImage {
-            position: absolute;
-            top: 0px;
+        position: absolute;
+        top: 0px;
     }
 
-    #corpusName {
-        position: absolute;
-        top: 220px;
-        left: 190px;
-        width: 150px;
-        text-align: center;
-        color: #666;
-        z-index: -1;
+    #corpusAsOf {
+        fill: lightgray;
     }
 
     .card {
@@ -87,7 +80,7 @@
 
     .cardImage {
         position: absolute;
-        top: 30px;
+        top: 35px;
         right: 8px;
         text-align: right;
     }
@@ -124,8 +117,9 @@
                 <div class="col-md-12 text-center">
 
                     <svg>
-                        <text x="50%" y="48%" alignment-baseline="middle" text-anchor="middle" id="corpusName" class="h4">TEXT</text>
-
+                        <text x="50%" y="48%" alignment-baseline="middle" text-anchor="middle" id="corpusName" class="h4"></text>
+                        <text x="50%" y="52%" alignment-baseline="middle" text-anchor="middle" id="corpusDate" class="h6"></text>
+                        <text x="50%" y="55%" alignment-baseline="middle" text-anchor="middle" id="corpusAsOf" class="h6"></text>
                     </svg>
                 </div>
             </div>

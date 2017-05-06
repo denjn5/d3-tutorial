@@ -23,7 +23,6 @@ Phase 2:
 var width = 500;
 var height = 500;
 var radius = Math.min(width, height) / 2;
-var color = d3.scaleOrdinal(d3.schemeCategory20b);
 var arc;
 var allTopicsData;
 var allTextsData;
@@ -31,7 +30,8 @@ var slice;
 var newSlice;
 var root;
 var currentCorpus;
-var corpusA = 'Genesis';  // These variable names bind us to the buttonGroupIDs
+var color = d3.scaleLinear().domain([0, 0.5, 1]).range(['#337ab7', '#d3d3d3', '#464545']);
+var corpusA = 'Luke';  // These variable names bind us to the buttonGroupIDs
 var corpusB = 'Jonah';  // And the variable values must correspond to the file name
 var corpusC = 'Revelation';  // And these values are used for the buttonGroup labels.
 
@@ -89,7 +89,8 @@ function drawSunburst(data) {
     newSlice.append("path").attr("display", function (d) { return d.depth ? null : "none"; })
         .attr("d", arc)
         .style("stroke", "#fff")
-        .style("fill", function (d) { return color((d.children ? d : d.parent).data.name); })
+        //.style("fill", function (d) { return color((d.children ? d : d.parent).data.name); })
+        .style("fill", function (d) { return d.parent ? color(d.x0 / 6.28) : "white"; })
         .attr("display", function(d) { return d.depth ? null : "none"; });
 
     // Populate the <text> elements with our data-driven titles.
@@ -201,10 +202,11 @@ function getTopicsData() {
         if (error) throw error;
 
         allTopicsData = topicsData;
-        var showTopicNodes = JSON.parse(JSON.stringify(topicsData));
+        // var showTopicNodes = JSON.parse(JSON.stringify(topicsData));
 
-        drawSunburst(showTopicNodes);
+        drawSunburst(allTopicsData);
         showTopTopics();
+        d3.select("#corpusAsOf").html("a/o " + allTopicsData.run_date)
 
     });
 
@@ -250,7 +252,7 @@ function showTopTopics() {
     partition(root);
     newSlice.selectAll("path").transition().duration(750).attrTween("d", arcTweenPath);
     newSlice.selectAll("text").transition().duration(750).attrTween("transform", arcTweenText)
-        .attr("opacity", function (d) { return d.x1 - d.x0 > 0.06 ? 1 : 0; });
+        .attr("opacity", function (d) { return d.x1 - d.x0 > 0.07 ? 1 : 0; });
 }
 
 
@@ -301,4 +303,15 @@ function computeTextRotation(d) {
     // Avoid upside-down labels
     //return (angle < 120 || angle > 270) ? angle : angle + 180;  // labels as rims
     return (angle < 180) ? angle - 90 : angle + 90;  // labels as spokes
+}
+
+
+function showFullText(cardID) {
+    var card = d3.select("#c" + cardID);
+    if (card.classed("big")) {
+        card.classed("big", false).style("height", "94px").style("overflow", "hidden");
+    } else {
+        card.classed("big", true).style("height", "200px").style("overflow", "scroll");
+    }
+    return false;
 }

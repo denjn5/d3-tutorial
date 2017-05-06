@@ -4,15 +4,15 @@ Important:
 
 // FIXME: PAGE TITLE: Fix centering
 // FIXME: SHOW CARDS: Make outer ring work
-// TODO: SUNBURST COLORS: Base on provided range (to create color consistency) [see old sunburst work]
-// TODO: POPUP MODAL: Add to show long-form content
-// TODO: CORPUS BUTTONS: Drive based on found files
-// TODO: DOCUMENT: Better document all methods
-// TODO: AS OF: Add topics file "as of" stamp to the sunburst center title (light gray?)
+// FIXME: TOPX: When selecting new TopX, unselect
+// TODO: DOCUMENTATION: Improve!
 
 
 Other:
 // TODO: NERs: Add Jesus & God to spaCy
+// TODO: AS OF: Only include time if a/o is today
+// TODO: CARD EXPAND: Add "shorter" icon
+// TODO: CORPUS BUTTONS: Drive based on found files
 // TODO: BOOTSTRAP: Get "partial" file based on features we use (http://getbootstrap.com/customize/)
 // TODO: RALEWAY: Get from local
 // FEATURE: [A] POPOVER TITLES: Add to sunburst?
@@ -44,3 +44,14 @@ function textToggle() {
         string.style.display = "none";
     }
 }
+
+
+
+        <script>
+            function more() {
+
+                d3.select(".card").style("height", "200px").style("overflow", "scroll");
+
+            }
+
+        </script>
