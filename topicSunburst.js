@@ -20,10 +20,10 @@ var corpusA = 'Luke';  // These variable names bind us to the buttonGroupIDs
 var corpusB = 'Jonah';  // And the variable values must correspond to the file name
 var corpusC = 'Revelation';  // And these values are used for the buttonGroup labels.
 
-
-document.getElementById("corpusA").innerHTML = corpusA;
-document.getElementById("corpusB").innerHTML = corpusB;
-document.getElementById("corpusC").innerHTML = corpusC;
+// Set the labels on the Corpus choice buttons
+d3.select("corpusA").html(corpusA);
+d3.select("corpusB").html(corpusB);
+d3.select("corpusC").html(corpusC);
 
 // Size our <svg> element, add a <g> element, and move translate 0,0 to the center of the element.
 var g = d3.select("svg")
@@ -33,19 +33,19 @@ var g = d3.select("svg")
     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
 // Create our sunburst data structure and size it.
-//noinspection JSUnresolvedFunction
 var partition = d3.partition()
     .size([2 * Math.PI, radius]);
 
+// Get files, produce visuals, set up event handlers
 changeSelectedCorpus();
-// getTopicsData();
-// getTextsFile();
-
 d3.selectAll("input[name=topTopicsSelect]").on("click", showTopTopics);
 d3.selectAll("input[name=dateSelect]").on("click", showDate);
 d3.selectAll("button.corpus").on("click", changeSelectedCorpus);
 
-
+/**
+ * Draw the sunburst
+ * @param {json hierarchy} the topic data (paramaterized in case we want to filter before drawing)
+ */
 function drawSunburst(data) {
 
     // Find the root node, calculate the node.value, and sort our nodes by node.value
@@ -81,33 +81,35 @@ function drawSunburst(data) {
     // Populate the <text> elements with our data-driven titles.
     slice.selectAll("text").remove();
     newSlice.append("text")
-        //.attr("transform", function(d) {
-         //   return "translate(" + arc.centroid(d) + ")rotate(" + computeTextRotation(d) + ")"; })
         .attr("dx", function(d) { return (d.parent ? "-30" : ""); } )  // "-20" for rim labels
         .attr("dy", function(d) { return (d.parent ? ".25em" : "-3em"); }) // ".5em" for rim labels
         .text(function(d) { return d.data.name.split(" ").slice(0,2).join(" "); })
         .attr("display", function(d) { return d.depth ? null : "none"; });
-        //.attr("opacity", function (d) { return d.x1 - d.x0 > 0.06 ? 1 : 0; });
+    // TODO: Do we need to calc all of these rows?
     // TODO: Text "wrap" for longer lines... (and add ellipsis for strings longer than 2 words)
 
+    // Adds in event handler for the slices
     newSlice.on("click", selectSlice);
 }
 
 
-// Redraw the Sunburst Based on User Input
+/**
+ * React to the user-selected slice: update visual and show texts, called by event handler
+ * @param {node} the clicked node
+ */
 function selectSlice(c) {
 
     var clicked = c;
-    //try {
-
-        //var div = d3.select("#sidebar").selectAll("div").data(c.data.articles);
-        var rootPathOrig = clicked.path(root);
-        var rootPath = rootPathOrig.reverse();
+    try {
+        // get the path between the clicked node and the root
+        var rootPath = clicked.path(root).reverse();
         rootPath.shift(); // remove root node from the array
 
+        // Wash out the opacity on all slices
         newSlice.style("opacity", 0.4);
         newSlice.filter(function(d) {
-        // We clicked on the last slice clicked & this is the node: unchoose everything
+            // Did we click on the last slice clicked? & is this is the current node (as we loop through all of them)?
+            // If so, unchoose everything, remove text list, and topic name
             if (d === clicked && d.prevClicked) {
                 d3.select("#topicName").html("");
                 d3.select("#sidebar").selectAll("div").remove();
@@ -118,33 +120,33 @@ function selectSlice(c) {
 
             } else if (d === clicked) { // Clicked a new node & this is the node: update path
 
-                // try {
+                try {
                     d3.select("#topicName").html("Topic: '" + c.data.name + "'");
 
-                    // Add texts to the sidebar...
-                    // TODO: Do I really want to name this "id"?
+                    // Select the correct texts, and add to the sidebar...
                     var divs = d3.select("#sidebar").selectAll("divs")
                         .data(allTextsData.filter(function(text) {
                                 return text['topics'].indexOf(c.data.name) >= 0; }));
+                    // TODO: Do I need to set this newDivs var?
+                    // TODO: What does merge do for me?
                     var newDivs = divs.enter().append("divs").merge(divs)
                         .html(function (d) {return d.htmlCard; });
                     divs.exit().remove();
-                //} catch (e) { }
+                } catch (e) { }
 
                 d.prevClicked = true;
                 return true;
-            } else {
+            } else {  // This is not the previously clicked or a newly clicked slice. 
                 d.prevClicked = false;
-                return (rootPath.indexOf(d) >= 0);
+                return (rootPath.indexOf(d) >= 0); // return true for this node if it's part of the path
             }
-        }).style("opacity", 1);
-    // } catch(e) {
-    //     newSlice.filter(function(d) { d.prevClicked = false; return true; }).style("opacity", 1);
-    //     d3.select("#sidebar").selectAll("span").text("");
-    //     d3.select("#sidebar").selectAll("div").remove();
-    //
-    // }
-
+        }).style("opacity", 1);  // All of the above is to create an array for this style command
+    } catch(e) {
+        newSlice.filter(function(d) { d.prevClicked = false; return true; }).style("opacity", 1);
+        d3.select("#sidebar").selectAll("span").text("");
+        d3.select("#sidebar").selectAll("div").remove();
+    
+    }
 }
 
 
@@ -152,7 +154,9 @@ function showDate() {
     alert("Not yet implemented: " + this.value);
 }
 
-
+/**
+ * The user has selected a new corpus. Get new data files, the update the UI features
+ */
 function changeSelectedCorpus() {
 
     currentCorpus = (this.id ? window[this.id] : corpusA);
@@ -177,6 +181,9 @@ function changeSelectedCorpus() {
 
 }
 
+/**
+ * Get a new Topics file
+ */
 function getTopicsData() {
 
     // this line assumes that we have a variable with the same name as the this.id assigned (at the top of the file).
