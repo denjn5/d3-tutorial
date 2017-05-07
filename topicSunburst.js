@@ -21,9 +21,9 @@ var corpusB = 'Jonah';  // And the variable values must correspond to the file n
 var corpusC = 'Revelation';  // And these values are used for the buttonGroup labels.
 
 // Set the labels on the Corpus choice buttons
-d3.select("corpusA").html(corpusA);
-d3.select("corpusB").html(corpusB);
-d3.select("corpusC").html(corpusC);
+d3.select("#corpusA").html(corpusA);
+d3.select("#corpusB").html(corpusB);
+d3.select("#corpusC").html(corpusC);
 
 // Size our <svg> element, add a <g> element, and move translate 0,0 to the center of the element.
 var g = d3.select("svg")
