@@ -16,9 +16,9 @@ var newSlice;
 var root;
 var currentCorpus;
 var color = d3.scaleLinear().domain([0, 0.5, 1]).range(['#337ab7', '#d3d3d3', '#464545']);
-var corpusA = 'Luke';  // These variable names bind us to the buttonGroupIDs
+var corpusA = 'Revelation';  // These variable names bind us to the buttonGroupIDs
 var corpusB = 'Jonah';  // And the variable values must correspond to the file name
-var corpusC = 'Revelation';  // And these values are used for the buttonGroup labels.
+var corpusC = 'Luke';  // And these values are used for the buttonGroup labels.
 
 // Set the labels on the Corpus choice buttons
 d3.select("#corpusA").html(corpusA);
@@ -44,7 +44,7 @@ d3.selectAll("button.corpus").on("click", changeSelectedCorpus);
 
 /**
  * Draw the sunburst
- * @param {json hierarchy} the topic data (paramaterized in case we want to filter before drawing)
+ * @param data {json} the topic data (parameterized in case we want to filter before drawing)
  */
 function drawSunburst(data) {
 
@@ -95,7 +95,7 @@ function drawSunburst(data) {
 
 /**
  * React to the user-selected slice: update visual and show texts, called by event handler
- * @param {node} the clicked node
+ * @param c {node} the clicked node
  */
 function selectSlice(c) {
 
@@ -303,7 +303,7 @@ function showFullText(cardID) {
     if (card.classed("big")) {
         card.classed("big", false).style("height", "94px").style("overflow", "hidden");
     } else {
-        card.classed("big", true).style("height", "200px").style("overflow", "scroll");
+        card.classed("big", true).style("height", "300px").style("overflow", "scroll");
     }
     return false;
 }
