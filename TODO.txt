@@ -3,23 +3,21 @@
 Important:
 
 FIXME: PAGE TITLE: Fix centering
-FIXME: SHOW CARDS: Make outer ring work
-FIXME: TOPX: When selecting new TopX, unselect
 TODO: DOCUMENTATION: Improve!
-TODO: Shrink center (root)?
-TODO: Long-line wrap?
+FEATURE: HIGHLIGHTS: Rebuild (a) Get begin/end index; insert elements on show. (b) Add for phrases. (c) Combine this data with the "show texts logic
+FIXME: SHOW CARDS: Make outer ring work
+FEATURE: POPOVER TITLES: Add to sunburst?
 
 Other:
+TODO: Shrink center (root)?
+TODO: Long-line wrap?
 TODO: NERs: Add Jesus & God to spaCy
-TODO: AS OF: Only include time if a/o is today
 TODO: CARD EXPAND: Add "shorter" icon
 TODO: CORPUS BUTTONS: Drive based on found files
 TODO: BOOTSTRAP: Get "partial" file based on features we use (http://getbootstrap.com/customize/)
 TODO: RALEWAY: Get from local
 TODO: COLORS: (a) colorblind
-FEATURE: [A] POPOVER TITLES: Add to sunburst?
-FEATURE: [B] MARKED text: (a) Highlight (b) Show it in Card
-FEATURE: [C] Order Cards based on best one for this topic (e.g., Gensim's top sentence feature)
+FEATURE: KEY PHRASE: Find key phrase for each topic. Show at top.
 
 /*
 
@@ -43,25 +41,4 @@ TITLES:
     .text(function (d) { return d.data.name; }) adds the name of the node to the <title> element, such as
     <title>Topic A</title>
 
-TEXT TOGGLE FUNCTION
 
-
-function textToggle() {
-    var string = document.getElementById(this.id + "t");
-    if (string.style.display === "none") {
-        string.style.display = "";
-    } else {
-        string.style.display = "none";
-    }
-}
-
-
-
-        <script>
-            function more() {
-
-                d3.select(".card").style("height", "200px").style("overflow", "scroll");
-
-            }
-
-        </script>

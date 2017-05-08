@@ -85,8 +85,7 @@ function drawSunburst(data) {
         .attr("dy", function(d) { return (d.parent ? ".25em" : "-3em"); }) // ".5em" for rim labels
         .text(function(d) { return d.data.name.split(" ").slice(0,2).join(" "); })
         .attr("display", function(d) { return d.depth ? null : "none"; });
-    // TODO: Do we need to calc all of these rows?
-    // TODO: Text "wrap" for longer lines... (and add ellipsis for strings longer than 2 words)
+    // TODO: Do we need to calc full sunburst first? Or can I wait on some for speed?
 
     // Adds in event handler for the slices
     newSlice.on("click", selectSlice);
@@ -121,17 +120,22 @@ function selectSlice(c) {
             } else if (d === clicked) { // Clicked a new node & this is the node: update path
 
                 try {
-                    d3.select("#topicName").html("Topic: '" + c.data.name + "'");
+                    var topic = c.data.name;
+                    d3.select("#topicName").html("Topic: '" + topic + "'");
 
                     // Select the correct texts, and add to the sidebar...
                     var divs = d3.select("#sidebar").selectAll("divs")
                         .data(allTextsData.filter(function(text) {
-                                return text['topics'].indexOf(c.data.name) >= 0; }));
+                                return text['topics'].indexOf(topic) >= 0; }));
                     // TODO: Do I need to set this newDivs var?
                     // TODO: What does merge do for me?
                     var newDivs = divs.enter().append("divs").merge(divs)
                         .html(function (d) {return d.htmlCard; });
                     divs.exit().remove();
+
+                    // TODO: d3.selectAll(".xearthx").style("background-color", "yellow") in Rev, but Rev 1 not highlighting
+                    // TODO: try new strategy for highlighting
+                    d3.selectAll(".x" + topic + "x").style("background-color", "#33b5e5")
                 } catch (e) { }
 
                 d.prevClicked = true;
@@ -142,7 +146,8 @@ function selectSlice(c) {
             }
         }).style("opacity", 1);  // All of the above is to create an array for this style command
     } catch(e) {
-        newSlice.filter(function(d) { d.prevClicked = false; return true; }).style("opacity", 1);
+        // newSlice.filter(function(d) { d.prevClicked = false; return true; }).style("opacity", 1);
+        d3.selectAll(".node").style("opacity", 1);
         d3.select("#sidebar").selectAll("span").text("");
         d3.select("#sidebar").selectAll("div").remove();
     
@@ -163,9 +168,9 @@ function changeSelectedCorpus() {
 
     getTopicsData();
     getTextsFile();
+    selectSlice();
 
     // Update Page Labels
-    d3.select("#corpusName").html(currentCorpus);
     d3.select("#topicName").html("");
     d3.select("#sidebar").selectAll("div").remove();
 
@@ -198,7 +203,8 @@ function getTopicsData() {
 
         drawSunburst(allTopicsData);
         showTopTopics();
-        d3.select("#corpusAsOf").html("a/o " + allTopicsData.run_date)
+        d3.select("#corpusName").html(currentCorpus);
+        d3.select("#corpusAsOf").html("As of " + allTopicsData.run_date.replace('2017-',''))
 
     });
 
@@ -303,7 +309,7 @@ function showFullText(cardID) {
     if (card.classed("big")) {
         card.classed("big", false).style("height", "94px").style("overflow", "hidden");
     } else {
-        card.classed("big", true).style("height", "300px").style("overflow", "scroll");
+        card.classed("big", true).style("height", "300px").style("overflow", "auto");
     }
     return false;
 }

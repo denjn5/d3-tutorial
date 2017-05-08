@@ -48,12 +48,20 @@
     }
 
     .titleImage {
-        position: absolute;
-        top: 0px;
+        /* position: absolute;
+        top: 0px; */
     }
 
     #corpusAsOf {
         fill: lightgray;
+        alignment-baseline: middle;
+        text-anchor: middle;
+    }
+
+    #corpusName, #corpusDate {
+        fill: black;
+        alignment-baseline: middle;
+        text-anchor: middle;
     }
 
     .card {
@@ -99,6 +107,8 @@
     }
 
 
+
+
 </style>
 <body>
 <div class="container" style="margin: 2%">
@@ -114,12 +124,11 @@
             </div>
 
             <div class="row">  <!-- Sunburst -->
-                <div class="col-md-12 text-center">
-
+                <div class="col-md-12">
                     <svg>
-                        <text x="50%" y="48%" alignment-baseline="middle" text-anchor="middle" id="corpusName" class="h4"></text>
-                        <text x="50%" y="52%" alignment-baseline="middle" text-anchor="middle" id="corpusDate" class="h6"></text>
-                        <text x="50%" y="55%" alignment-baseline="middle" text-anchor="middle" id="corpusAsOf" class="h6"></text>
+                        <text x="50%" y="48%" id="corpusName" class="h4"></text>
+                        <text x="50%" y="52%" id="corpusDate" class="h6"></text>
+                        <text x="50%" y="55%" id="corpusAsOf" class="h6"></text>
                     </svg>
                 </div>
             </div>
