@@ -6,7 +6,6 @@ FIXME: PAGE TITLE: Fix centering
 TODO: DOCUMENTATION: Improve!
 FEATURE: HIGHLIGHTS: Rebuild (a) Get begin/end index; insert elements on show. (b) Add for phrases. (c) Combine this data with the "show texts logic
 FIXME: SHOW CARDS: Make outer ring work
-FEATURE: POPOVER TITLES: Add to sunburst?
 
 Other:
 TODO: Shrink center (root)?
@@ -34,11 +33,5 @@ Tutorial Ideas:
     /*
     LATER: 1/2 circle, 1/4 circle, 75% of the radius
     */
-
-TITLES:
-    .append("title") creates a <title> element within each <path></path> element.
-
-    .text(function (d) { return d.data.name; }) adds the name of the node to the <title> element, such as
-    <title>Topic A</title>
 
 

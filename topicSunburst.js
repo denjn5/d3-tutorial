@@ -76,7 +76,8 @@ function drawSunburst(data) {
         .style("stroke", "#fff")
         //.style("fill", function (d) { return color((d.children ? d : d.parent).data.name); })
         .style("fill", function (d) { return d.parent ? color(d.x0 / 6.28) : "white"; })
-        .attr("display", function(d) { return d.depth ? null : "none"; });
+        .attr("display", function(d) { return d.depth ? null : "none"; })
+        .append("title").text(function (d) { return d.data.name; }) ;
 
     // Populate the <text> elements with our data-driven titles.
     slice.selectAll("text").remove();
