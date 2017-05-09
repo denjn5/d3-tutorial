@@ -1,5 +1,15 @@
 
+Mark Text Rebuild Notes:
+1) Find topics in each text.  Note index (start, end) as set in a dictionary for each text.
+2)
+3) Get rid of text['textMark']
 
+
+typeof(text["found"][topic]) == "undefined"
+
+
+
+text["found"][topic]
 Important:
 
 FIXME: PAGE TITLE: Fix centering
@@ -17,6 +27,7 @@ TODO: BOOTSTRAP: Get "partial" file based on features we use (http://getbootstra
 TODO: RALEWAY: Get from local
 TODO: COLORS: (a) colorblind
 FEATURE: KEY PHRASE: Find key phrase for each topic. Show at top.
+FEATURE: RATE FINDS: If found in title, or first paragraph (?) put to top
 
 /*
 

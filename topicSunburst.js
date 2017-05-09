@@ -16,7 +16,7 @@ var newSlice;
 var root;
 var currentCorpus;
 var color = d3.scaleLinear().domain([0, 0.5, 1]).range(['#337ab7', '#d3d3d3', '#464545']);
-var corpusA = 'Revelation';  // These variable names bind us to the buttonGroupIDs
+var corpusA = 'Hosea';  // These variable names bind us to the buttonGroupIDs
 var corpusB = 'Jonah';  // And the variable values must correspond to the file name
 var corpusC = 'Luke';  // And these values are used for the buttonGroup labels.
 
@@ -127,7 +127,8 @@ function selectSlice(c) {
                     // Select the correct texts, and add to the sidebar...
                     var divs = d3.select("#sidebar").selectAll("divs")
                         .data(allTextsData.filter(function(text) {
-                                return text['topics'].indexOf(topic) >= 0; }));
+                                return typeof(text["found"][topic]) != "undefined"; }));
+                                // return text['topics'].indexOf(topic) >= 0; }));
                     // TODO: Do I need to set this newDivs var?
                     // TODO: What does merge do for me?
                     var newDivs = divs.enter().append("divs").merge(divs)
