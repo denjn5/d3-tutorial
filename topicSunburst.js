@@ -120,25 +120,7 @@ function selectSlice(c) {
 
             } else if (d === clicked) { // Clicked a new node & this is the node: update path
 
-                try {
-                    var topic = c.data.name;
-                    d3.select("#topicName").html("Topic: '" + topic + "'");
-
-                    // Select the correct texts, and add to the sidebar...
-                    var divs = d3.select("#sidebar").selectAll("divs")
-                        .data(allTextsData.filter(function(text) {
-                                return typeof(text["found"][topic]) != "undefined"; }));
-                                // return text['topics'].indexOf(topic) >= 0; }));
-                    // TODO: Do I need to set this newDivs var?
-                    // TODO: What does merge do for me?
-                    var newDivs = divs.enter().append("divs").merge(divs)
-                        .html(function (d) {return d.htmlCard; });
-                    divs.exit().remove();
-
-                    // TODO: d3.selectAll(".xearthx").style("background-color", "yellow") in Rev, but Rev 1 not highlighting
-                    // TODO: try new strategy for highlighting
-                    d3.selectAll(".x" + topic + "x").style("background-color", "#33b5e5")
-                } catch (e) { }
+                showTexts(c.data.name);
 
                 d.prevClicked = true;
                 return true;
@@ -154,6 +136,72 @@ function selectSlice(c) {
         d3.select("#sidebar").selectAll("div").remove();
     
     }
+}
+
+function showTexts(topic) {
+    try {
+
+        d3.select("#topicName").html("Topic: '" + topic + "'");
+
+        // Select the correct texts, and add to the sidebar...
+        var divs = d3.select("#sidebar").selectAll("divs")
+            .data(allTextsData.filter(function(text) {
+                // TODO: Find a better way than looking for undefined...
+                return typeof(text["topics"][topic]) != "undefined"; }));
+                // return text['topics'].indexOf(topic) >= 0; }));
+        // TODO: Do I need to set this newDivs var?
+        // TODO: What does merge do for me?
+        var newDivs = divs.enter().append("divs").merge(divs)
+            .html(function (d) {return d.htmlCard; });
+        divs.exit().remove();
+
+        // TODO: d3.selectAll(".xearthx").style("background-color", "yellow") in Rev, but Rev 1 not highlighting
+        // TODO: try new strategy for highlighting
+        d3.selectAll(".x" + topic + "x").style("background-color", "#33b5e5");
+
+
+        // ******************* test code **************
+        // Loop thru array and find texts...
+        for (i = 0; i < allTextsData.length; i++) {
+            // Stop when you find a text that has this "topic"
+            // TODO: find a better way to do this test
+            if (typeof(allTextsData[i]["topics"][topic]) != "undefined") {
+                id = 'text_' + allTextsData[i]["id"];
+                indexes = allTextsData[i]["topics"][topic];
+
+                var card_text = document.getElementById(id);
+                var cStr = card_text.innerText;
+
+                for (t = 0; t < indexes.length; t++) {
+                    var startIndex = indexes[t][0];
+                    var endIndex = indexes[t][1];
+
+                    cStr = cStr.slice(0, startIndex) + '<mark>' + cStr.slice(startIndex, endIndex) +
+                        '</mark>' + cStr.slice(endIndex, cStr.length);
+
+                    // console.log(indexes[i - 1][0] + ' ' + indexes[i - 1][1])
+
+                }
+                card_text.innerHTML = cStr;
+
+            }
+
+        }
+
+
+        // text0 = document.getElementById("text0");
+        // str = text0.innerText;
+        // // len = str.length;
+        // //newStr = '<b>' + str + '</b>';
+        // str = str.slice(0, 172) + '<mark>' + str.slice(172, 176) + '</mark>' + str.slice(176, str.length);
+        // str = str.slice(0, 110) + '<mark>' + str.slice(110, 115) + '</mark>' + str.slice(115, str.length);
+        // text0.innerHTML = str;
+
+
+    } catch (e) { }
+
+
+
 }
 
 
@@ -307,7 +355,7 @@ function computeTextRotation(d) {
 
 
 function showFullText(cardID) {
-    var card = d3.select("#c" + cardID);
+    var card = d3.select("#card_" + cardID);
     if (card.classed("big")) {
         card.classed("big", false).style("height", "94px").style("overflow", "hidden");
     } else {
