@@ -16,9 +16,9 @@ var newSlice;
 var root;
 var currentCorpus;
 var color = d3.scaleLinear().domain([0, 0.5, 1]).range(['#337ab7', '#d3d3d3', '#464545']);
-var corpusA = 'Hosea';  // These variable names bind us to the buttonGroupIDs
-var corpusB = 'Jonah';  // And the variable values must correspond to the file name
-var corpusC = 'Luke';  // And these values are used for the buttonGroup labels.
+var corpusA = 'Proverbs';  // These variable names bind us to the buttonGroupIDs
+var corpusB = 'Proverbs2';  // And the variable values must correspond to the file name
+var corpusC = 'Jonah2';  // And these values are used for the buttonGroup labels.
 
 // Set the labels on the Corpus choice buttons
 d3.select("#corpusA").html(corpusA);
@@ -49,9 +49,20 @@ d3.selectAll("button.corpus").on("click", changeSelectedCorpus);
 function drawSunburst(data) {
 
     // Find the root node, calculate the node.value, and sort our nodes by node.value
-    root = d3.hierarchy(data)
-        .sum(function (d) { return d.size; })
+    root = d3.hierarchy(data);
+
+    // Determines size of each slice based on the topSize
+    // TODO: Violates DRY (this logic exists below) -- but maybe that's okay?
+    if (document.getElementById("top5").checked) {
+        root.sum(function (d) { d.topSize = (d.rank <= 5) ? d.size : 0; return d.topSize; })
         .sort(function (a, b) { return b.value - a.value; });
+    } else if (document.getElementById("top10").checked) {
+        root.sum(function (d) { d.topSize = (d.rank <= 10) ? d.size : 0; return d.topSize; })
+        .sort(function (a, b) { return b.value - a.value; });
+    } else {
+        root.sum(function (d) { d.topSize = d.size; return d.topSize; })
+        .sort(function (a, b) { return b.value - a.value; });
+    }
 
     // Calculate the size of each arc; save the initial angles for tweening.
     partition(root);
@@ -148,17 +159,11 @@ function showTexts(topic) {
             .data(allTextsData.filter(function(text) {
                 // TODO: Find a better way than looking for undefined...
                 return typeof(text["topics"][topic]) != "undefined"; }));
-                // return text['topics'].indexOf(topic) >= 0; }));
-        // TODO: Do I need to set this newDivs var?
+
         // TODO: What does merge do for me?
         var newDivs = divs.enter().append("divs").merge(divs)
             .html(function (d) {return d.htmlCard; });
         divs.exit().remove();
-
-        // TODO: d3.selectAll(".xearthx").style("background-color", "yellow") in Rev, but Rev 1 not highlighting
-        // TODO: try new strategy for highlighting
-        d3.selectAll(".x" + topic + "x").style("background-color", "#33b5e5");
-
 
         // ******************* test code **************
         // Loop thru array and find texts...
@@ -188,19 +193,7 @@ function showTexts(topic) {
 
         }
 
-
-        // text0 = document.getElementById("text0");
-        // str = text0.innerText;
-        // // len = str.length;
-        // //newStr = '<b>' + str + '</b>';
-        // str = str.slice(0, 172) + '<mark>' + str.slice(172, 176) + '</mark>' + str.slice(176, str.length);
-        // str = str.slice(0, 110) + '<mark>' + str.slice(110, 115) + '</mark>' + str.slice(115, str.length);
-        // text0.innerHTML = str;
-
-
     } catch (e) { }
-
-
 
 }
 

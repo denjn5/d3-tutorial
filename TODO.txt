@@ -1,44 +1,73 @@
 
-Mark Text Rebuild Notes:
-1) Find topics in each text.  Note index (start, end) as set in a dictionary for each text.
-2)
-3) Get rid of text['textMark']
+***********************
+**  TEST  *************
+***********************
+FIXME: TOPICS FILE NAME: Fix the date (date = self.start_date.strftime('%m-%d'))
+FIXME: ONLY CHARACTERS: where do I put re.match("^[A-Za-z0-9_-]*$", my_phrase)?
+FIXME: UI Don't draw and then redraw
+TODO: REVIEW: topic_builder.py (if len(subtree) == 1: @ ~159): Odd that I don't do anything with this...
+TODO: TOPIC EXPORT: topics export is honoring the 40 topic maximum?
 
 
-typeof(text["found"][topic]) == "undefined"
-
-
-
-text["found"][topic]
-Important:
-
-FIXME: PAGE TITLE: Fix centering
+***********************
+**  HIGH PRIORITY  ****
+***********************
+FIXME: TEXT:TOPIC LINK: In Jonah, "lord" (UI slice) doesn't have any topics...
+FIXME: UI PAGE TITLE: (a) Rename? (b) Fix centering
+FIXME: UI HIGHLIGHTING: Problem?
+FIXME: UI OUTER RING: Show cards on click
 TODO: DOCUMENTATION: Improve!
-FEATURE: HIGHLIGHTS: Rebuild (a) Get begin/end index; insert elements on show. (b) Add for phrases. (c) Combine this data with the "show texts logic
-FIXME: SHOW CARDS: Make outer ring work
+TODO: TITLES: Use titles for topic modeling
+TODO: None.png needs to be clearly there. Maybe a better png?
 
-Other:
-TODO: Shrink center (root)?
-TODO: Long-line wrap?
-TODO: NERs: Add Jesus & God to spaCy
-TODO: CARD EXPAND: Add "shorter" icon
-TODO: CORPUS BUTTONS: Drive based on found files
+
+***********************
+**  MEDIUM PRIORITY  **
+***********************
+TODO: UI CARD SHRINK: (a) Add "shorter" icon; (b) Add "shrink all" / "grow all" buttons
 TODO: BOOTSTRAP: Get "partial" file based on features we use (http://getbootstrap.com/customize/)
+FEATURE: UI CORPUS VIEW: Multiple Days for same Corpus (dropdown?)
+FEATURE: NERs: (a) Recognize Multi-NERS; (b) ensure God, Jesus Christ are NERS
+
+
+***********************
+**  LATER  ************
+***********************
+TODO: UI CENTER: Shrink root so we have more space for slices?
+TODO: UI LINE WRAP: For long lines
+TODO: UI CORPUS BUTTONS: Drive based on found files
 TODO: RALEWAY: Get from local
-TODO: COLORS: (a) colorblind
-FEATURE: KEY PHRASE: Find key phrase for each topic. Show at top.
-FEATURE: RATE FINDS: If found in title, or first paragraph (?) put to top
-
-/*
-
-Phase 2:
-* Article Sort
-* Article Like, Junk (bad match)
-* Default sunburst to Top 5 (update labels)
- */
+TODO: UI COLORS: (a) colorblind
+FEATURE: KEY PHRASE: Find key phrase for each topic. Show at top?
 
 
-Tutorial Ideas:
+***********************
+**  WISH  *************
+***********************
+FEATURE: Article Like, Junk (bad match)
+FEATURE: TEXT SCORE: (a) Assign based on topic in title, 1st paragraph, count of mentions, keyphrase; (b) UI autosort
+FEATURE: ANAPHORA RESOLUTION: Re-include ss.PRON in NOUNS (topic_builder)
+
+
+**  BUTTON GROUP W/ DROPDOWN  **
+https://v4-alpha.getbootstrap.com/components/button-group/#nesting
+<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+  <button type="button" class="btn btn-secondary">1</button>
+  <button type="button" class="btn btn-secondary">2</button>
+
+  <div class="btn-group" role="group">
+    <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Dropdown
+    </button>
+    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+      <a class="dropdown-item" href="#">Dropdown link</a>
+      <a class="dropdown-item" href="#">Dropdown link</a>
+    </div>
+  </div>
+</div>
+
+
+**  TUTORIAL IDEAS  **
     var partition = d3.partition()
         .size([2 * Math.PI, radius]);
     /*
