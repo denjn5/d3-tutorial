@@ -9,107 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="Libraries/bootstrap-css/bootstrap.min.css">
     <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="style.css">
     <script src="Libraries/d3/d3.v4.min.js"></script>
     <!-- local: Libraries/d3bootstrap-js4.js | cdn: https://d3js.org/d3.v4.min.js -->
 </head>
-<style>
-    label, .h1 {
-        font-weight: 300;
-    }
-
-    body {
-        font-weight: 300;
-        font-family: 'Raleway', Arial, sans-serif;
-    }
-
-    text {
-        pointer-events: none; /* Make sunburst labels non-selectable */
-        fill: white;
-    }
-
-    .bs-callout {
-        padding: 8px;
-        margin: 6px 0;
-        border: 1px solid lightgray;
-        border-left-width: 7px;
-        border-radius: 3px;
-    }
-
-    .bs-callout-pos {
-        border-left-color: #5cb85c;
-    }
-
-    .bs-callout-neg {
-        border-left-color: #d9534f;
-    }
-
-    mark {
-        background-color: #33b5e5;
-    }
-
-    .titleImage {
-        /* position: absolute;
-        top: 0px; */
-    }
-
-    #corpusAsOf {
-        fill: lightgray;
-        alignment-baseline: middle;
-        text-anchor: middle;
-    }
-
-    #corpusName, #corpusDate {
-        fill: black;
-        alignment-baseline: middle;
-        text-anchor: middle;
-    }
-
-    .card {
-        position: relative;
-        width: 100%;
-        height: 94px;
-        overflow: hidden;
-    }
-
-    .cardTitle {
-        position: absolute;
-        top: 0px;
-        right: 8px;
-        text-align: right;
-    }
-
-    .cardTime {
-        position: absolute;
-        top: 0px;
-        left: 8px;
-        text-align: left;
-        color: lightgray;
-    }
-
-    .cardImage {
-        position: absolute;
-        top: 35px;
-        right: 8px;
-        text-align: right;
-    }
-
-    .cardText {
-        position: absolute;
-        top: 30px;
-        width: calc(100% - 64px);
-        text-align: left;
-    }
-
-    .cardMore {
-        position: absolute;
-        top: 75px;
-        right: 8px;
-    }
-
-
-
-
-</style>
 <body>
 <div class="container" style="margin: 2%">
 
@@ -117,8 +20,8 @@
         <!-- Sunburst Column w/ 3 rows: Title, Sunburst, User Controls -->
         <div class="col-md-6">
             <div class="row">  <!-- Title -->
-                <div class="col-md-12 text-center" style="line-height: 50px;">
-                    <img class="titleImage" src="Logos/chat.png" height="40"/>
+                <div class="col-md-12 text-center">
+                    <img class="titleImage" src="Logos/chat.png"/>&nbsp;
                     <span class="align-top h1">Tell&nbsp;Me&nbsp;More</span>
                 </div>
             </div>
@@ -170,8 +73,10 @@
         <!-- Texts Column w/ 2 rows: Topic, Texts -->
         <div class="col-md-6">
             <div class="row">  <!-- Topic -->
-                <div class="col-md-12 h3" id="topicName">
-                </div>
+                <div class="col-md-6 h3" id="topicName"></div>
+                <div class="col-md-6 h5 text-right" style="" id="textControls">Text Count: XX | Topic Count: YY
+                    <img src="Logos/expand_all.png" height="48" width="48"/>
+                    <img src="Logos/contract_all.png" height="48" width="48"/></div>
             </div>
 
             <div class="row">  <!-- Texts -->

@@ -1,0 +1,117 @@
+
+/****  PAGE  ****/
+label, .h1 {
+    font-weight: 300;
+}
+
+body {
+    font-weight: 300;
+    font-family: 'Raleway', Arial, sans-serif;
+}
+
+text {
+    pointer-events: none; /* Make sunburst labels non-selectable */
+    fill: white;
+}
+
+.titleImage {
+    margin-bottom: 18px;
+    height: 40px;
+}
+
+#textControls {
+    color: lightgray;
+    text-align: right;
+    vertical-align: 50%;
+}
+
+
+/****  SUNBURST  ****/
+#corpusAsOf {
+    fill: lightgray;
+    alignment-baseline: middle;
+    text-anchor: middle;
+}
+
+#corpusName, #corpusDate {
+    fill: black;
+    alignment-baseline: middle;
+    text-anchor: middle;
+}
+
+
+/****  CARDS  ****/
+.bs-callout {
+    padding: 8px;
+    margin: 6px 0;
+    border: 1px solid lightgray;
+    border-left-width: 7px;
+    border-radius: 3px;
+}
+
+.bs-callout-pos {
+    border-left-color: #5cb85c;
+}
+
+.bs-callout-neg {
+    border-left-color: #d9534f;
+}
+
+mark {
+    background-color: #33b5e5;
+}
+
+.card {
+    position: relative;
+    width: 100%;
+    height: 94px;
+    overflow: hidden;
+}
+
+.cardTitle {
+    position: absolute;
+    top: 0px;
+    right: 8px;
+    text-align: right;
+}
+
+.cardTime {
+    position: absolute;
+    top: 0px;
+    left: 8px;
+    text-align: left;
+    color: lightgray;
+}
+
+.cardImage {
+    position: absolute;
+    top: 35px;
+    right: 8px;
+    /* text-align: right; */
+
+    width: 42px;
+    height: 42px;
+    border: 1px solid white;
+    color: lightgray;
+    text-align: center;
+    display: table-cell;
+    vertical-align: baseline;
+    font-weight: bolder;
+    font-size: 175%;
+}
+
+.cardText {
+    position: absolute;
+    top: 30px;
+    width: calc(100% - 64px);
+    text-align: left;
+}
+
+.cardMore {
+    position: absolute;
+    top: 75px;
+    right: 8px;
+}
+
+
+

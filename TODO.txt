@@ -2,23 +2,22 @@
 ***********************
 **  TEST  *************
 ***********************
-FIXME: TOPICS FILE NAME: Fix the date (date = self.start_date.strftime('%m-%d'))
-FIXME: ONLY CHARACTERS: where do I put re.match("^[A-Za-z0-9_-]*$", my_phrase)?
-FIXME: UI Don't draw and then redraw
-TODO: REVIEW: topic_builder.py (if len(subtree) == 1: @ ~159): Odd that I don't do anything with this...
-TODO: TOPIC EXPORT: topics export is honoring the 40 topic maximum?
 
+
+**  SATURDAY  **
+FEATURE: Add exand/contract/expand all/contract all
+FEATURE: Add text count, topic count
+TODO: Change none.jpg to <div> "icon"
+TODO: REFACTOR: (a) Update get_ to dict; (b) simplify topic_builder
 
 ***********************
 **  HIGH PRIORITY  ****
 ***********************
 FIXME: TEXT:TOPIC LINK: In Jonah, "lord" (UI slice) doesn't have any topics...
-FIXME: UI PAGE TITLE: (a) Rename? (b) Fix centering
 FIXME: UI HIGHLIGHTING: Problem?
 FIXME: UI OUTER RING: Show cards on click
 TODO: DOCUMENTATION: Improve!
 TODO: TITLES: Use titles for topic modeling
-TODO: None.png needs to be clearly there. Maybe a better png?
 
 
 ***********************
@@ -28,7 +27,7 @@ TODO: UI CARD SHRINK: (a) Add "shorter" icon; (b) Add "shrink all" / "grow all" 
 TODO: BOOTSTRAP: Get "partial" file based on features we use (http://getbootstrap.com/customize/)
 FEATURE: UI CORPUS VIEW: Multiple Days for same Corpus (dropdown?)
 FEATURE: NERs: (a) Recognize Multi-NERS; (b) ensure God, Jesus Christ are NERS
-
+FEATURE: SEARCH: (a) brings in texts that have that topic, (b) wildcards?, (c) shows texts and topic count
 
 ***********************
 **  LATER  ************
@@ -48,6 +47,9 @@ FEATURE: Article Like, Junk (bad match)
 FEATURE: TEXT SCORE: (a) Assign based on topic in title, 1st paragraph, count of mentions, keyphrase; (b) UI autosort
 FEATURE: ANAPHORA RESOLUTION: Re-include ss.PRON in NOUNS (topic_builder)
 
+
+**  ICONS  **
+https://www.iconfinder.com/iconsets/materia-interface-vol-2
 
 **  BUTTON GROUP W/ DROPDOWN  **
 https://v4-alpha.getbootstrap.com/components/button-group/#nesting
