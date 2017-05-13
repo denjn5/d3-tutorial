@@ -16,7 +16,7 @@ var newSlice;
 var root;
 var currentCorpus;
 var color = d3.scaleLinear().domain([0, 0.5, 1]).range(['#337ab7', '#d3d3d3', '#464545']);
-var corpusA = 'Proverbs';  // These variable names bind us to the buttonGroupIDs
+var corpusA = 'Jonah';  // These variable names bind us to the buttonGroupIDs
 var corpusB = 'Proverbs2';  // And the variable values must correspond to the file name
 var corpusC = 'Jonah2';  // And these values are used for the buttonGroup labels.
 
@@ -116,13 +116,15 @@ function selectSlice(c) {
         var rootPath = clicked.path(root).reverse();
         rootPath.shift(); // remove root node from the array
 
-        // Wash out the opacity on all slices
-        newSlice.style("opacity", 0.4);
+        newSlice.style("opacity", 0.4);  // Wash out ALL slices
         newSlice.filter(function(d) {
-            // Did we click on the last slice clicked? & is this is the current node (as we loop through all of them)?
-            // If so, unchoose everything, remove text list, and topic name
+
             if (d === clicked && d.prevClicked) {
+                // TURN OFF PATH & HIDE TEXTS/TITLES
+                // We've click on the last slice clicked & this is the current node (as we loop through all of them).
                 d3.select("#topicName").html("");
+                d3.select("#topicDetails").html("");
+                d3.selectAll(".cardsToggleAll").style("opacity", "0");
                 d3.select("#sidebar").selectAll("div").remove();
 
                 d.prevClicked = false;
@@ -130,12 +132,19 @@ function selectSlice(c) {
                 return true;
 
             } else if (d === clicked) { // Clicked a new node & this is the node: update path
+                // UPDATE PATH, SHOW TEXTS
+                var topic = c.data.name;
+                d3.select("#topicName").html("Topic: '" + topic + "'");
+                d3.selectAll(".cardsToggleAll").style("opacity", "1");
 
-                showTexts(c.data.name);
+                showTexts(topic);
+                var cards = document.getElementsByClassName("card");
+                d3.select("#topicDetails").html(c.data.count + " mentions in " + cards.length + " texts");
 
                 d.prevClicked = true;
                 return true;
-            } else {  // This is not the previously clicked or a newly clicked slice. 
+            } else {  // This is not the previously clicked or a newly clicked slice.
+                //
                 d.prevClicked = false;
                 return (rootPath.indexOf(d) >= 0); // return true for this node if it's part of the path
             }
@@ -152,7 +161,7 @@ function selectSlice(c) {
 function showTexts(topic) {
     try {
 
-        d3.select("#topicName").html("Topic: '" + topic + "'");
+
 
         // Select the correct texts, and add to the sidebar...
         var divs = d3.select("#sidebar").selectAll("divs")
@@ -353,6 +362,28 @@ function showFullText(cardID) {
         card.classed("big", false).style("height", "94px").style("overflow", "hidden");
     } else {
         card.classed("big", true).style("height", "300px").style("overflow", "auto");
+    }
+    return false;
+}
+
+function cardToggle(cardID) {
+    var card = d3.select("#card_" + cardID);
+    if (card.classed("big")) {
+        card.classed("big", false).style("height", "94px").style("overflow", "hidden");
+        card.select(".cardToggle").style("opacity", "0")
+    } else {
+        card.classed("big", true).style("height", "300px").style("overflow", "auto");
+        card.select(".cardToggle").style("opacity", "1")
+    }
+    return false;
+}
+
+function cardToggleAll(contract) {
+    var card = d3.selectAll(".card");
+    if (contract) {
+        card.style("height", "94px").style("overflow", "hidden");
+    } else {
+        card.style("height", "300px").style("overflow", "auto");
     }
     return false;
 }

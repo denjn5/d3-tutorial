@@ -73,11 +73,24 @@
         <!-- Texts Column w/ 2 rows: Topic, Texts -->
         <div class="col-md-6">
             <div class="row">  <!-- Topic -->
-                <div class="col-md-6 h3" id="topicName"></div>
-                <div class="col-md-6 h5 text-right" style="" id="textControls">Text Count: XX | Topic Count: YY
-                    <img src="Logos/expand_all.png" height="48" width="48"/>
-                    <img src="Logos/contract_all.png" height="48" width="48"/></div>
+                <div class="col-xs-10">  <!-- Topic Titles -->
+                    <span class="h3" id="topicName"></span>
+                    <span class="h5" id="topicDetails"></span></div>
+
+                <div class="col-xs-2">  <!-- Topic Controls -->
+                    <a href='javascript:void(0);' onclick='cardToggleAll(true)'>
+                        <div class="cardsToggleAll" id="cardContractAll">-</div>&nbsp;
+                    </a>
+                    <a href='javascript:void(0);' onclick='cardToggleAll(false)'>
+                        <div class="cardsToggleAll">+</div>
+                    </a>
+
+                </div>
+
+
+
             </div>
+
 
             <div class="row">  <!-- Texts -->
                 <div id="sidebar" class="col-md-12 text-center">
