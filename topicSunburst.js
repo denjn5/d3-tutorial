@@ -134,7 +134,7 @@ function selectSlice(c) {
             } else if (d === clicked) { // Clicked a new node & this is the node: update path
                 // UPDATE PATH, SHOW TEXTS
                 var topic = c.data.name;
-                var verbatim = c.data.verbatim;
+                var verbatim = c.data.verbatims;
 
                 d3.select("#topicName").html("Topic: '" + topic + "'");
                 d3.selectAll(".cardsToggleAll").style("opacity", "1");
@@ -164,7 +164,7 @@ function selectSlice(c) {
  * @param topic {str} the selected topic of phrase
  * @param verbatim {str} the verbatim of the selected topic of phrase
  */
-function showTexts(topic, verbatim) {
+function showTexts(topic, verbatims) {
 
     try {
 
@@ -180,12 +180,18 @@ function showTexts(topic, verbatim) {
         divs.exit().remove();
 
         // FIND THE TOPIC (use mark.js) [https://markjs.io/]
-        var cards = document.querySelectorAll('.card'), i;
+        var cards = document.querySelectorAll('.cardText');
+        var options = {  // https://markjs.io/configurator.html
+            "accuracy": { "value": "exactly", "limiters": [",", ".", ";", ":"] },
+            "separateWordSearch": false
+        };
 
         for (i = 0; i < cards.length; ++i) {
             var instance = new Mark(cards[i]);
-            instance.mark(topic); // will mark the keyword "test"
-            instance.mark(verbatim, {"separateWordSearch": false});
+
+            for (v = 0; v < verbatims.length; ++v) {
+                instance.mark(verbatims[v], options);
+            }
         }
 
     } catch (e) { }
@@ -342,34 +348,50 @@ function computeTextRotation(d) {
 }
 
 
-function showFullText(cardID) {
-    var card = d3.select("#card_" + cardID);
-    if (card.classed("big")) {
-        card.classed("big", false).style("height", "94px").style("overflow", "hidden");
-    } else {
-        card.classed("big", true).style("height", "300px").style("overflow", "auto");
-    }
-    return false;
-}
-
+/**
+ * Expands or contracts a particular Card in the UI based on a link click. Also shows / hides the helper "cardToggle"
+ * button.
+ * @param cardID {int} The ID of the card. This is an integer assigned by Python when the cards are built.
+ * @returns {boolean}
+ */
 function cardToggle(cardID) {
-    var card = d3.select("#card_" + cardID);
-    if (card.classed("big")) {
-        card.classed("big", false).style("height", "94px").style("overflow", "hidden");
-        card.select(".cardToggle").style("opacity", "0")
+
+    var card = document.querySelector("#card_" + cardID);
+    if (card.classList.contains("big")) {
+        card.classList.remove("big");
+        card.style.height = "94px";
+        card.style.overflow = "hidden";
+        card.scrollTop = 0;
+        card.querySelector(".cardToggle").style.opacity = 0;
+
     } else {
-        card.classed("big", true).style("height", "300px").style("overflow", "auto");
-        card.select(".cardToggle").style("opacity", "1")
+        card.classList.add("big");
+        card.style.height = "300px";
+        card.style.overflow = "auto";
+        card.querySelector(".cardToggle").style.opacity = 1;
     }
-    return false;
+
 }
 
 function cardToggleAll(contract) {
-    var card = d3.selectAll(".card");
-    if (contract) {
-        card.style("height", "94px").style("overflow", "hidden");
-    } else {
-        card.style("height", "300px").style("overflow", "auto");
+
+    var cards = document.querySelectorAll('.card');
+
+    for (i = 0; i < cards.length; ++i) {
+
+        card = cards[i];
+        if (contract) {
+            card.classList.remove("big");
+            card.style.height = "94px";
+            card.style.overflow = "hidden";
+            card.scrollTop = 0;
+            card.querySelector(".cardToggle").style.opacity = 0;
+        } else {
+            card.classList.add("big");
+            card.style.height = "300px";
+            card.style.overflow = "auto";
+            card.querySelector(".cardToggle").style.opacity = 1;
+        }
     }
-    return false;
+
 }
