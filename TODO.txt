@@ -2,12 +2,8 @@
 ***********************
 **  TEST  *************
 ***********************
-FEATURE: Add exand/contract/expand all/contract all
-FEATURE: Add text count, topic count
-TODO: Change none.jpg to <div> "icon"
-TODO: REFACTOR: (a) Update get_ to dict; (b) simplify topic_builder
-FIXME: UI HIGHLIGHTING: Problem?
-FIXME: UI OUTER RING: Show cards on click
+
+
 
 ***********************
 **  HIGH PRIORITY  ****

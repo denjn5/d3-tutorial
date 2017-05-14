@@ -16,9 +16,9 @@ var newSlice;
 var root;
 var currentCorpus;
 var color = d3.scaleLinear().domain([0, 0.5, 1]).range(['#337ab7', '#d3d3d3', '#464545']);
-var corpusA = 'Jonah';  // These variable names bind us to the buttonGroupIDs
-var corpusB = 'Revelation';  // And the variable values must correspond to the file name
-var corpusC = 'Jonah2';  // And these values are used for the buttonGroup labels.
+var corpusA = 'Proverbs';  // These variable names bind us to the buttonGroupIDs
+var corpusB = 'Romans';  // And the variable values must correspond to the file name
+var corpusC = 'Deuteronomy';  // And these values are used for the buttonGroup labels.
 
 // Set the labels on the Corpus choice buttons
 d3.select("#corpusA").html(corpusA);
@@ -230,7 +230,7 @@ function changeSelectedCorpus() {
 function getTopicsData() {
 
     // this line assumes that we have a variable with the same name as the this.id assigned (at the top of the file).
-    var corpusPath = "Data/Topics-" + currentCorpus + ".json";
+    var corpusPath = "Data/Topics-" + currentCorpus + ".txt";
 
     // Get the data from our JSON file
     d3.json(corpusPath, function(error, topicsData) {
@@ -254,7 +254,7 @@ function getTopicsData() {
 function getTextsFile() {
 
     // IMP: Must have var with the same name as this.id (assigned at top of the file currently).
-    var corpusPath = "Data/Texts-" + currentCorpus + ".json";
+    var corpusPath = "Data/Texts-" + currentCorpus + ".txt";
 
     // Get the data from our JSON file
     d3.json(corpusPath, function(error, textsData) {
