@@ -5,31 +5,34 @@
 FEATURE: Add exand/contract/expand all/contract all
 FEATURE: Add text count, topic count
 TODO: Change none.jpg to <div> "icon"
-
-**  SATURDAY  **
 TODO: REFACTOR: (a) Update get_ to dict; (b) simplify topic_builder
+FIXME: UI HIGHLIGHTING: Problem?
+FIXME: UI OUTER RING: Show cards on click
 
 ***********************
 **  HIGH PRIORITY  ****
 ***********************
-FIXME: TEXT:TOPIC LINK: In Jonah, "lord" (UI slice) doesn't have any topics...
-FIXME: UI HIGHLIGHTING: Problem?
-FIXME: UI OUTER RING: Show cards on click
+FIXME: TOPIC COUNT: It's not counting everything???
 TODO: DOCUMENTATION: Improve!
-TODO: TITLES: Use titles for topic modeling
-
+TODO: TITLES: Optionally Include titles for topic modeling
+FIXME: SLICE TEXT: Show verbatim for phrases
+TODO: UI ICONS: Begin using
+TODO: TF-IDF: Begin using this for ranking / sizing.
+TODO: TEXT-TOPIC LINK: Move to Topics so we can prune (for big corpuses)
+TODO: TEXT DATE: Add to the 2nd level of the root labels.
 
 ***********************
 **  MEDIUM PRIORITY  **
 ***********************
-TODO: UI CARD SHRINK: (a) Add "shorter" icon; (b) Add "shrink all" / "grow all" buttons
 TODO: BOOTSTRAP: Get "partial" file based on features we use (http://getbootstrap.com/customize/)
 FEATURE: UI CORPUS VIEW: Multiple Days for same Corpus (dropdown?)
 FEATURE: NERs: (a) Recognize Multi-NERS; (b) ensure God, Jesus Christ are NERS
-FEATURE: SEARCH: (a) brings in texts that have that topic, (b) wildcards?, (c) shows texts and topic count
-FIXME: CARD CONTRACT: Scroll to top
+FEATURE: UI SEARCH: (a) brings in texts that have that topic, (b) wildcards?, (c) shows texts and topic count
+FIXME: UI CARD CONTRACT: Scroll to top
 FIXME: CONTRACT ALL: Remove underline!
 TODO: GET FILES / ALT IMAGE: Add alt attribute to img: 1st letter of site.
+FEATURE: UI CHOOSE SOURCES: Let users choose which sources they want to use.
+FEATURE: UI Sunburst Colors: Based on sentiment, or source
 
 ***********************
 **  LATER  ************
@@ -40,6 +43,7 @@ TODO: UI CORPUS BUTTONS: Drive based on found files
 TODO: RALEWAY: Get from local
 TODO: UI COLORS: (a) colorblind
 FEATURE: KEY PHRASE: Find key phrase for each topic. Show at top?
+FEATURE: SIMILAR TOPICS: Combine very similar phrases.
 
 
 ***********************
@@ -48,10 +52,19 @@ FEATURE: KEY PHRASE: Find key phrase for each topic. Show at top?
 FEATURE: Article Like, Junk (bad match)
 FEATURE: TEXT SCORE: (a) Assign based on topic in title, 1st paragraph, count of mentions, keyphrase; (b) UI autosort
 FEATURE: ANAPHORA RESOLUTION: Re-include ss.PRON in NOUNS (topic_builder)
-
+FEATURE: Lightly highlight some common words no matter what.
+FEATURE: LIKE POSTS: Make these appear together.
+FEATURE: DELETE DUPES: Delete texts that are 99% like another text.
 
 **  ICONS  **
 https://www.iconfinder.com/iconsets/materia-interface-vol-2
+
+https://markjs.io/
+https://markjs.io/configurator.html
+
+http://fontawesome.io/examples/
+
+
 
 **  BUTTON GROUP W/ DROPDOWN  **
 https://v4-alpha.getbootstrap.com/components/button-group/#nesting

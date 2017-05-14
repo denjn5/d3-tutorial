@@ -17,7 +17,7 @@ var root;
 var currentCorpus;
 var color = d3.scaleLinear().domain([0, 0.5, 1]).range(['#337ab7', '#d3d3d3', '#464545']);
 var corpusA = 'Jonah';  // These variable names bind us to the buttonGroupIDs
-var corpusB = 'Proverbs2';  // And the variable values must correspond to the file name
+var corpusB = 'Revelation';  // And the variable values must correspond to the file name
 var corpusC = 'Jonah2';  // And these values are used for the buttonGroup labels.
 
 // Set the labels on the Corpus choice buttons
@@ -134,10 +134,12 @@ function selectSlice(c) {
             } else if (d === clicked) { // Clicked a new node & this is the node: update path
                 // UPDATE PATH, SHOW TEXTS
                 var topic = c.data.name;
+                var verbatim = c.data.verbatim;
+
                 d3.select("#topicName").html("Topic: '" + topic + "'");
                 d3.selectAll(".cardsToggleAll").style("opacity", "1");
 
-                showTexts(topic);
+                showTexts(topic, verbatim);
                 var cards = document.getElementsByClassName("card");
                 d3.select("#topicDetails").html(c.data.count + " mentions in " + cards.length + " texts");
 
@@ -158,12 +160,15 @@ function selectSlice(c) {
     }
 }
 
-function showTexts(topic) {
+/** Select texts for this topic and highlight the variants for the selected topic / phrase.
+ * @param topic {str} the selected topic of phrase
+ * @param verbatim {str} the verbatim of the selected topic of phrase
+ */
+function showTexts(topic, verbatim) {
+
     try {
 
-
-
-        // Select the correct texts, and add to the sidebar...
+        // SELECT THE TEXTS, and add to the sidebar...
         var divs = d3.select("#sidebar").selectAll("divs")
             .data(allTextsData.filter(function(text) {
                 // TODO: Find a better way than looking for undefined...
@@ -174,32 +179,13 @@ function showTexts(topic) {
             .html(function (d) {return d.htmlCard; });
         divs.exit().remove();
 
-        // ******************* test code **************
-        // Loop thru array and find texts...
-        for (i = 0; i < allTextsData.length; i++) {
-            // Stop when you find a text that has this "topic"
-            // TODO: find a better way to do this test
-            if (typeof(allTextsData[i]["topics"][topic]) != "undefined") {
-                id = 'text_' + allTextsData[i]["id"];
-                indexes = allTextsData[i]["topics"][topic];
+        // FIND THE TOPIC (use mark.js) [https://markjs.io/]
+        var cards = document.querySelectorAll('.card'), i;
 
-                var card_text = document.getElementById(id);
-                var cStr = card_text.innerText;
-
-                for (t = 0; t < indexes.length; t++) {
-                    var startIndex = indexes[t][0];
-                    var endIndex = indexes[t][1];
-
-                    cStr = cStr.slice(0, startIndex) + '<mark>' + cStr.slice(startIndex, endIndex) +
-                        '</mark>' + cStr.slice(endIndex, cStr.length);
-
-                    // console.log(indexes[i - 1][0] + ' ' + indexes[i - 1][1])
-
-                }
-                card_text.innerHTML = cStr;
-
-            }
-
+        for (i = 0; i < cards.length; ++i) {
+            var instance = new Mark(cards[i]);
+            instance.mark(topic); // will mark the keyword "test"
+            instance.mark(verbatim, {"separateWordSearch": false});
         }
 
     } catch (e) { }
