@@ -4,18 +4,18 @@
 ***********************
 
 
-
 ***********************
 **  HIGH PRIORITY  ****
 ***********************
-FIXME: TOPIC COUNT: It's not counting everything???
+TODO: (1/2) TITLES: Optionally Include titles for topic modeling
+TODO: (1/2) TEXT DATE: Add to the 2nd level of the root labels.
+TODO: (1/2) GET FILES / ALT IMAGE: Add alt attribute to img: 1st letter of site.
+TODO: ASSERTS: Add to topic_builder w/ comments to ensure GET to ensure conformity.
+TODO: Popup "About" and "Help"
 TODO: DOCUMENTATION: Improve!
-TODO: TITLES: Optionally Include titles for topic modeling
-FIXME: SLICE TEXT: Show verbatim for phrases
-TODO: UI ICONS: Begin using
-TODO: TF-IDF: Begin using this for ranking / sizing.
+FEATURE: TF-IDF: Begin using this for ranking / sizing.
+FEATURE: UI SEARCH: (a) brings in texts that have that topic, (b) wildcards?, (c) shows texts and topic count
 TODO: TEXT-TOPIC LINK: Move to Topics so we can prune (for big corpuses)
-TODO: TEXT DATE: Add to the 2nd level of the root labels.
 TODO: TOKENS vs CLEAN: Consider using tokensClean for nounFinder (faster, but subtree might not work...)
 
 ***********************
@@ -23,10 +23,6 @@ TODO: TOKENS vs CLEAN: Consider using tokensClean for nounFinder (faster, but su
 ***********************
 TODO: BOOTSTRAP: Get "partial" file based on features we use (http://getbootstrap.com/customize/)
 FEATURE: UI CORPUS VIEW: Multiple Days for same Corpus (dropdown?)
-FEATURE: NERs: (a) Recognize Multi-NERS; (b) ensure God, Jesus Christ are NERS
-FEATURE: UI SEARCH: (a) brings in texts that have that topic, (b) wildcards?, (c) shows texts and topic count
-FIXME: CONTRACT ALL: Remove underline!
-TODO: GET FILES / ALT IMAGE: Add alt attribute to img: 1st letter of site.
 FEATURE: UI CHOOSE SOURCES: Let users choose which sources they want to use.
 FEATURE: UI Sunburst Colors: Based on sentiment, or source
 
@@ -51,6 +47,7 @@ FEATURE: ANAPHORA RESOLUTION: Re-include ss.PRON in NOUNS (topic_builder)
 FEATURE: Lightly highlight some common words no matter what.
 FEATURE: LIKE POSTS: Make these appear together.
 FEATURE: DELETE DUPES: Delete texts that are 99% like another text.
+FEATURE: NERs: (a) Recognize Multi-NERS; (b) ensure God, Jesus Christ are NERS
 
 **  ICONS  **
 https://www.iconfinder.com/iconsets/materia-interface-vol-2

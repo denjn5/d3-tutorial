@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="Libraries/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css">
     <script src="Libraries/d3/d3.v4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.10.1/mark.min.js"></script>
+    <script src="Libraries/mark/mark.min.js"></script>
     <!-- local: Libraries/d3bootstrap-js4.js | cdn: https://d3js.org/d3.v4.min.js -->
 </head>
 <body>
@@ -31,6 +31,7 @@
             <div class="row">  <!-- Sunburst -->
                 <div class="col-md-12">
                     <svg>
+
                         <text x="50%" y="48%" id="corpusName" class="h4"></text>
                         <text x="50%" y="52%" id="corpusDate" class="h6"></text>
                         <text x="50%" y="55%" id="corpusAsOf" class="h6"></text>
@@ -81,10 +82,10 @@
 
                 <div class="col-xs-2">  <!-- Topic Controls -->
                     <a href='javascript:void(0);' onclick='cardToggleAll(true)'>
-                        <div class="cardsToggleAll" id="cardContractAll">-</div>&nbsp;
-                    </a>
+                        <i class="fa fa-minus-square-o fa-2x cardsToggleAll"></i>
+                    </a>&nbsp;
                     <a href='javascript:void(0);' onclick='cardToggleAll(false)'>
-                        <div class="cardsToggleAll">+</div>
+                        <i class="fa fa-plus-square-o fa-2x cardsToggleAll"></i>
                     </a>
 
                 </div>

@@ -22,27 +22,17 @@ text {
     color: lightgray;
 }
 
-
 .cardsToggleAll {
     float: right;
-    font-weight: bolder;
-    text-align: center;
-    vertical-align: 50%;
-    text-decoration: none;
-    font-size: 200%;
     color: lightgray;
-    border: 1px solid lightgray;
-    border-radius: 3px;
-    line-height: 20px;
-    height: 20px;
-    width: 20px;
-}
-
-#cardContractAll {
     margin-left: 5px;
-    padding-bottom: 5px;
+    display: none;
 }
 
+.searchButton {
+    color: lightgray;
+
+}
 
 /****  SUNBURST  ****/
 #corpusAsOf {
@@ -56,6 +46,11 @@ text {
     alignment-baseline: middle;
     text-anchor: middle;
 }
+
+/*#corpusSearch {*/
+
+    /*font-family: FontAwesome;*/
+/*}*/
 
 /****  CARDS  ****/
 .bs-callout {
@@ -104,7 +99,6 @@ mark {
     position: absolute;
     top: 35px;
     right: 8px;
-    /* text-align: right; */
 
     /* alt image formatting */
     width: 42px;
@@ -119,19 +113,9 @@ mark {
 
 .cardToggle {
     position: absolute;
-    font-weight: bolder;
-    text-align: center;
-    vertical-align: 50%;
-    text-decoration: none;
-    font-size: 200%;
     color: lightgray;
-    border: 1px solid lightgray;
-    border-radius: 3px;
-    line-height: 20px;
-    top: 275px;
+    top: 700px;  /* Places small "-" icon properly in each card. Odd: it's 750px when the box is only 300px tall. */
     right: 8px;
-    height: 20px;
-    width: 20px;
 }
 
 .cardResize {

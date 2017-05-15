@@ -95,9 +95,10 @@ function drawSunburst(data) {
     newSlice.append("text")
         .attr("dx", function(d) { return (d.parent ? "-30" : ""); } )  // "-20" for rim labels
         .attr("dy", function(d) { return (d.parent ? ".25em" : "-3em"); }) // ".5em" for rim labels
-        .text(function(d) { return d.data.name.split(" ").slice(0,2).join(" "); })
+        .text(function(d) {  // Inner circle: Show name; outer circle, show first verbatim
+            return (d.depth < 2 ? d.data.name : d.data.verbatims[0]).split(" ").slice(0,2).join(" ");
+        })
         .attr("display", function(d) { return d.depth ? null : "none"; });
-    // TODO: Do we need to calc full sunburst first? Or can I wait on some for speed?
 
     // Adds in event handler for the slices
     newSlice.on("click", selectSlice);
@@ -124,7 +125,7 @@ function selectSlice(c) {
                 // We've click on the last slice clicked & this is the current node (as we loop through all of them).
                 d3.select("#topicName").html("");
                 d3.select("#topicDetails").html("");
-                d3.selectAll(".cardsToggleAll").style("opacity", "0");
+                d3.selectAll(".cardsToggleAll").style("display", "none");
                 d3.select("#sidebar").selectAll("div").remove();
 
                 d.prevClicked = false;
@@ -133,15 +134,15 @@ function selectSlice(c) {
 
             } else if (d === clicked) { // Clicked a new node & this is the node: update path
                 // UPDATE PATH, SHOW TEXTS
+                d3.select("#topicName").html("'" + (c.depth < 2 ? c.data.name : c.data.verbatims[0]) + "'");
+                d3.selectAll(".cardsToggleAll").style("display", "block");
+
                 var topic = c.data.name;
                 var verbatim = c.data.verbatims;
 
-                d3.select("#topicName").html("Topic: '" + topic + "'");
-                d3.selectAll(".cardsToggleAll").style("opacity", "1");
-
                 showTexts(topic, verbatim);
                 var cards = document.getElementsByClassName("card");
-                d3.select("#topicDetails").html(c.data.count + " mentions in " + cards.length + " texts");
+                d3.select("#topicDetails").html(c.data.count + "+ mentions in " + cards.length + " texts");
 
                 d.prevClicked = true;
                 return true;
@@ -162,7 +163,7 @@ function selectSlice(c) {
 
 /** Select texts for this topic and highlight the variants for the selected topic / phrase.
  * @param topic {str} the selected topic of phrase
- * @param verbatim {str} the verbatim of the selected topic of phrase
+ * @param verbatims {list} a list of verbatims of the selected topic of phrase
  */
 function showTexts(topic, verbatims) {
 
@@ -186,6 +187,7 @@ function showTexts(topic, verbatims) {
             "separateWordSearch": false
         };
 
+        // loop through cards and then through verbatims
         for (i = 0; i < cards.length; ++i) {
             var instance = new Mark(cards[i]);
 
@@ -248,7 +250,11 @@ function getTopicsData() {
         drawSunburst(allTopicsData);
         showTopTopics();
         d3.select("#corpusName").html(currentCorpus);
-        d3.select("#corpusAsOf").html("As of " + allTopicsData.run_date.replace('2017-',''))
+        d3.select("#corpusAsOf").html("As of " + allTopicsData.run_date.replace('2017-',''));
+
+        if (allTopicsData.data_date) {
+            d3.select("#corpusDate").html("Data date: " + allTopicsData.data_date.replace('2017-',''));
+        }
 
     });
 
