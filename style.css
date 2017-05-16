@@ -41,8 +41,14 @@ text {
     text-anchor: middle;
 }
 
-#corpusName, #corpusDate {
+#corpusName {
     fill: black;
+    alignment-baseline: middle;
+    text-anchor: middle;
+}
+
+#corpusDate {
+    fill: darkgray;
     alignment-baseline: middle;
     text-anchor: middle;
 }
@@ -103,8 +109,10 @@ mark {
     /* alt image formatting */
     width: 42px;
     height: 42px;
-    border: 1px solid white;
-    color: lightgray;
+    text-transform: uppercase;
+    background-color: white;
+    z-index: 1000; /* pop to front */
+    color: #337ab7;
     text-align: center;
     display: table-cell;
     vertical-align: baseline;

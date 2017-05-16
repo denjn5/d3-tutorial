@@ -17,7 +17,7 @@ var root;
 var currentCorpus;
 var color = d3.scaleLinear().domain([0, 0.5, 1]).range(['#337ab7', '#d3d3d3', '#464545']);
 var corpusA = 'Proverbs';  // These variable names bind us to the buttonGroupIDs
-var corpusB = 'Romans';  // And the variable values must correspond to the file name
+var corpusB = 'Hosea';  // And the variable values must correspond to the file name
 var corpusC = 'Deuteronomy';  // And these values are used for the buttonGroup labels.
 
 // Set the labels on the Corpus choice buttons
@@ -218,6 +218,8 @@ function changeSelectedCorpus() {
 
     // Update Page Labels
     d3.select("#topicName").html("");
+    d3.select("#topicDetails").html("");
+    d3.selectAll(".cardsToggleAll").style("display", "none");
     d3.select("#sidebar").selectAll("div").remove();
 
     // Update Corpus Buttons
@@ -253,7 +255,7 @@ function getTopicsData() {
         d3.select("#corpusAsOf").html("As of " + allTopicsData.run_date.replace('2017-',''));
 
         if (allTopicsData.data_date) {
-            d3.select("#corpusDate").html("Data date: " + allTopicsData.data_date.replace('2017-',''));
+            d3.select("#corpusDate").html("Data: " + allTopicsData.data_date.replace('2017-',''));
         }
 
     });
@@ -368,6 +370,7 @@ function cardToggle(cardID) {
         card.style.height = "94px";
         card.style.overflow = "hidden";
         card.scrollTop = 0;
+        card.scrollLeft = 0;
         card.querySelector(".cardToggle").style.opacity = 0;
 
     } else {
