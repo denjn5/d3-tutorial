@@ -16,9 +16,9 @@ var newSlice;
 var root;
 var currentCorpus;
 var color = d3.scaleLinear().domain([0, 0.5, 1]).range(['#337ab7', '#d3d3d3', '#464545']);
-var corpusA = 'Proverbs';  // These variable names bind us to the buttonGroupIDs
-var corpusB = 'Hosea';  // And the variable values must correspond to the file name
-var corpusC = 'Deuteronomy';  // And these values are used for the buttonGroup labels.
+var corpusA = 'Matthew2';  // These variable names bind us to the buttonGroupIDs
+var corpusB = 'Matthew';  // And the variable values must correspond to the file name
+var corpusC = 'Proverbs';  // And these values are used for the buttonGroup labels.
 
 // Set the labels on the Corpus choice buttons
 d3.select("#corpusA").html(corpusA);
@@ -63,6 +63,19 @@ function drawSunburst(data) {
         root.sum(function (d) { d.topSize = d.size; return d.topSize; })
         .sort(function (a, b) { return b.value - a.value; });
     }
+
+    //
+    // if (document.getElementById("top5").checked) {
+    //     root.sum(function (d) { d.topSize = (d.rank <= 5) ? d.textCount : 0; return d.topSize; })
+    //     .sort(function (a, b) { return b.value - a.value; });
+    // } else if (document.getElementById("top10").checked) {
+    //     root.sum(function (d) { d.topSize = (d.rank <= 10) ? d.textCount : 0; return d.topSize; })
+    //     .sort(function (a, b) { return b.value - a.value; });
+    // } else {
+    //     root.sum(function (d) { d.topSize = d.textCount; return d.topSize; })
+    //     .sort(function (a, b) { return b.value - a.value; });
+    // }
+
 
     // Calculate the size of each arc; save the initial angles for tweening.
     partition(root);
@@ -297,6 +310,17 @@ function showTopTopics() {
     } else {
         root.sum(function (d) { d.topSize = d.size; return d.topSize; });
     }
+
+
+    // if (document.getElementById("top5").checked) {
+    //     root.sum(function (d) { d.topSize = (d.rank <= 5) ? d.textCount : 0; return d.topSize; });
+    // } else if (document.getElementById("top10").checked) {
+    //     root.sum(function (d) { d.topSize = (d.rank <= 10) ? d.textCount : 0; return d.topSize; });
+    // } else {
+    //     root.sum(function (d) { d.topSize = d.textCount; return d.topSize; });
+    // }
+
+
 
     // Recalculate partition data and then animate the redraw of both slices and text.
     partition(root);

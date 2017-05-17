@@ -41,7 +41,7 @@ TODO: UI CENTER: Shrink root so we have more space for slices?
 TODO: UI LINE WRAP: For long lines
 TODO: UI CORPUS BUTTONS: Drive based on found files
 TODO: RALEWAY: Get from local
-TODO: UI COLORS: (a) colorblind
+TODO: UI COLORS: (a) colorblind, (b) recolor on Top X change
 FEATURE: UI Sunburst Colors: Based on sentiment, or source
 FEATURE: KEY PHRASE: Find key phrase for each topic. Show at top?
 FEATURE: SIMILAR TOPICS: Combine very similar phrases.
