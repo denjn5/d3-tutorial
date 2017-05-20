@@ -2,16 +2,14 @@
 ***********************
 **  TEST  *************
 ***********************
-TODO: GET FILES / ALT IMAGE: Add alt attribute to img: 1st letter of site.
-TODO: TEXT DATE: Add to the 2nd level of the root labels.
-TODO: UI CARD SCROLL: force scroll to left
-TODO: UI CARD PIX: Improve CSS
-TODO: Remove context and buttons on Data Source Switch
 
 
-***********************
-**  HIGH PRIORITY  ****
-***********************
+
+**********************
+**  HIGH PRIORITY  ***
+**********************
+
+
 TODO: (1/2) TITLES: Optionally Include titles for topic modeling
 TODO: UI SOURCE CHECKBOXES: Allow user to choose which sources.
 TODO: UI TOPIC SELECTOR: Drive by simple file?
@@ -24,14 +22,17 @@ TODO: DOCUMENTATION: Improve!
 FEATURE: TF-IDF: Begin using this for ranking / sizing.
 FEATURE: UI SEARCH: (a) brings in texts that have that topic, (b) wildcards?, (c) shows texts and topic count
 TODO: TEXT-TOPIC LINK: Move to Topics so we can prune (for big corpuses)
-TODO: TOKENS vs CLEAN: Consider using tokensClean for nounFinder (faster, but subtree might not work...)
+
 
 ***********************
 **  MEDIUM PRIORITY  **
 ***********************
+TODO: spaCy pipe() -- multi-threading
 TODO: DATA DATE: Add day-of-week
+TODO: TOKENS vs CLEAN: Consider using tokensClean for nounFinder (faster, but subtree might not work...)
 FEATURE: UI CORPUS VIEW: Multiple Days for same Corpus (dropdown?)
 FEATURE: UI CHOOSE SOURCES: Let users choose which sources they want to use.
+TODO: X TOPIC SIZE: Topics can appear bigger than they should because we add together contexts
 
 ***********************
 **  LATER  ************

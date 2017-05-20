@@ -196,7 +196,7 @@ function showTexts(topic, verbatims) {
         // FIND THE TOPIC (use mark.js) [https://markjs.io/]
         var cards = document.querySelectorAll('.cardText');
         var options = {  // https://markjs.io/configurator.html
-            "accuracy": { "value": "exactly", "limiters": [",", ".", ";", ":"] },
+            "accuracy": { "value": "exactly", "limiters": [",", ".", ";", ":", "!", "?", "[", "]", "(", ")"] },
             "separateWordSearch": false
         };
 
