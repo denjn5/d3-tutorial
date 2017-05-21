@@ -18,6 +18,10 @@ text {
     height: 40px;
 }
 
+.titleImage:hover {
+    opacity: 0.6;
+}
+
 #topicDetails {
     color: lightgray;
 }
@@ -29,9 +33,17 @@ text {
     display: none;
 }
 
+.cardsToggleAll:hover {
+    opacity: 0.6;
+}
+
 .searchButton {
     color: lightgray;
+}
 
+#welcomeMessage {
+    overflow: hidden;
+    height: 0px;
 }
 
 /****  SUNBURST  ****/
@@ -117,6 +129,10 @@ mark {
     display: table-cell;
     vertical-align: baseline;
     font-size: 175%;
+}
+
+.cardImage:hover {
+    opacity: 0.6;
 }
 
 .cardToggle {

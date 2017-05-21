@@ -1,7 +1,48 @@
 /**
- * Created by drichards on 4/28/17.
+ * Purpose: Quickly, intuitively explore primary themes in a large groups of texts.
+ * Author: David Richards
+ * Date: Summer 2017
+ * Frameworks:
+ *  - d3 | https://d3js.org/ | https://github.com/d3/d3/blob/master/API.md | viz builder
+ *  - mark.js | https://markjs.io/ | highlights found strings
+ *  - bootstrap | http://getbootstrap.com/ | responsive formatting, user controls
+ *  - fontawesome | http://fontawesome.io/ | icons!
+ *  - google font: Raleway | https://fonts.google.com/specimen/Raleway | clean, attractive
+ * Data Files Requirements:
+ *  - Topics-ABC.txt | A hierarchical json file that populates our sunburst
+ *  - Texts-ABB.txt |
+ *
+ *
+ * ***  Topics-ABC.txt example  ***
+ * The file begins with a summary section, then has a list of children (one child per topic). Each topic has 0 or
+ * more children representing phrases that provide context for the topic.
+ * {"name": "Matthew",                  // name of the corpus, shown in the center of the sunburst
+ *  "data_date": "",                    // the date of the data, shown in the center of the sunburst
+ *  "run_date": "2017-05-20 13:33",     // the date we pulled the data, shown in the center of the sunburst
+ *  "children": [{                      // ***  topics: the inner ring of our sunburst ***
+ *      "name": "man",                  // the first topic, use this as the visible title of our slice
+ *      "count": 108,                   // how many times does this topic appear in the texts? (shown at the top of
+ *                                          the texts list.
+ *      "rank": 1,                      // a rank order based on the number of texts it appears in
+ *      "size": 7,                      //
+ *      "textCount": 25,                // how many texts does this topic appear in (e.g., textIDs.length)
+ *      "verbatims": ["man", "men"],    // alternate ways this topics is mentioned in our texts, used by to highlight
+ *      "textIDs": ["936", "944",       // the textIDs where this topic appears (used to determine which texts to show
+ *          "929", "956", "942", "945", "946", "947", "938", "954", "953", "948", "930",
+ *          "935", "951", "950","952", "932", "940", "937", "943", "955", "941", "939", "949"],
+ *      "children": [                   // ***  sub-topics: the outer ring of our sunburst  ***
+ *                                      // each child has a subset of the attributes that we have for each topic
+ *          {"name": "aman", "count": 13, "verbatims": ["a man"],
+ *            "textIDs": ["945", "946", "937", "947", "941", "950", "953", "944", "940", "949"], "textCount": 10,
+ *            "rank": 1, "size": 10},
+ *          {"name": "thisman", "count": 8, "verbatims": ["this man"],
+ *            "textIDs": ["937", "955", "941", "954", "940"],
+ *            "textCount": 5, "rank": 1, "size": 5},
+ *          {"name": "theman", "count": 6, "verbatims": ["the man", "the men"],
+ *            "textIDs": ["954", "940", "936"],
+ *            "textCount": 3, "rank": 1, "size": 3}]
+ * }]}
  */
-
 
 
 // Variables
@@ -43,8 +84,8 @@ d3.selectAll("input[name=dateSelect]").on("click", showDate);
 d3.selectAll("button.corpus").on("click", changeSelectedCorpus);
 
 /**
- * Draw the sunburst
- * @param data {json} the topic data (parameterized in case we want to filter before drawing)
+ * Draw the sunburst, which includes sizing the slices, applying colors and labels
+ * @param data {json} the topic data (parameterized because we may filter the data before drawing)
  */
 function drawSunburst(data) {
 
@@ -101,7 +142,7 @@ function drawSunburst(data) {
         //.style("fill", function (d) { return color((d.children ? d : d.parent).data.name); })
         .style("fill", function (d) { return d.parent ? color(d.x0 / 6.28) : "white"; })
         .attr("display", function(d) { return d.depth ? null : "none"; })
-        .append("title").text(function (d) { return d.data.name; }) ;
+        .append("title").text(function (d) { return showTopicName(d, true); }) ;
 
     // Populate the <text> elements with our data-driven titles.
     slice.selectAll("text").remove();
@@ -109,7 +150,7 @@ function drawSunburst(data) {
         .attr("dx", function(d) { return (d.parent ? "-30" : ""); } )  // "-20" for rim labels
         .attr("dy", function(d) { return (d.parent ? ".25em" : "-3em"); }) // ".5em" for rim labels
         .text(function(d) {  // Inner circle: Show name; outer circle, show first verbatim
-            return (d.depth < 2 ? d.data.name : d.data.verbatims[0]).split(" ").slice(0,2).join(" ");
+            return showTopicName(d, false);
         })
         .attr("display", function(d) { return d.depth ? null : "none"; });
 
@@ -119,7 +160,8 @@ function drawSunburst(data) {
 
 
 /**
- * React to the user-selected slice: update visual and show texts, called by event handler
+ * When a user clicks on a sunburst slice, we should highlight the path (update the visual) and then show the texts
+ * encompassed by that part of the sunburst.]
  * @param c {node} the clicked node
  */
 function selectSlice(c) {
@@ -147,7 +189,7 @@ function selectSlice(c) {
 
             } else if (d === clicked) { // Clicked a new node & this is the node: update path
                 // UPDATE PATH, SHOW TEXTS
-                d3.select("#topicName").html("'" + (c.depth < 2 ? c.data.name : c.data.verbatims[0]) + "'");
+                d3.select("#topicName").html( showTopicName(c, true) );
                 d3.selectAll(".cardsToggleAll").style("display", "block");
 
                 var topic = c.data.name;
@@ -174,7 +216,9 @@ function selectSlice(c) {
     }
 }
 
-/** Select texts for this topic and highlight the variants for the selected topic / phrase.
+
+/** Once a user clicks on a slice in the sunburst, we will select the proper texts to show based on the topic
+ * selected.  Then we'll highlight the selected phrase along with variants ("name" and "verbatims" in the json).
  * @param topic {str} the selected topic of phrase
  * @param verbatims {list} a list of verbatims of the selected topic of phrase
  */
@@ -218,11 +262,16 @@ function showDate() {
     alert("Not yet implemented: " + this.value);
 }
 
+
 /**
- * The user has selected a new corpus. Get new data files, the update the UI features
+ * When the user selects a new corpus (e.g., a new set of texts), this function determines which corpus has been
+ * requested, maneges the cascade of functions to update the visualization, clears old conotrols on the page, and
+ * marks the "current state" on the button group.
  */
 function changeSelectedCorpus() {
 
+    // Did the user click something (which has become current as this.id)? If so, pass the name of the id selected
+    // (rather than the object itself). If no current selection, default to corpusA.
     currentCorpus = (this.id ? window[this.id] : corpusA);
 
     getTopicsData();
@@ -235,7 +284,7 @@ function changeSelectedCorpus() {
     d3.selectAll(".cardsToggleAll").style("display", "none");
     d3.select("#sidebar").selectAll("div").remove();
 
-    // Update Corpus Buttons
+    // Update Corpus Buttons, hold on to the last selected as the "current" state.
     d3.selectAll(".corpus").classed("btn-primary", false);
     if (this.id === "corpusB") {
         d3.selectAll("#corpusB").classed("btn-primary", true);
@@ -406,12 +455,16 @@ function cardToggle(cardID) {
 
 }
 
+
+/**
+ * Toggle the visibility of all of the cards.
+ * @param contract {bool}  Are we contracting?
+ */
 function cardToggleAll(contract) {
 
     var cards = document.querySelectorAll('.card');
 
     for (i = 0; i < cards.length; ++i) {
-
         card = cards[i];
         if (contract) {
             card.classList.remove("big");
@@ -426,5 +479,38 @@ function cardToggleAll(contract) {
             card.querySelector(".cardToggle").style.opacity = 1;
         }
     }
+}
 
+
+/**
+ * Toggle (animate) the visibility of the page instructions.
+ */
+function welcomeToggle() {
+
+    var dmess = d3.select("#welcomeMessage");
+    if (dmess.classed("big")) {
+        dmess.classed("big", false);
+        dmess.transition().style("height", "0px").style("overflow", "hidden");
+    } else {
+        dmess.classed("big", true);
+        dmess.transition().style("height", "300px").style("overflow", "auto");
+    }
+}
+
+
+/**
+ * Given a d3 node, we return a string for users to see. We'll either return the name (for the inner-ring) or the
+ * first verbatim (for the outer-ring)
+ * @param n {node}  the current d3 node object
+ * @param showFullVerbatim {bool}  should we show the full topic name or just the 1st couple of words?
+ * @returns {string}  the topic name for UI presentation
+ */
+function showTopicName(n, showFullVerbatim) {
+    topicName =  (n.depth < 2 ? n.data.name : n.data.verbatims[0]);
+
+    if (showFullVerbatim) {
+        return topicName;
+    } else {
+        return topicName.split(" ").slice(0,2).join(" ");
+    }
 }

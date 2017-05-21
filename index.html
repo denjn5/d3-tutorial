@@ -23,10 +23,41 @@
         <div class="col-md-6">
             <div class="row">  <!-- Title -->
                 <div class="col-md-12 text-center">
-                    <img class="titleImage" src="Logos/chat.png"/>&nbsp;
+                    <a href='javascript:void(0);' onclick='welcomeToggle();'>
+                        <img class="titleImage" src="Logos/chat.png"/></a>&nbsp
                     <span class="align-top h1">Tell&nbsp;Me&nbsp;More</span>
                 </div>
             </div>
+
+            <div class="row">  <!-- Title -->
+                <div class="col-md-12" id="welcomeMessage">
+                    <h4>Welcome! <b>Tell Me More</b> is about simple topic exploration.</h4>
+
+                    Things you can do:
+                    <ul>
+                        <li>Click a sunburst slice to see related texts. Click again to deselect.</li>
+                        <li>Choose a new topic or topic date using the button group below the sunburst.</li>
+                    </ul>
+
+                    <div class="card bs-callout " id="card_help">
+                        <div class="cardTime">8:00</div>
+                        <a href="" target="_blank">
+                            <img src="Logos/chat.png" class="cardImage"></a>
+                        <div class="cardTitle h4">
+                            <a href="javascript:void(0);" onclick="cardToggle('help')">Help Instructions</a>
+                        </div>
+                        <a href="javascript:void(0);" onclick="cardToggle('help')">
+                            <i class="fa fa-minus-square-o fa-lg cardToggle"></i></a>
+                        <div class="cardText" id="text_help">
+                            Each card includes: <b>Sentiment</b> on the left (<span style="color: #5cb85c;">green</span>=positive; <span style="color: #d9534f;">red</span>=negative; <span style="color: lightgray;">gray</span>=indeterminate). <b>Post time</b> in the upper left. Click the <b>Title</b>, upper right, to expand/contract the card. The text highlights the topic selected and alternative verbatims.
+                        </div>
+                    </div>
+
+                    Ideas, question? Email me. &mdash;<i>David Richards</i></p>
+
+                </div>
+            </div>
+
 
             <div class="row">  <!-- Sunburst -->
                 <div class="col-md-12">
@@ -91,12 +122,11 @@
                 </div>
 
 
-
             </div>
 
 
             <div class="row">  <!-- Texts -->
-                <div id="sidebar" class="col-md-12 text-center">
+                <div id="sidebar" class="col-md-12 text-right">
 
 
                 </div>
@@ -105,7 +135,9 @@
 
     </div>
 
+
 </div>
+
 
 <script src="topicSunburst.js"></script>
 </body>
