@@ -39,7 +39,7 @@
                         <li>Choose a new topic or topic date using the button group below the sunburst.</li>
                     </ul>
 
-                    <div class="card bs-callout " id="card_help">
+                    <div class="card bs-callout" id="card_help">
                         <div class="cardTime">8:00</div>
                         <a href="" target="_blank">
                             <img src="Logos/chat.png" class="cardImage"></a>
@@ -49,7 +49,11 @@
                         <a href="javascript:void(0);" onclick="cardToggle('help')">
                             <i class="fa fa-minus-square-o fa-lg cardToggle"></i></a>
                         <div class="cardText" id="text_help">
-                            Each card includes: <b>Sentiment</b> on the left (<span style="color: #5cb85c;">green</span>=positive; <span style="color: #d9534f;">red</span>=negative; <span style="color: lightgray;">gray</span>=indeterminate). <b>Post time</b> in the upper left. Click the <b>Title</b>, upper right, to expand/contract the card. The text highlights the topic selected and alternative verbatims.
+                            Each card includes: <b>Sentiment</b> on the left (<span style="color: #5cb85c;">green</span>=positive;
+                            <span style="color: #d9534f;">red</span>=negative; <span
+                                style="color: lightgray;">gray</span>=indeterminate). <b>Post time</b> in the upper
+                            left. Click the <b>Title</b>, upper right, to expand/contract the card. The text highlights
+                            the topic selected and alternative verbatims.
                         </div>
                     </div>
 
@@ -60,13 +64,21 @@
 
 
             <div class="row">  <!-- Sunburst -->
-                <div class="col-md-12">
-                    <svg>
+                <div class="col-md-12" id="svg_container">
 
+                    <a href='javascript:void(0);' onclick='welcomeToggle();'>
+                        <i class="fa fa-question-circle fa-lg" id="svg_help"></i>
+                    </a>&nbsp;
+                    <a href='javascript:void(0);' onclick='searchToggle();'>
+                        <i class="fa fa-search fa-lg" id="svg_search"></i>
+                    </a>
+
+                    <svg>
                         <text x="50%" y="48%" id="corpusName" class="h4"></text>
                         <text x="50%" y="52%" id="corpusDate" class="h6"></text>
                         <text x="50%" y="55%" id="corpusAsOf" class="h6"></text>
                     </svg>
+
                 </div>
             </div>
 
@@ -134,7 +146,6 @@
         </div>
 
     </div>
-
 
 </div>
 

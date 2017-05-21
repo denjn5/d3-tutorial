@@ -56,10 +56,11 @@ var slice;
 var newSlice;
 var root;
 var currentCorpus;
+var currentTextIDs;
 var color = d3.scaleLinear().domain([0, 0.5, 1]).range(['#337ab7', '#d3d3d3', '#464545']);
-var corpusA = 'Matthew2';  // These variable names bind us to the buttonGroupIDs
-var corpusB = 'Matthew';  // And the variable values must correspond to the file name
-var corpusC = 'Proverbs';  // And these values are used for the buttonGroup labels.
+var corpusA = 'Proverbs';  // These variable names bind us to the buttonGroupIDs
+var corpusB = 'Numbers';  // And the variable values must correspond to the file name
+var corpusC = 'Mark';  // And these values are used for the buttonGroup labels.
 
 // Set the labels on the Corpus choice buttons
 d3.select("#corpusA").html(corpusA);
@@ -194,6 +195,7 @@ function selectSlice(c) {
 
                 var topic = c.data.name;
                 var verbatim = c.data.verbatims;
+                currentTextIDs = c.data.textIDs;
 
                 showTexts(topic, verbatim);
                 var cards = document.getElementsByClassName("card");
@@ -223,14 +225,17 @@ function selectSlice(c) {
  * @param verbatims {list} a list of verbatims of the selected topic of phrase
  */
 function showTexts(topic, verbatims) {
+    // FIXME: use textIDs to determine which texts to show...
 
     try {
 
         // SELECT THE TEXTS, and add to the sidebar...
         var divs = d3.select("#sidebar").selectAll("divs")
-            .data(allTextsData.filter(function(text) {
+            .data(allTextsData.filter(function(text, textIDs) {
                 // TODO: Find a better way than looking for undefined...
-                return typeof(text["topics"][topic]) != "undefined"; }));
+                return currentTextIDs.indexOf(text['id']) > 0;
+                //return typeof(text["topics"][topic]) != "undefined";
+            }));
 
         // TODO: What does merge do for me?
         var newDivs = divs.enter().append("divs").merge(divs)
@@ -487,13 +492,11 @@ function cardToggleAll(contract) {
  */
 function welcomeToggle() {
 
-    var dmess = d3.select("#welcomeMessage");
-    if (dmess.classed("big")) {
-        dmess.classed("big", false);
-        dmess.transition().style("height", "0px").style("overflow", "hidden");
+    var message = d3.select("#welcomeMessage");
+    if (message.classed("big")) {
+        message.classed("big", false).transition().style("height", "0px").style("overflow", "hidden");
     } else {
-        dmess.classed("big", true);
-        dmess.transition().style("height", "300px").style("overflow", "auto");
+        message.classed("big", true).transition().style("height", "300px").style("overflow", "auto");
     }
 }
 
@@ -513,4 +516,15 @@ function showTopicName(n, showFullVerbatim) {
     } else {
         return topicName.split(" ").slice(0,2).join(" ");
     }
+}
+
+/**
+ * Toggle the visibility of the search box
+ */
+function searchToggle() {
+
+}
+
+function searchTopic(topic) {
+
 }

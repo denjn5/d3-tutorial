@@ -4,22 +4,22 @@
 ***********************
 
 
-
 **********************
 **  HIGH PRIORITY  ***
 **********************
+Button group plan:
+* 3 topic areas (gospels, pentateuch, poetry)
+* prebuilt buttons (matthew, mark, luke, john)
+* look for buttons, hide ones with no related file
+* also think dates
 
 
 TODO: (1/2) TITLES: Optionally Include titles for topic modeling
 TODO: UI SOURCE CHECKBOXES: Allow user to choose which sources.
-TODO: UI TOPIC SELECTOR: Drive by simple file?
-TODO: UI TITLES: Popup titles should use verbatim
-TODO: UI VERBATIMS: Create a function to determine when verbatim and when topic
 TODO: UI CARD SHRINK ICON: Why does it appear in random places?
 TODO: ASSERTS: Add to topic_builder w/ comments to ensure GET to ensure conformity.
-TODO: Popup "About" and "Help"
 TODO: DOCUMENTATION: Improve!
-FEATURE: TF-IDF: Begin using this for ranking / sizing.
+
 FEATURE: UI SEARCH: (a) brings in texts that have that topic, (b) wildcards?, (c) shows texts and topic count
 TODO: TEXT-TOPIC LINK: Move to Topics so we can prune (for big corpuses)
 
@@ -43,6 +43,7 @@ TODO: UI LINE WRAP: For long lines
 TODO: UI CORPUS BUTTONS: Drive based on found files
 TODO: RALEWAY: Get from local
 TODO: UI COLORS: (a) colorblind, (b) recolor on Top X change
+FEATURE: TF-IDF: Explore this for ranking / sizing.
 FEATURE: UI Sunburst Colors: Based on sentiment, or source
 FEATURE: KEY PHRASE: Find key phrase for each topic. Show at top?
 FEATURE: SIMILAR TOPICS: Combine very similar phrases.
