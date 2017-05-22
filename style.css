@@ -69,22 +69,29 @@ text {
     position: relative;
 }
 
-#svg_help {
+#svgHelp {
     position: absolute;
     top: 10px;
     right: 10px;
     color: lightgray;
 }
 
-#svg_search {
+#svgSearch {
     position: absolute;
     top: 10px;
     right: 30px;
     color: lightgray;
 }
 
-#svg_help:hover, #svg_search:hover {
+#svgHelp:hover, #svg_search:hover {
     opacity: 0.6;
+}
+
+#svgTop7 {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    color: lightgray;
 }
 
 /*#corpusSearch {*/

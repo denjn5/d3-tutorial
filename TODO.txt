@@ -7,36 +7,25 @@
 **********************
 **  HIGH PRIORITY  ***
 **********************
-Button group plan:
-* 3 topic areas (gospels, pentateuch, poetry)
-* prebuilt buttons (matthew, mark, luke, john)
-* look for buttons, hide ones with no related file
-* also think dates
-
-
 TODO: (1/2) TITLES: Optionally Include titles for topic modeling
 TODO: UI SOURCE CHECKBOXES: Allow user to choose which sources.
 TODO: UI CARD SHRINK ICON: Why does it appear in random places?
 TODO: ASSERTS: Add to topic_builder w/ comments to ensure GET to ensure conformity.
-TODO: DOCUMENTATION: Improve!
+TODO: DOCUMENTATION: Improve! Move to README.md file
 
 FEATURE: UI SEARCH: (a) brings in texts that have that topic, (b) wildcards?, (c) shows texts and topic count
-TODO: TEXT-TOPIC LINK: Move to Topics so we can prune (for big corpuses)
-
 
 ***********************
 **  MEDIUM PRIORITY  **
 ***********************
 TODO: spaCy pipe() -- multi-threading
-TODO: DATA DATE: Add day-of-week
-TODO: TOKENS vs CLEAN: Consider using tokensClean for nounFinder (faster, but subtree might not work...)
 FEATURE: UI CORPUS VIEW: Multiple Days for same Corpus (dropdown?)
 FEATURE: UI CHOOSE SOURCES: Let users choose which sources they want to use.
-TODO: X TOPIC SIZE: Topics can appear bigger than they should because we add together contexts
 
 ***********************
 **  LATER  ************
 ***********************
+TODO: DATA DATE: Add day-of-week
 TODO: BOOTSTRAP: Get "partial" file based on features we use (http://getbootstrap.com/customize/)
 TODO: UI CENTER: Shrink root so we have more space for slices?
 TODO: UI LINE WRAP: For long lines

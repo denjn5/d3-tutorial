@@ -58,6 +58,7 @@ var root;
 var currentCorpus;
 var currentTextIDs;
 var color = d3.scaleLinear().domain([0, 0.5, 1]).range(['#337ab7', '#d3d3d3', '#464545']);
+var overRide = '';  // Use this variable to force the use of a specific Topic / Text file pair.
 var corpusA = 'Proverbs';  // These variable names bind us to the buttonGroupIDs
 var corpusB = 'Numbers';  // And the variable values must correspond to the file name
 var corpusC = 'Mark';  // And these values are used for the buttonGroup labels.
@@ -79,10 +80,13 @@ var partition = d3.partition()
     .size([2 * Math.PI, radius]);
 
 // Get files, produce visuals, set up event handlers
+// TODO: Once the new corpus selection logic is in place, delete refs to changeSelectedCorpus().
 changeSelectedCorpus();
+updateSelectedCorpus();
 d3.selectAll("input[name=topTopicsSelect]").on("click", showTopTopics);
 d3.selectAll("input[name=dateSelect]").on("click", showDate);
 d3.selectAll("button.corpus").on("click", changeSelectedCorpus);
+d3.selectAll("div.corpus").on("click", updateSelectedCorpus);
 
 /**
  * Draw the sunburst, which includes sizing the slices, applying colors and labels
@@ -95,28 +99,13 @@ function drawSunburst(data) {
 
     // Determines size of each slice based on the topSize
     // TODO: Violates DRY (this logic exists below) -- but maybe that's okay?
-    if (document.getElementById("top5").checked) {
-        root.sum(function (d) { d.topSize = (d.rank <= 5) ? d.size : 0; return d.topSize; })
-        .sort(function (a, b) { return b.value - a.value; });
-    } else if (document.getElementById("top10").checked) {
-        root.sum(function (d) { d.topSize = (d.rank <= 10) ? d.size : 0; return d.topSize; })
+    if (document.getElementById("top7").checked) {
+        root.sum(function (d) { d.topSize = (d.rank <= 7) ? d.size : 0; return d.topSize; })
         .sort(function (a, b) { return b.value - a.value; });
     } else {
         root.sum(function (d) { d.topSize = d.size; return d.topSize; })
         .sort(function (a, b) { return b.value - a.value; });
     }
-
-    //
-    // if (document.getElementById("top5").checked) {
-    //     root.sum(function (d) { d.topSize = (d.rank <= 5) ? d.textCount : 0; return d.topSize; })
-    //     .sort(function (a, b) { return b.value - a.value; });
-    // } else if (document.getElementById("top10").checked) {
-    //     root.sum(function (d) { d.topSize = (d.rank <= 10) ? d.textCount : 0; return d.topSize; })
-    //     .sort(function (a, b) { return b.value - a.value; });
-    // } else {
-    //     root.sum(function (d) { d.topSize = d.textCount; return d.topSize; })
-    //     .sort(function (a, b) { return b.value - a.value; });
-    // }
 
 
     // Calculate the size of each arc; save the initial angles for tweening.
@@ -191,6 +180,7 @@ function selectSlice(c) {
             } else if (d === clicked) { // Clicked a new node & this is the node: update path
                 // UPDATE PATH, SHOW TEXTS
                 d3.select("#topicName").html( showTopicName(c, true) );
+                // TODO: "display" works as style.  Seems like sometimes I call it from .attr()...
                 d3.selectAll(".cardsToggleAll").style("display", "block");
 
                 var topic = c.data.name;
@@ -198,8 +188,8 @@ function selectSlice(c) {
                 currentTextIDs = c.data.textIDs;
 
                 showTexts(topic, verbatim);
-                var cards = document.getElementsByClassName("card");
-                d3.select("#topicDetails").html(c.data.count + "+ mentions in " + cards.length + " texts");
+                var cards = document.getElementsByClassName("card");  // This also selects the card in "help"
+                d3.select("#topicDetails").html(c.data.count + "+ mentions in " + c.data.textIDs.length + " texts");
 
                 d.prevClicked = true;
                 return true;
@@ -233,12 +223,12 @@ function showTexts(topic, verbatims) {
         var divs = d3.select("#sidebar").selectAll("divs")
             .data(allTextsData.filter(function(text, textIDs) {
                 // TODO: Find a better way than looking for undefined...
-                return currentTextIDs.indexOf(text['id']) > 0;
+                return currentTextIDs.indexOf(text['id']) >= 0;
                 //return typeof(text["topics"][topic]) != "undefined";
             }));
 
         // TODO: What does merge do for me?
-        var newDivs = divs.enter().append("divs").merge(divs)
+        divs.enter().append("divs").merge(divs)
             .html(function (d) {return d.htmlCard; });
         divs.exit().remove();
 
@@ -275,8 +265,8 @@ function showDate() {
  */
 function changeSelectedCorpus() {
 
-    // Did the user click something (which has become current as this.id)? If so, pass the name of the id selected
-    // (rather than the object itself). If no current selection, default to corpusA.
+    // Did the user click something (which has become current as this.id)? If so, check if there's a variable by
+    // this name.  If so, window[this.id] returns the value of that variable.  If not, return the value of corpusA.
     currentCorpus = (this.id ? window[this.id] : corpusA);
 
     getTopicsData();
@@ -292,14 +282,59 @@ function changeSelectedCorpus() {
     // Update Corpus Buttons, hold on to the last selected as the "current" state.
     d3.selectAll(".corpus").classed("btn-primary", false);
     if (this.id === "corpusB") {
-        d3.selectAll("#corpusB").classed("btn-primary", true);
+        d3.select("#corpusB").classed("btn-primary", true);
     } else if (this.id === "corpusC") {
-        d3.selectAll("#corpusC").classed("btn-primary", true);
+        d3.select("#corpusC").classed("btn-primary", true);
     } else {
-        d3.selectAll("#corpusA").classed("btn-primary", true);
+        d3.select("#corpusA").classed("btn-primary", true);
     }
 
 }
+
+/**
+ * When the user selects a new corpus (e.g., a new set of texts), this function determines which corpus has been
+ * requested, maneges the cascade of functions to update the visualization, clears old controls on the page, and
+ * marks the "current state" on the button group.
+ */
+function updateSelectedCorpus() {
+
+    // Update Page Labels
+    d3.select("#topicName").html("");
+    d3.select("#topicDetails").html("");
+    d3.selectAll(".cardsToggleAll").style("display", "none");
+    d3.select("#sidebar").selectAll("div").remove();
+
+    // Update Corpus Buttons, hold on to the last selected as the "current" state.
+    d3.selectAll(".corpus").classed("btn-primary", false);
+    d3.selectAll(".books").style("display", "none");
+    if (this.id === "corpPentateuch") {
+        d3.select("#corpPentateuch").classed("btn-primary", true);
+        d3.select("#booksPentateuch").style("display", "block");
+        currentCorpus = "Genesis";
+    } else if (this.id === "corpPoetry") {
+        d3.select("#corpPoetry").classed("btn-primary", true);
+        d3.select("#booksPoetry").style("display", "block");
+        currentCorpus = "Job";
+    } else {
+        d3.select("#corpGospels").classed("btn-primary", true);
+        d3.select("#booksGospels").style("display", "block");
+        currentCorpus = "Matthew";
+    }
+
+    if (overRide.length > 0)
+        currentCorpus = overRide;
+
+    // TODO: Get smarter about updating currentCorpus.
+    // Did the user click something (which has become current as this.id)? If so, check if there's a variable by
+    // this name.  If so, window[this.id] returns the value of that variable.  If not, return the value of corpusA.
+    // currentCorpus = (this.id ? window[this.id] : corpusA);
+
+    getTopicsData();
+    getTextsFile();
+    selectSlice();
+
+}
+
 
 /**
  * Get a new Topics file
@@ -357,24 +392,11 @@ function showTopTopics() {
     // Create a "topSize" variable to store the size (0 or actual) based on user selection. Return that to the d3.sum
     // function.
     // TODO: Currently I stash a "rank" in all slices. Maybe better to base below calc on either local *or* parent rank?
-    if (document.getElementById("top5").checked) {
-        root.sum(function (d) { d.topSize = (d.rank <= 5) ? d.size : 0; return d.topSize; });
-    } else if (document.getElementById("top10").checked) {
-        root.sum(function (d) { d.topSize = (d.rank <= 10) ? d.size : 0; return d.topSize; });
+    if (document.getElementById("top7").checked) {
+        root.sum(function (d) { d.topSize = (d.rank <= 7) ? d.size : 0; return d.topSize; });
     } else {
         root.sum(function (d) { d.topSize = d.size; return d.topSize; });
     }
-
-
-    // if (document.getElementById("top5").checked) {
-    //     root.sum(function (d) { d.topSize = (d.rank <= 5) ? d.textCount : 0; return d.topSize; });
-    // } else if (document.getElementById("top10").checked) {
-    //     root.sum(function (d) { d.topSize = (d.rank <= 10) ? d.textCount : 0; return d.topSize; });
-    // } else {
-    //     root.sum(function (d) { d.topSize = d.textCount; return d.topSize; });
-    // }
-
-
 
     // Recalculate partition data and then animate the redraw of both slices and text.
     partition(root);
@@ -386,7 +408,7 @@ function showTopTopics() {
 
 /**
  * When switching data: interpolate the arcs in data space.
- * @param {Node} a
+ * @param {node} a
  * @return {Number}
  */
 function arcTweenPath(a) {
@@ -406,7 +428,7 @@ function arcTweenPath(a) {
 
 /**
  * When switching data: interpolate the text centroids and rotation.
- * @param {Node} a
+ * @param {node} a
  * @return {Number}
  */
 function arcTweenText(a) {
@@ -422,7 +444,7 @@ function arcTweenText(a) {
 
 /**
  * Calculate the correct distance to rotate each label based on its location in the sunburst.
- * @param {Node} d
+ * @param {node} d
  * @return {Number}
  */
 function computeTextRotation(d) {
@@ -463,14 +485,14 @@ function cardToggle(cardID) {
 
 /**
  * Toggle the visibility of all of the cards.
- * @param contract {bool}  Are we contracting?
+ * @param contract {boolean}  Are we contracting?
  */
 function cardToggleAll(contract) {
 
     var cards = document.querySelectorAll('.card');
 
-    for (i = 0; i < cards.length; ++i) {
-        card = cards[i];
+    for (var i = 0; i < cards.length; ++i) {
+        var card = cards[i];
         if (contract) {
             card.classList.remove("big");
             card.style.height = "94px";
@@ -505,7 +527,7 @@ function welcomeToggle() {
  * Given a d3 node, we return a string for users to see. We'll either return the name (for the inner-ring) or the
  * first verbatim (for the outer-ring)
  * @param n {node}  the current d3 node object
- * @param showFullVerbatim {bool}  should we show the full topic name or just the 1st couple of words?
+ * @param showFullVerbatim {boolean}  should we show the full topic name or just the 1st couple of words?
  * @returns {string}  the topic name for UI presentation
  */
 function showTopicName(n, showFullVerbatim) {
@@ -522,7 +544,7 @@ function showTopicName(n, showFullVerbatim) {
  * Toggle the visibility of the search box
  */
 function searchToggle() {
-
+    alert("coming soon...?")
 }
 
 function searchTopic(topic) {

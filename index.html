@@ -63,17 +63,21 @@
             </div>
 
 
-            <div class="row">  <!-- Sunburst -->
-                <div class="col-md-12" id="svg_container">
+            <div class="row">  <!-- Overlay Controls & Sunburst -->
+                <div class="col-md-12" id="svg_container">  <!-- Overlay Controls -->
 
                     <a href='javascript:void(0);' onclick='welcomeToggle();'>
-                        <i class="fa fa-question-circle fa-lg" id="svg_help"></i>
+                        <i class="fa fa-question-circle fa-lg" id="svgHelp"></i>
                     </a>&nbsp;
                     <a href='javascript:void(0);' onclick='searchToggle();'>
-                        <i class="fa fa-search fa-lg" id="svg_search"></i>
+                        <i class="fa fa-search fa-lg" id="svgSearch"></i>
                     </a>
 
-                    <svg>
+                    <span id="svgTop7"><label>Show Top 7&nbsp;
+                        <input type="checkbox" name="topTopicsSelect" value="top7" id="top7" checked></label>
+                    </span>
+
+                    <svg>  <!-- Sunburst -->
                         <text x="50%" y="48%" id="corpusName" class="h4"></text>
                         <text x="50%" y="52%" id="corpusDate" class="h6"></text>
                         <text x="50%" y="55%" id="corpusAsOf" class="h6"></text>
@@ -82,7 +86,7 @@
                 </div>
             </div>
 
-            <div class="row">  <!-- Corpus Selector -->
+            <div class="row">  <!-- OLD Corpus Selector -->
                 <div class="col-md-12 text-center">
                     <br>&nbsp;<br>
                     <div class="btn-group" role="group" aria-label="Basic example">
@@ -90,26 +94,49 @@
                         <button type="button" class="btn btn-default corpus" id="corpusB">Corpus B</button>
                         <button type="button" class="btn btn-default corpus" id="corpusC">Corpus C</button>
                     </div>
+                </div>
+            </div>
+
+            <div class="row">  <!-- Corpus Selector -->
+                <div class="col-md-12 text-center">
+                    <br>&nbsp;<br>
+                    <div class="btn-group" role="group" aria-label="...">
+                        <div class="btn btn-default corpus" role="group" id="corpGospels">
+                            <img src="Logos/gospels.png" height="30" width="30"/>&nbsp;Gospels</div>
+                        <div class="btn btn-default corpus" role="group" id="corpPoetry">
+                            <img src="Logos/poetry.png" height="30" width="30"/>&nbsp;Poetry</div>
+                        <div class="btn btn-default corpus" role="group" id="corpPentateuch">
+                            <img src="Logos/law.png" height="30" width="30"/>&nbsp;Pentateuch</div>
+                    </div>
                     <br>&nbsp;<br>
                 </div>
             </div>
 
             <div class="row">  <!-- User Controls -->
                 <div class="col-md-12 text-center">
-                    <b>Show</b>&nbsp;&nbsp;
-                    <label>
-                        <input type="radio" name="topTopicsSelect" value="top5" id="top5">&nbsp;Top 5</label>
-                    &nbsp;<label>
-                    <input type="radio" name="topTopicsSelect" value="top10" id="top10" checked>&nbsp;Top 10</label>
-                    &nbsp;<label>
-                    <input type="radio" name="topTopicsSelect" value="all" id="all">&nbsp;All</label>
-                    <br>
+                    <span class="books" id="booksGospels">
+                    <label><input type="radio" name="booksGospels" value="Matthew" id="Matthew" checked>&nbsp;Matthew</label>
+                    &nbsp;<label><input type="radio" name="booksGospels" value="Mark" id="Mark">&nbsp;Mark</label>
+                    &nbsp;<label><input type="radio" name="booksGospels" value="Luke" id="Luke">&nbsp;Luke</label>
+                    &nbsp;<label><input type="radio" name="booksGospels" value="John" id="John">&nbsp;John</label>
+                    <br>&nbsp;<br></span>
 
-                    <b>When</b>&nbsp;&nbsp;<label>
-                    <input type="radio" name="dateSelect" value="today" id="today" checked>&nbsp;Today</label>
-                    &nbsp;<label>
-                    <input type="radio" name="dateSelect" value="yesterday" id="yesterday">&nbsp;Yesterday</label>
-                    <br>&nbsp;<br>
+
+                    <span class="books" id="booksPoetry">
+                    <label><input type="radio" name="booksPoetry" value="Job" id="Job" checked>&nbsp;Job</label>
+                    &nbsp;<label><input type="radio" name="booksPoetry" value="Psalms" id="Psalms">&nbsp;Psalms</label>
+                    &nbsp;<label><input type="radio" name="booksPoetry" value="Proverbs" id="Proverbs">&nbsp;Proverbs</label>
+                    &nbsp;<label><input type="radio" name="booksPoetry" value="Ecclesiastes" id="Ecclesiastes">&nbsp;Ecclesiastes</label>
+                    &nbsp;<label><input type="radio" name="booksPoetry" value="bookSoS" id="bookSoS">&nbsp;Song of Solomon</label>
+                    <br>&nbsp;<br></span>
+
+                    <span class="books" id="booksPentateuch">
+                    <label><input type="radio" name="booksLaw" value="Genesis" id="Genesis" checked>&nbsp;Genesis</label>
+                    &nbsp;<label><input type="radio" name="booksLaw" value="Exodus" id="Exodus">&nbsp;Exodus</label>
+                    &nbsp;<label><input type="radio" name="booksLaw" value="Leviticus" id="Leviticus">&nbsp;Leviticus</label>
+                    &nbsp;<label><input type="radio" name="booksLaw" value="Numbers" id="Numbers">&nbsp;Numbers</label>
+                    &nbsp;<label><input type="radio" name="booksLaw" value="Deuteronomy" id="Deuteronomy">&nbsp;Deuteronomy</label>
+                    <br>&nbsp;<br></span>
                 </div>
             </div>
 
@@ -144,6 +171,7 @@
                 </div>
             </div>
         </div>
+
 
     </div>
 
