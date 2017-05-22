@@ -87,6 +87,7 @@ d3.selectAll("input[name=topTopicsSelect]").on("click", showTopTopics);
 d3.selectAll("input[name=dateSelect]").on("click", showDate);
 d3.selectAll("button.corpus").on("click", changeSelectedCorpus);
 d3.selectAll("div.corpus").on("click", updateSelectedCorpus);
+d3.selectAll("input[name=booksGospels]").on("click", newBook);
 
 /**
  * Draw the sunburst, which includes sizing the slices, applying colors and labels
@@ -304,6 +305,8 @@ function updateSelectedCorpus() {
     d3.selectAll(".cardsToggleAll").style("display", "none");
     d3.select("#sidebar").selectAll("div").remove();
 
+
+
     // Update Corpus Buttons, hold on to the last selected as the "current" state.
     d3.selectAll(".corpus").classed("btn-primary", false);
     d3.selectAll(".books").style("display", "none");
@@ -335,6 +338,17 @@ function updateSelectedCorpus() {
 
 }
 
+
+function newBook() {
+
+
+
+    currentCorpus = this.id;
+    getTopicsData();
+    getTextsFile();
+    selectSlice();
+
+}
 
 /**
  * Get a new Topics file
