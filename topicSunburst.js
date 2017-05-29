@@ -59,9 +59,9 @@ var currentCorpus;
 var currentTextIDs;
 var color = d3.scaleLinear().domain([0, 0.5, 1]).range(['#337ab7', '#d3d3d3', '#464545']);
 var overRide = '';  // Use this variable to force the use of a specific Topic / Text file pair.
-var corpusA = 'Proverbs';  // These variable names bind us to the buttonGroupIDs
-var corpusB = 'Numbers';  // And the variable values must correspond to the file name
-var corpusC = 'Mark';  // And these values are used for the buttonGroup labels.
+var corpusA = 'Psalms';  // These variable names bind us to the buttonGroupIDs
+var corpusB = 'Psalms2';  // And the variable values must correspond to the file name
+var corpusC = 'Revelation';  // And these values are used for the buttonGroup labels.
 
 // Set the labels on the Corpus choice buttons
 d3.select("#corpusA").html(corpusA);
@@ -413,10 +413,11 @@ function showTopTopics() {
     }
 
     // Recalculate partition data and then animate the redraw of both slices and text.
+    // "opacity" only show text label if slice is big enough
     partition(root);
     newSlice.selectAll("path").transition().duration(750).attrTween("d", arcTweenPath);
     newSlice.selectAll("text").transition().duration(750).attrTween("transform", arcTweenText)
-        .attr("opacity", function (d) { return d.x1 - d.x0 > 0.07 ? 1 : 0; });
+        .attr("opacity", function (d) { return d.x1 - d.x0 > 0.06 ? 1 : 0; });
 }
 
 
@@ -546,11 +547,12 @@ function welcomeToggle() {
  */
 function showTopicName(n, showFullVerbatim) {
     topicName =  (n.depth < 2 ? n.data.name : n.data.verbatims[0]);
+    topicName = (n.depth < 2 ? topicName : topicName.replace(n.parent.data.name.toLowerCase(),'*'));
 
     if (showFullVerbatim) {
         return topicName;
     } else {
-        return topicName.split(" ").slice(0,2).join(" ");
+        return topicName.split(" ").slice(0,3).join(" ");
     }
 }
 
