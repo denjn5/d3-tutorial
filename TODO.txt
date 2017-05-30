@@ -7,6 +7,10 @@
 **********************
 **  HIGH PRIORITY  ***
 **********************
+TODO: UI SUBTOPICS: Max out at 7?
+TODO: UI TOTAL POST COUNT (in center?)
+TODO: UI TOTAL TOPIC COUNT (near Top 7?)
+TODO: UI CHROME: Add this as a warning
 TODO: (1/2) TITLES: Optionally Include titles for topic modeling
 TODO: UI SOURCE CHECKBOXES: Allow user to choose which sources.
 TODO: UI CARD SHRINK ICON: Why does it appear in random places?

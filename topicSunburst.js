@@ -12,36 +12,6 @@
  *  - Topics-ABC.txt | A hierarchical json file that populates our sunburst
  *  - Texts-ABB.txt |
  *
- *
- * ***  Topics-ABC.txt example  ***
- * The file begins with a summary section, then has a list of children (one child per topic). Each topic has 0 or
- * more children representing phrases that provide context for the topic.
- * {"name": "Matthew",                  // name of the corpus, shown in the center of the sunburst
- *  "data_date": "",                    // the date of the data, shown in the center of the sunburst
- *  "run_date": "2017-05-20 13:33",     // the date we pulled the data, shown in the center of the sunburst
- *  "children": [{                      // ***  topics: the inner ring of our sunburst ***
- *      "name": "man",                  // the first topic, use this as the visible title of our slice
- *      "count": 108,                   // how many times does this topic appear in the texts? (shown at the top of
- *                                          the texts list.
- *      "rank": 1,                      // a rank order based on the number of texts it appears in
- *      "size": 7,                      //
- *      "textCount": 25,                // how many texts does this topic appear in (e.g., textIDs.length)
- *      "verbatims": ["man", "men"],    // alternate ways this topics is mentioned in our texts, used by to highlight
- *      "textIDs": ["936", "944",       // the textIDs where this topic appears (used to determine which texts to show
- *          "929", "956", "942", "945", "946", "947", "938", "954", "953", "948", "930",
- *          "935", "951", "950","952", "932", "940", "937", "943", "955", "941", "939", "949"],
- *      "children": [                   // ***  sub-topics: the outer ring of our sunburst  ***
- *                                      // each child has a subset of the attributes that we have for each topic
- *          {"name": "aman", "count": 13, "verbatims": ["a man"],
- *            "textIDs": ["945", "946", "937", "947", "941", "950", "953", "944", "940", "949"], "textCount": 10,
- *            "rank": 1, "size": 10},
- *          {"name": "thisman", "count": 8, "verbatims": ["this man"],
- *            "textIDs": ["937", "955", "941", "954", "940"],
- *            "textCount": 5, "rank": 1, "size": 5},
- *          {"name": "theman", "count": 6, "verbatims": ["the man", "the men"],
- *            "textIDs": ["954", "940", "936"],
- *            "textCount": 3, "rank": 1, "size": 3}]
- * }]}
  */
 
 
@@ -55,18 +25,98 @@ var allTextsData;
 var slice;
 var newSlice;
 var root;
+var currentCorpora = 0;  // Tracks which corpus group is currently selected
 var currentCorpus;
 var currentTextIDs;
 var color = d3.scaleLinear().domain([0, 0.5, 1]).range(['#337ab7', '#d3d3d3', '#464545']);
 var overRide = '';  // Use this variable to force the use of a specific Topic / Text file pair.
-var corpusA = 'Psalms';  // These variable names bind us to the buttonGroupIDs
-var corpusB = 'Psalms2';  // And the variable values must correspond to the file name
-var corpusC = 'Revelation';  // And these values are used for the buttonGroup labels.
+var corpora = [['Testing', ['Psalms', 'Psalms2', 'Revelation', 'Psalms4', 'Psalms5']],
+                    ['Gospels', ['Matthew', 'Mark', 'Luke', 'John']],
+                    ['Poetry', ['Job', 'Psalms', 'Proverbs', 'Ecclesiastes', 'Song of Solomon']],
+                    ['Law', ['Genesis', 'Exodus', 'Leviticus', 'Numbers', 'Deuteronomy']]];
 
-// Set the labels on the Corpus choice buttons
-d3.select("#corpusA").html(corpusA);
-d3.select("#corpusB").html(corpusB);
-d3.select("#corpusC").html(corpusC);
+corpuraSelectorBuild();
+
+function corpuraSelectorBuild() {  // The plural of corpus is "corpora".
+
+    // d3.select("#corpusA").html(corpora[0][0]);
+    // d3.select("#corpusB").html(corpora[1][0]);
+    // d3.select("#corpusC").html(corpora[2][0]);
+
+    // Fill in Corpus
+    d3.select("#corpGrp0").html(corpora[0][0]);
+    d3.select("#corpGrp1").html(corpora[1][0]);
+    d3.select("#corpGrp2").html(corpora[2][0]);
+    d3.select("#corpGrp3").html(corpora[3][0]);
+
+    corporaSelectorUpdate();
+}
+
+
+/**
+ * When the user selects a new corpus (e.g., a new set of texts), this function determines which corpus has been
+ * requested, maneges the cascade of functions to update the visualization, clears old conotrols on the page, and
+ * marks the "current state" on the button group.
+ */
+function corporaSelectorUpdate() {
+
+    // set defaults
+    d3.selectAll(".corpGrps").classed("btn-primary", false);
+
+    // Update Corpus Buttons, hold on to the last selected as the "current" state.
+    if (this.id === "corpGrp1") {
+        d3.select("#corpGrp1").classed("btn-primary", true);
+        currentCorpora = 1;
+    } else if (this.id === "corpGrp2") {
+        d3.select("#corpGrp2").classed("btn-primary", true);
+        currentCorpora = 2;
+    } else if (this.id === "corpGrp3") {
+        d3.select("#corpGrp3").classed("btn-primary", true);
+        currentCorpora = 3;
+    } else {
+        d3.select("#corpGrp0").classed("btn-primary", true);
+        currentCorpora = 0
+    }
+
+    // Update the detail radio buttons
+    d3.select("#corpDtl0 > span").html(corpora[currentCorpora][1][0]);
+    d3.select("#corpDtl1 > span").html(corpora[currentCorpora][1][1]);
+    d3.select("#corpDtl2 > span").html(corpora[currentCorpora][1][2]);
+    d3.select("#corpDtl3 > span").html(corpora[currentCorpora][1][3]);
+    corpora[currentCorpora][1].length > 4 ? d3.select("#corpDtl4 > span").html(corpora[currentCorpora][1][4]) : d3.select("#corpDtl4").style("display", "none");
+
+    corpusSelected();
+}
+
+
+/**
+ * When the user selects a new corpus (e.g., a new set of texts), this function determines which corpus has been
+ * requested, maneges the cascade of functions to update the visualization, clears old conotrols on the page, and
+ * marks the "current state" on the button group.
+ */
+function corpusSelected() {
+
+    // Did the user click something (which has become current as this.id)? If so, check if there's a variable by
+    // this name.  If so, window[this.id] returns the value of that variable.  If not, return the value of corpusA.
+    // TODO: Handle when this value doesn't exist or when underlying file doesn't exist.
+    corporaDetail = this.value ? this.value.substr(this.value.length - 1) : 0;
+    currentCorpus = corpora[currentCorpora][1][corporaDetail];
+
+    getTopicsData();
+    getTextsFile();
+    selectSlice();
+
+    // Update Page Labels
+    d3.select("#topicName").html("");
+    d3.select("#topicDetails").html("");
+    d3.selectAll(".cardsToggleAll").style("display", "none");
+    d3.select("#sidebar").selectAll("div").remove();
+
+
+
+
+}
+
 
 // Size our <svg> element, add a <g> element, and move translate 0,0 to the center of the element.
 var g = d3.select("svg")
@@ -80,14 +130,10 @@ var partition = d3.partition()
     .size([2 * Math.PI, radius]);
 
 // Get files, produce visuals, set up event handlers
-// TODO: Once the new corpus selection logic is in place, delete refs to changeSelectedCorpus().
-changeSelectedCorpus();
-updateSelectedCorpus();
 d3.selectAll("input[name=topTopicsSelect]").on("click", showTopTopics);
 d3.selectAll("input[name=dateSelect]").on("click", showDate);
-d3.selectAll("button.corpus").on("click", changeSelectedCorpus);
-d3.selectAll("div.corpus").on("click", updateSelectedCorpus);
-d3.selectAll("input[name=booksGospels]").on("click", newBook);
+d3.selectAll(".corpGrps").on("click", corporaSelectorUpdate);
+d3.selectAll(".corpDtl").on("click", corpusSelected);
 
 /**
  * Draw the sunburst, which includes sizing the slices, applying colors and labels
@@ -258,97 +304,6 @@ function showDate() {
     alert("Not yet implemented: " + this.value);
 }
 
-
-/**
- * When the user selects a new corpus (e.g., a new set of texts), this function determines which corpus has been
- * requested, maneges the cascade of functions to update the visualization, clears old conotrols on the page, and
- * marks the "current state" on the button group.
- */
-function changeSelectedCorpus() {
-
-    // Did the user click something (which has become current as this.id)? If so, check if there's a variable by
-    // this name.  If so, window[this.id] returns the value of that variable.  If not, return the value of corpusA.
-    currentCorpus = (this.id ? window[this.id] : corpusA);
-
-    getTopicsData();
-    getTextsFile();
-    selectSlice();
-
-    // Update Page Labels
-    d3.select("#topicName").html("");
-    d3.select("#topicDetails").html("");
-    d3.selectAll(".cardsToggleAll").style("display", "none");
-    d3.select("#sidebar").selectAll("div").remove();
-
-    // Update Corpus Buttons, hold on to the last selected as the "current" state.
-    d3.selectAll(".corpus").classed("btn-primary", false);
-    if (this.id === "corpusB") {
-        d3.select("#corpusB").classed("btn-primary", true);
-    } else if (this.id === "corpusC") {
-        d3.select("#corpusC").classed("btn-primary", true);
-    } else {
-        d3.select("#corpusA").classed("btn-primary", true);
-    }
-
-}
-
-/**
- * When the user selects a new corpus (e.g., a new set of texts), this function determines which corpus has been
- * requested, maneges the cascade of functions to update the visualization, clears old controls on the page, and
- * marks the "current state" on the button group.
- */
-function updateSelectedCorpus() {
-
-    // Update Page Labels
-    d3.select("#topicName").html("");
-    d3.select("#topicDetails").html("");
-    d3.selectAll(".cardsToggleAll").style("display", "none");
-    d3.select("#sidebar").selectAll("div").remove();
-
-
-
-    // Update Corpus Buttons, hold on to the last selected as the "current" state.
-    d3.selectAll(".corpus").classed("btn-primary", false);
-    d3.selectAll(".books").style("display", "none");
-    if (this.id === "corpPentateuch") {
-        d3.select("#corpPentateuch").classed("btn-primary", true);
-        d3.select("#booksPentateuch").style("display", "block");
-        currentCorpus = "Genesis";
-    } else if (this.id === "corpPoetry") {
-        d3.select("#corpPoetry").classed("btn-primary", true);
-        d3.select("#booksPoetry").style("display", "block");
-        currentCorpus = "Job";
-    } else {
-        d3.select("#corpGospels").classed("btn-primary", true);
-        d3.select("#booksGospels").style("display", "block");
-        currentCorpus = "Matthew";
-    }
-
-    if (overRide.length > 0)
-        currentCorpus = overRide;
-
-    // TODO: Get smarter about updating currentCorpus.
-    // Did the user click something (which has become current as this.id)? If so, check if there's a variable by
-    // this name.  If so, window[this.id] returns the value of that variable.  If not, return the value of corpusA.
-    // currentCorpus = (this.id ? window[this.id] : corpusA);
-
-    getTopicsData();
-    getTextsFile();
-    selectSlice();
-
-}
-
-
-function newBook() {
-
-
-
-    currentCorpus = this.id;
-    getTopicsData();
-    getTextsFile();
-    selectSlice();
-
-}
 
 /**
  * Get a new Topics file
