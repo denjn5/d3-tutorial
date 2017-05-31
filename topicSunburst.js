@@ -35,55 +35,49 @@ var corpora = [['Testing', ['Psalms', 'Psalms2', 'Revelation', 'Psalms4', 'Psalm
                     ['Poetry', ['Job', 'Psalms', 'Proverbs', 'Ecclesiastes', 'Song of Solomon']],
                     ['Law', ['Genesis', 'Exodus', 'Leviticus', 'Numbers', 'Deuteronomy']]];
 
-corpuraSelectorBuild();
 
-function corpuraSelectorBuild() {  // The plural of corpus is "corpora".
+d3.select("#corpGrp0").html(corpora[0][0]);
+d3.select("#corpGrp1").html(corpora[1][0]);
+d3.select("#corpGrp2").html(corpora[2][0]);
+d3.select("#corpGrp3").html(corpora[3][0]);
 
-    // d3.select("#corpusA").html(corpora[0][0]);
-    // d3.select("#corpusB").html(corpora[1][0]);
-    // d3.select("#corpusC").html(corpora[2][0]);
-
-    // Fill in Corpus
-    d3.select("#corpGrp0").html(corpora[0][0]);
-    d3.select("#corpGrp1").html(corpora[1][0]);
-    d3.select("#corpGrp2").html(corpora[2][0]);
-    d3.select("#corpGrp3").html(corpora[3][0]);
-
-    corporaSelectorUpdate();
-}
+corporaSelectorUpdate();
 
 
 /**
- * When the user selects a new corpus (e.g., a new set of texts), this function determines which corpus has been
- * requested, maneges the cascade of functions to update the visualization, clears old conotrols on the page, and
- * marks the "current state" on the button group.
+ * When the user selects a new corpus group, this function determines which corpus group has been
+ * requested, manages the button highlighting and updates the radio buttons.
  */
 function corporaSelectorUpdate() {
 
     // set defaults
     d3.selectAll(".corpGrps").classed("btn-primary", false);
 
-    // Update Corpus Buttons, hold on to the last selected as the "current" state.
-    if (this.id === "corpGrp1") {
-        d3.select("#corpGrp1").classed("btn-primary", true);
-        currentCorpora = 1;
-    } else if (this.id === "corpGrp2") {
-        d3.select("#corpGrp2").classed("btn-primary", true);
-        currentCorpora = 2;
-    } else if (this.id === "corpGrp3") {
-        d3.select("#corpGrp3").classed("btn-primary", true);
-        currentCorpora = 3;
-    } else {
-        d3.select("#corpGrp0").classed("btn-primary", true);
-        currentCorpora = 0
+
+    d3.selectAll(".corpGrps").style("display", "none");
+    grpButtons = ["#corpGrp0", "#corpGrp1", "#corpGrp2", "#corpGrp3"];
+    currentID = this.id ? "#" + this.id : "#corpGrp0";
+
+
+    for (var g = 0; g < corpora.length; g++) {
+        d3.select(grpButtons[g]).style("display", "inline");
+        d3.select(grpButtons[g]).html(corpora[g][0]);
+        if (currentID === grpButtons[g]) {
+            d3.select(grpButtons[g]).classed("btn-primary", true);
+            currentCorpora = g;
+        }
     }
 
+
     // Update the detail radio buttons
-    d3.select("#corpDtl0 > span").html(corpora[currentCorpora][1][0]);
-    d3.select("#corpDtl1 > span").html(corpora[currentCorpora][1][1]);
-    d3.select("#corpDtl2 > span").html(corpora[currentCorpora][1][2]);
-    d3.select("#corpDtl3 > span").html(corpora[currentCorpora][1][3]);
-    corpora[currentCorpora][1].length > 4 ? d3.select("#corpDtl4 > span").html(corpora[currentCorpora][1][4]) : d3.select("#corpDtl4").style("display", "none");
+    d3.selectAll(".corpDtl").style("display", "none");
+    dtlRadios = ["#corpDtl0", "#corpDtl1", "#corpDtl2", "#corpDtl3", "#corpDtl4", "#corpDtl5", "#corpDtl6"];
+    dtlLabels = corpora[currentCorpora][1];
+
+    for (var i = 0; i < dtlLabels.length; i++) {
+        d3.select(dtlRadios[i]).style("display", "inline");
+        d3.select(dtlRadios[i] + " > span").html(dtlLabels[i]);
+    }
 
     corpusSelected();
 }
@@ -133,7 +127,7 @@ var partition = d3.partition()
 d3.selectAll("input[name=topTopicsSelect]").on("click", showTopTopics);
 d3.selectAll("input[name=dateSelect]").on("click", showDate);
 d3.selectAll(".corpGrps").on("click", corporaSelectorUpdate);
-d3.selectAll(".corpDtl").on("click", corpusSelected);
+d3.selectAll(".corpDtl > input").on("click", corpusSelected);
 
 /**
  * Draw the sunburst, which includes sizing the slices, applying colors and labels
@@ -324,6 +318,7 @@ function getTopicsData() {
         showTopTopics();
         d3.select("#corpusName").html(currentCorpus);
         d3.select("#corpusAsOf").html("As of " + allTopicsData.run_date.replace('2017-',''));
+        d3.select("#corpusCount").html(allTopicsData.text_count + " texts");
 
         if (allTopicsData.data_date) {
             d3.select("#corpusDate").html("Data: " + allTopicsData.data_date.replace('2017-',''));

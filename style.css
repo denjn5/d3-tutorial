@@ -59,7 +59,7 @@ text {
     text-anchor: middle;
 }
 
-#corpusDate {
+#corpusDate, #corpusCount {
     fill: darkgray;
     alignment-baseline: middle;
     text-anchor: middle;
