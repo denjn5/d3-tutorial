@@ -30,7 +30,8 @@ var currentCorpus;
 var currentTextIDs;
 var color = d3.scaleLinear().domain([0, 0.5, 1]).range(['#337ab7', '#d3d3d3', '#464545']);
 var overRide = '';  // Use this variable to force the use of a specific Topic / Text file pair.
-var corpora = [['Testing', ['Psalms', 'Psalms2', 'Revelation', 'Psalms4', 'Psalms5']],
+// corpora pattern must be....
+var corpora = [['Genesis', ['Genesis']],
                     ['Gospels', ['Matthew', 'Mark', 'Luke', 'John']],
                     ['Poetry', ['Job', 'Psalms', 'Proverbs', 'Ecclesiastes', 'Song of Solomon']],
                     ['Law', ['Genesis', 'Exodus', 'Leviticus', 'Numbers', 'Deuteronomy']]];
@@ -50,14 +51,24 @@ corporaSelectorUpdate();
  */
 function corporaSelectorUpdate() {
 
-    // set defaults
+    // Update corpora variable with optional files
+    for (var c; c < corpora.length; c++) {
+        corpora[c][1].concat(['Genesis-20170531']);
+    }
+
+
+    // Calc last 7 days
+    var today = new Date();
+    for (var d=0; d<7; d++) {
+        today.setDate(today.getDate() - 1);
+        file_name = today.getFullYear().toString() + (today.getMonth().toString() + 1) + today.getDate().toString();
+    }
+
+
+    // Set every button as clear
     d3.selectAll(".corpGrps").classed("btn-primary", false);
-
-
-    d3.selectAll(".corpGrps").style("display", "none");
-    grpButtons = ["#corpGrp0", "#corpGrp1", "#corpGrp2", "#corpGrp3"];
-    currentID = this.id ? "#" + this.id : "#corpGrp0";
-
+    var grpButtons = ["#corpGrp0", "#corpGrp1", "#corpGrp2", "#corpGrp3"];
+    var currentID = this.id ? "#" + this.id : "#corpGrp0";
 
     for (var g = 0; g < corpora.length; g++) {
         d3.select(grpButtons[g]).style("display", "inline");
@@ -68,12 +79,12 @@ function corporaSelectorUpdate() {
         }
     }
 
-
     // Update the detail radio buttons
     d3.selectAll(".corpDtl").style("display", "none");
-    dtlRadios = ["#corpDtl0", "#corpDtl1", "#corpDtl2", "#corpDtl3", "#corpDtl4", "#corpDtl5", "#corpDtl6"];
-    dtlLabels = corpora[currentCorpora][1];
+    var dtlRadios = ["#corpDtl0", "#corpDtl1", "#corpDtl2", "#corpDtl3", "#corpDtl4", "#corpDtl5", "#corpDtl6"];
+    var dtlLabels = corpora[currentCorpora][1];
 
+    // Loop through the known labels and create a radio button for each
     for (var i = 0; i < dtlLabels.length; i++) {
         d3.select(dtlRadios[i]).style("display", "inline");
         d3.select(dtlRadios[i] + " > span").html(dtlLabels[i]);
@@ -93,8 +104,8 @@ function corpusSelected() {
     // Did the user click something (which has become current as this.id)? If so, check if there's a variable by
     // this name.  If so, window[this.id] returns the value of that variable.  If not, return the value of corpusA.
     // TODO: Handle when this value doesn't exist or when underlying file doesn't exist.
-    corporaDetail = this.value ? this.value.substr(this.value.length - 1) : 0;
-    currentCorpus = corpora[currentCorpora][1][corporaDetail];
+    var corporaDetail = this.value ? this.value.substr(this.value.length - 1) : 0;
+    currentCorpus = corpora[currentCorpora][1][corporaDetail];  // Global variable -- don't set "var"
 
     getTopicsData();
     getTextsFile();
@@ -338,7 +349,10 @@ function getTextsFile() {
 
     // Get the data from our JSON file
     d3.json(corpusPath, function(error, textsData) {
-        if (error) throw error;
+        if (error) {
+            alert(corpusPath + ' is not available.');
+            throw error;
+        }
 
         // Store texts data for use throughout this page.
         allTextsData = textsData;

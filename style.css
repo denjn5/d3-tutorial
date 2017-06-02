@@ -51,18 +51,21 @@ text {
     fill: lightgray;
     alignment-baseline: middle;
     text-anchor: middle;
+    z-index: 50;
 }
 
 #corpusName {
     fill: black;
     alignment-baseline: middle;
     text-anchor: middle;
+    z-index: 50;
 }
 
 #corpusDate, #corpusCount {
     fill: darkgray;
     alignment-baseline: middle;
     text-anchor: middle;
+    z-index: 50;
 }
 
 #svg_container {
