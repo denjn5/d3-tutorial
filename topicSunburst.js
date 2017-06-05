@@ -25,13 +25,12 @@ var allTextsData;
 var slice;
 var newSlice;
 var root;
-var currentCorpora = 0;  // Tracks which corpus group is currently selected
 var currentCorpus;
 var currentTextIDs;
 var color = d3.scaleLinear().domain([0, 0.5, 1]).range(['#337ab7', '#d3d3d3', '#464545']);
 var overRide = '';  // Use this variable to force the use of a specific Topic / Text file pair.
 // corpora pattern must be....
-var corpora = [['Genesis', ['Genesis']],
+var corpora = [['Genesis', ['Genesis', 'Bible']],
                     ['Gospels', ['Matthew', 'Mark', 'Luke', 'John']],
                     ['Poetry', ['Job', 'Psalms', 'Proverbs', 'Ecclesiastes', 'Song of Solomon']],
                     ['Law', ['Genesis', 'Exodus', 'Leviticus', 'Numbers', 'Deuteronomy']]];
@@ -51,43 +50,47 @@ corporaSelectorUpdate();
  */
 function corporaSelectorUpdate() {
 
-    // Update corpora variable with optional files
-    for (var c; c < corpora.length; c++) {
-        corpora[c][1].concat(['Genesis-20170531']);
-    }
-
-
-    // Calc last 7 days
-    var today = new Date();
-    for (var d=0; d<7; d++) {
-        today.setDate(today.getDate() - 1);
-        file_name = today.getFullYear().toString() + (today.getMonth().toString() + 1) + today.getDate().toString();
-    }
-
-
-    // Set every button as clear
-    d3.selectAll(".corpGrps").classed("btn-primary", false);
-    var grpButtons = ["#corpGrp0", "#corpGrp1", "#corpGrp2", "#corpGrp3"];
+    d3.selectAll(".corpGrps").classed("btn-primary", false);  // Set every button as clear background
+    var grpButtonsIDs = ["#corpGrp0", "#corpGrp1", "#corpGrp2", "#corpGrp3"];
     var currentID = this.id ? "#" + this.id : "#corpGrp0";
+    var corporaName;  // Which corpora is active (used to look for the right files)
+    var detailLabels;  // The list of labels that we'll use for the radio buttons below (also part of the filename)
 
+    // Loop through corpora variable determine which button was pressed
     for (var g = 0; g < corpora.length; g++) {
-        d3.select(grpButtons[g]).style("display", "inline");
-        d3.select(grpButtons[g]).html(corpora[g][0]);
-        if (currentID === grpButtons[g]) {
-            d3.select(grpButtons[g]).classed("btn-primary", true);
-            currentCorpora = g;
+        if (currentID === grpButtonsIDs[g]) {  // The currently selected button
+            d3.select(grpButtonsIDs[g]).classed("btn-primary", true);
+            corporaName = corpora[g][0];
+            detailLabels = corpora[g][1];  // The array of names needed for the radio buttons
         }
     }
 
+    // Calc last 7 days
+    var http = new XMLHttpRequest();
+    for (var d=1; d<7; d++) {
+        var curDate = new Date(new Date().setDate(new Date().getDate()-d));
+        var month = ((curDate.getMonth() < 9) ? "0" : "") + (curDate.getMonth() + 1);
+		var date = ((curDate.getDate() < 9) ? "0" : "") + (curDate.getDate());
+
+        http.open('HEAD', "Data/Topics-" + corporaName + '-' + month + date + ".txt", false);
+        http.send();
+        if (http.status === 200) {
+            detailLabels.push(corporaName + '-' + month + date);
+        }
+    }
+
+
     // Update the detail radio buttons
     d3.selectAll(".corpDtl").style("display", "none");
+    document.querySelector("#corpDtl0 > input").checked = true;
     var dtlRadios = ["#corpDtl0", "#corpDtl1", "#corpDtl2", "#corpDtl3", "#corpDtl4", "#corpDtl5", "#corpDtl6"];
-    var dtlLabels = corpora[currentCorpora][1];
+    
 
-    // Loop through the known labels and create a radio button for each
-    for (var i = 0; i < dtlLabels.length; i++) {
+    // Loop through the known labels and create a radio button for eac
+    for (var i = 0; i < detailLabels.length; i++) {
         d3.select(dtlRadios[i]).style("display", "inline");
-        d3.select(dtlRadios[i] + " > span").html(dtlLabels[i]);
+        d3.select(dtlRadios[i] + " > span").html(detailLabels[i]);
+        d3.select(dtlRadios[i] + " > input").attr('value', detailLabels[i]);  // Stash file name for later use
     }
 
     corpusSelected();
@@ -101,11 +104,10 @@ function corporaSelectorUpdate() {
  */
 function corpusSelected() {
 
-    // Did the user click something (which has become current as this.id)? If so, check if there's a variable by
-    // this name.  If so, window[this.id] returns the value of that variable.  If not, return the value of corpusA.
-    // TODO: Handle when this value doesn't exist or when underlying file doesn't exist.
-    var corporaDetail = this.value ? this.value.substr(this.value.length - 1) : 0;
-    currentCorpus = corpora[currentCorpora][1][corporaDetail];  // Global variable -- don't set "var"
+    // Did the user click something? If so, use it (we previously stashed the file name in the value attribute, ha ha!)
+    // Otherwise, choose the value attribute of the 1st radio button. This assumes that we always have at least one
+    // radio button for a corpora. That seems safe!
+    currentCorpus = this.value ? this.value : document.querySelector("#corpDtl0 > input").value;
 
     getTopicsData();
     getTextsFile();
@@ -511,12 +513,16 @@ function welcomeToggle() {
  */
 function showTopicName(n, showFullVerbatim) {
     topicName =  (n.depth < 2 ? n.data.name : n.data.verbatims[0]);
-    topicName = (n.depth < 2 ? topicName : topicName.replace(n.parent.data.name.toLowerCase(),'*'));
 
     if (showFullVerbatim) {
         return topicName;
     } else {
-        return topicName.split(" ").slice(0,3).join(" ");
+        if (n.depth < 2) {
+            return topicName;
+        } else {
+            return topicName.split(" ").slice(0,3).join(" ").replace(n.parent.data.name.toLowerCase(), '*');
+        }
+
     }
 }
 

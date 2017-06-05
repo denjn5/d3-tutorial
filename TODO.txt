@@ -5,23 +5,51 @@
 
 
 **********************
-**  HIGH PRIORITY  ***
+**  THIS WEEK      ***
 **********************
-TODO: UI SUBTOPICS: Max out at 7?
-TODO: UI TOTAL POST COUNT (in center?)
-TODO: UI TOTAL TOPIC COUNT (near Top 7?)
-TODO: UI CHROME: Add this as a warning
-TODO: (1/2) TITLES: Optionally Include titles for topic modeling
-TODO: UI SOURCE CHECKBOXES: Allow user to choose which sources.
-TODO: UI CARD SHRINK ICON: Why does it appear in random places?
-TODO: ASSERTS: Add to topic_builder w/ comments to ensure GET to ensure conformity.
-TODO: DOCUMENTATION: Improve! Move to README.md file
+** DOC2VEC         ***
+TODO: D2V: (a) understand output
+TODO: VECRELS: Make json export consistent
+FEATURE: D2V: Compare all chapters in the Bible? (is there enough input? Add versions?)
 
+** TRANSPORT       ***
+TODO: Change file names from type-topic-date.txt to topic-type-date.txt (so they appear together)
+FIXME: UI CAMELCASE: Transition meta from topic_builder to new json tags, then clean up model_output.
+
+** USER INTERFACE  ***
+TODO: UI SUBTOPICS: Max out at 7?
+TODO: UI TOTAL TOPIC COUNT (near Top 7?)
+TODO: UI CARD SHRINK ICON: Why does it appear in random places?
 FEATURE: UI SEARCH: (a) brings in texts that have that topic, (b) wildcards?, (c) shows texts and topic count
+TODO: UI MAX TOPICS: Show exported number
+
+** GET_            ***
+FIXME: NO SOURCE? Cleanly end when no source pulled
+TODO: LIMIT TEXT LENGTH: in get_ files, no text longer than 16000 in output
+
+** TOPIC_BUILDER   ***
+FIXME: SUBTOPIC: "man" gets subtopic "many things" (e.g., Mark)
+TODO: SUBTOPICS: Improve find when sparse (e.g., ngrams that are near)
+TODO: TOPIC COUNT MIN: Allow users to choose the min count that makes a noun end up in the output
+TODO: (1/2) TITLES: Add the option to topic model the titles
+
+** OTHER           ***
+TODO: DOCUMENTATION: Improve! (a) Internal & docstrings. (b) Structural in README.md
+TODO: REQUIREMENTS.TXT: (a) reduce version mins? (b) am I using right format? (c) do I need to add anything?
+FEATURE: GRAPH, make it great again?!
+TODO: CSS LINTER: Does it work?
+
 
 ***********************
 **  MEDIUM PRIORITY  **
 ***********************
+TODO: UI CORPUS BUTTONS: Drive based on found files
+TODO: DATA DATE: Add day-of-week
+
+FEATURE: Add anaphora resolution (Hobbs on spaCy?)
+TODO: UI CHROME: Add this as a warning
+
+TODO: UI SOURCE CHECKBOXES: Allow user to choose which source types.
 TODO: spaCy pipe() -- multi-threading
 FEATURE: UI CORPUS VIEW: Multiple Days for same Corpus (dropdown?)
 FEATURE: UI CHOOSE SOURCES: Let users choose which sources they want to use.
@@ -29,11 +57,9 @@ FEATURE: UI CHOOSE SOURCES: Let users choose which sources they want to use.
 ***********************
 **  LATER  ************
 ***********************
-TODO: DATA DATE: Add day-of-week
 TODO: BOOTSTRAP: Get "partial" file based on features we use (http://getbootstrap.com/customize/)
 TODO: UI CENTER: Shrink root so we have more space for slices?
 TODO: UI LINE WRAP: For long lines
-TODO: UI CORPUS BUTTONS: Drive based on found files
 TODO: RALEWAY: Get from local
 TODO: UI COLORS: (a) colorblind, (b) recolor on Top X change
 FEATURE: TF-IDF: Explore this for ranking / sizing.

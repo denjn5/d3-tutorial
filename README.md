@@ -35,4 +35,4 @@ The file begins with a summary section, then has a list of children (one child p
  }]}
  ```
  
- 
+ Three ways to choose a document object: d3.select (or selectAll), document.getElementByID, or document.query... (or ...All).  Explain this.
