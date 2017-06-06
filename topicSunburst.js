@@ -318,7 +318,7 @@ function showDate() {
 function getTopicsData() {
 
     // this line assumes that we have a variable with the same name as the this.id assigned (at the top of the file).
-    var corpusPath = "Data/Topics-" + currentCorpus + ".txt";
+    var corpusPath = "Data/" + currentCorpus + "-Topics.txt";
 
     // Get the data from our JSON file
     d3.json(corpusPath, function(error, topicsData) {
@@ -330,11 +330,11 @@ function getTopicsData() {
         drawSunburst(allTopicsData);
         showTopTopics();
         d3.select("#corpusName").html(currentCorpus);
-        d3.select("#corpusAsOf").html("As of " + allTopicsData.run_date.replace('2017-',''));
-        d3.select("#corpusCount").html(allTopicsData.text_count + " texts");
+        d3.select("#corpusAsOf").html("As of " + allTopicsData.runDate.replace('2017-',''));
+        d3.select("#corpusCount").html(allTopicsData.textCount + " texts");
 
-        if (allTopicsData.data_date) {
-            d3.select("#corpusDate").html("Data: " + allTopicsData.data_date.replace('2017-',''));
+        if (allTopicsData.dataDate) {
+            d3.select("#corpusDate").html("Data: " + allTopicsData.dataDate.replace('2017-',''));
         }
 
     });
@@ -347,7 +347,7 @@ function getTopicsData() {
 function getTextsFile() {
 
     // IMP: Must have var with the same name as this.id (assigned at top of the file currently).
-    var corpusPath = "Data/Texts-" + currentCorpus + ".txt";
+    var corpusPath = "Data/" + currentCorpus + "-Texts.txt";
 
     // Get the data from our JSON file
     d3.json(corpusPath, function(error, textsData) {

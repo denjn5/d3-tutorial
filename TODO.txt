@@ -2,19 +2,13 @@
 ***********************
 **  TEST  *************
 ***********************
-
+* improved filenames, fixed camelcase on json vars, clean exit on no data
 
 **********************
 **  THIS WEEK      ***
 **********************
 ** DOC2VEC         ***
 TODO: D2V: (a) understand output
-TODO: VECRELS: Make json export consistent
-FEATURE: D2V: Compare all chapters in the Bible? (is there enough input? Add versions?)
-
-** TRANSPORT       ***
-TODO: Change file names from type-topic-date.txt to topic-type-date.txt (so they appear together)
-FIXME: UI CAMELCASE: Transition meta from topic_builder to new json tags, then clean up model_output.
 
 ** USER INTERFACE  ***
 TODO: UI SUBTOPICS: Max out at 7?
@@ -24,7 +18,6 @@ FEATURE: UI SEARCH: (a) brings in texts that have that topic, (b) wildcards?, (c
 TODO: UI MAX TOPICS: Show exported number
 
 ** GET_            ***
-FIXME: NO SOURCE? Cleanly end when no source pulled
 TODO: LIMIT TEXT LENGTH: in get_ files, no text longer than 16000 in output
 
 ** TOPIC_BUILDER   ***
