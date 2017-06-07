@@ -7,18 +7,23 @@
 **********************
 **  THIS WEEK      ***
 **********************
+FEATURE: Better context model
+TODO: 2 lines in context ring
+TODO: UI SUBTOPICS: Max out at 7?
+TODO: UI TOTAL TOPIC COUNT (near Top 7?)
+TODO: LIMIT TEXT LENGTH: in get_ files, no text longer than 16000 in output
+
+
 ** DOC2VEC         ***
+FEATURE: W2V: (a) add, (b) understand, (c) publish
 TODO: D2V: (a) understand output
 
 ** USER INTERFACE  ***
-TODO: UI SUBTOPICS: Max out at 7?
-TODO: UI TOTAL TOPIC COUNT (near Top 7?)
 TODO: UI CARD SHRINK ICON: Why does it appear in random places?
 FEATURE: UI SEARCH: (a) brings in texts that have that topic, (b) wildcards?, (c) shows texts and topic count
 TODO: UI MAX TOPICS: Show exported number
 
 ** GET_            ***
-TODO: LIMIT TEXT LENGTH: in get_ files, no text longer than 16000 in output
 
 ** TOPIC_BUILDER   ***
 FIXME: SUBTOPIC: "man" gets subtopic "many things" (e.g., Mark)
