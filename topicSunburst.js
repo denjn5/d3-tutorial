@@ -32,7 +32,7 @@ var overRide = '';  // Use this variable to force the use of a specific Topic / 
 // corpora pattern must be....
 var corpora = [['Genesis', ['Genesis', 'Bible']],
                     ['Gospels', ['Matthew', 'Mark', 'Luke', 'John']],
-                    ['Poetry', ['Job', 'Psalms', 'Proverbs', 'Ecclesiastes', 'Song of Solomon']],
+                    ['Poetry', ['Job', 'Psalms', 'Psalms2', 'Proverbs', 'Ecclesiastes', 'Song of Solomon']],
                     ['Law', ['Genesis', 'Exodus', 'Leviticus', 'Numbers', 'Deuteronomy']]];
 
 
