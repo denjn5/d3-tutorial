@@ -3,6 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="c441bad2-191d-45b8-ba10-9352e30e64c0" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ReadMePart1.md" afterPath="$PROJECT_DIR$/ReadMePart1.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ReadMePart2.md" afterPath="$PROJECT_DIR$/ReadMePart2.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ReadMePart3.md" afterPath="$PROJECT_DIR$/ReadMePart3.md" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -33,17 +36,31 @@
               <caret line="59" column="22" lean-forward="false" selection-start-line="59" selection-start-column="22" selection-end-line="59" selection-end-column="22" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <marker date="1497097319000" expanded="true" signature="947:1100" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ReadMePart1.md" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/ReadMePart1.md">
+      <file leaf-file-name="ReadMePart2.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ReadMePart2.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="115">
-                <caret line="171" column="97" lean-forward="false" selection-start-line="171" selection-start-column="97" selection-end-line="171" selection-end-column="97" />
+              <first_editor relative-caret-position="1890">
+                <caret line="126" column="6" lean-forward="false" selection-start-line="126" selection-start-column="6" selection-end-line="126" selection-end-column="6" />
+                <folding />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ReadMePart3.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/ReadMePart3.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="380">
+                <caret line="181" column="2" lean-forward="false" selection-start-line="181" selection-start-column="2" selection-end-line="181" selection-end-column="2" />
                 <folding />
               </first_editor>
               <second_editor />
@@ -73,8 +90,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>this.i</find>
-      <find>depth</find>
       <find>.parent</find>
       <find>partition(roo</find>
       <find>data st</find>
@@ -97,7 +112,14 @@
       <find>more</find>
       <find>th</find>
       <find>font</find>
+      <find>2.</find>
+      <find>expr2.</find>
+      <find>our h</find>
       <find>```</find>
+      <find>1)</find>
+      <find>2)</find>
+      <find>3)</find>
+      <find>4)</find>
     </findStrings>
     <replaceStrings>
       <replace>^t</replace>
@@ -107,7 +129,12 @@
       <replace>Corp B Topic</replace>
       <replace>getData</replace>
       <replace>'</replace>
+      <replace>5.</replace>
       <replace>`</replace>
+      <replace>1.</replace>
+      <replace>2.</replace>
+      <replace>3.</replace>
+      <replace>4.</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -122,11 +149,9 @@
         <option value="$PROJECT_DIR$/README2.md" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/SunburstPart3a.html" />
-        <option value="$PROJECT_DIR$/ReadMePart2.md" />
         <option value="$PROJECT_DIR$/SunburstPart1.html" />
         <option value="$PROJECT_DIR$/SunburstPart2.html" />
         <option value="$PROJECT_DIR$/SunburstPart3.html" />
-        <option value="$PROJECT_DIR$/ReadMePart3.md" />
         <option value="$PROJECT_DIR$/SunburstPart4a.html" />
         <option value="$PROJECT_DIR$/SunburstPart4.html" />
         <option value="$PROJECT_DIR$/docs/index.html" />
@@ -142,6 +167,8 @@
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/topicSunburst.js" />
         <option value="$PROJECT_DIR$/ReadMePart1.md" />
+        <option value="$PROJECT_DIR$/ReadMePart2.md" />
+        <option value="$PROJECT_DIR$/ReadMePart3.md" />
       </list>
     </option>
   </component>
@@ -588,7 +615,14 @@
       <option name="project" value="LOCAL" />
       <updated>1499474652923</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="fixed">
+      <created>1499474670528</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1499474670528</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TodoView">
@@ -611,7 +645,7 @@
       <window_info id="Python Console" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Graph Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1383204" sideWeight="0.5" order="6" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1383204" sideWeight="0.5" order="6" side_tool="false" content_ui="combo" />
       <window_info id="Graph Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24947146" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -655,6 +689,7 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1497097319000" expanded="true" signature="947:1100" ph="..." />
           </folding>
         </state>
       </provider>
@@ -673,6 +708,7 @@
           <caret line="14" column="7" lean-forward="false" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
           <folding>
             <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1497097319000" expanded="true" signature="947:1100" ph="..." />
           </folding>
         </state>
       </provider>
@@ -754,26 +790,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ReadMePart3.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="498">
-            <caret line="121" column="105" lean-forward="false" selection-start-line="121" selection-start-column="105" selection-end-line="121" selection-end-column="105" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ReadMePart2.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="30">
-            <caret line="2" column="42" lean-forward="true" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="42" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/docs/SunburstPart1.html" />
     <entry file="file://$PROJECT_DIR$/docs/ReadMePart1.md" />
     <entry file="file://$PROJECT_DIR$/dataExtra.json" />
@@ -816,16 +832,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="771">
-          <caret line="59" column="22" lean-forward="false" selection-start-line="59" selection-start-column="22" selection-end-line="59" selection-end-column="22" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/SunburstPart1.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="840">
@@ -845,8 +851,41 @@
     <entry file="file://$PROJECT_DIR$/ReadMePart1.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="115">
-            <caret line="171" column="97" lean-forward="false" selection-start-line="171" selection-start-column="97" selection-end-line="171" selection-end-column="97" />
+          <first_editor relative-caret-position="170">
+            <caret line="197" column="0" lean-forward="true" selection-start-line="197" selection-start-column="0" selection-end-line="197" selection-end-column="0" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="771">
+          <caret line="59" column="22" lean-forward="false" selection-start-line="59" selection-start-column="22" selection-end-line="59" selection-end-column="22" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1497097319000" expanded="true" signature="947:1100" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ReadMePart2.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="1890">
+            <caret line="126" column="6" lean-forward="false" selection-start-line="126" selection-start-column="6" selection-end-line="126" selection-end-column="6" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ReadMePart3.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="380">
+            <caret line="181" column="2" lean-forward="false" selection-start-line="181" selection-start-column="2" selection-end-line="181" selection-end-column="2" />
             <folding />
           </first_editor>
           <second_editor />

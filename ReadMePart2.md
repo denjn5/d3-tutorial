@@ -2,8 +2,8 @@
 
 ## Sunburst Labels & an External json File
 In this tutorial, we'll begin with the "no frills" sunburst from [Tutorial 1](https://bl.ocks.org/denjn5/e1cdbbe586ac31747b4a304f8f86efa5). But we'll limit our detailed walk-through to the 2 new features:
-1) properly-rotated labels
-2) data loaded from external json file
+1. properly-rotated labels
+2. data loaded from external json file
 
 On the [bl.ocks.org page](https://bl.ocks.org/denjn5/f059c1f78f9c39d922b1c208815d18af), scroll to the bottom to see the uninterrupted code of a Sunburst visual, based on d3 version 4. This tutorial builds on [Part 1](https://bl.ocks.org/denjn5/e1cdbbe586ac31747b4a304f8f86efa5).
 
@@ -23,9 +23,9 @@ body {
 </style>
 ```
 
-The ```<style>``` block creates boasts a surprisingly powerful set of tools for to enhance our user-experience. The above lines import a Google Font for this page and then tell the page what to do if that font (or other fonts that we like) are not available.
-* ```@import url('https://fonts.googleapis.com/css?family=Raleway')``` gets the Raleway font from Google ([fonts.google.com](https://fonts.google.com/)).
-* ```body { font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif; }``` tells our page to use Raleway first, but provides alternatives if it's not available.
+The `<style>` block creates boasts a surprisingly powerful set of tools for to enhance our user-experience. The above lines import a Google Font for this page and then tell the page what to do if that font (or other fonts that we like) are not available.
+* `@import url('https://fonts.googleapis.com/css?family=Raleway')` gets the Raleway font from Google ([fonts.google.com](https://fonts.google.com/)).
+* `body { font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif; }` tells our page to use Raleway first, but provides alternatives if it's not available.
 
 
 ## Get the data
@@ -41,8 +41,8 @@ d3.json("data.json", function(error, nodeData) {
 ```
 
 d3.json is a super-simple d3 function that allows us to pull our data from a json file (d3 has other similar functions for csv, tsv, etc. files). We include the filename 2 arguments:
-1) "data.json" (since we don't have any folder references, it assumes that this file is in the same directory as the current file)
-2) A special _anonymous_ function that returns either an error or the data as a variable, "nodeData". All of our code that processes and presents the data typically fits within this anonymous function block.
+1. "data.json" (since we don't have any folder references, it assumes that this file is in the same directory as the current file)
+2. A special _anonymous_ function that returns either an error or the data as a variable, "nodeData". All of our code that processes and presents the data typically fits within this anonymous function block.
 
 If you inspect the data.json file, you'll note that we've added some attributes (text, sentiment, source). You can ignore those for this tutorial. We'll use them in the future.
 
@@ -62,7 +62,7 @@ var arc = d3.arc()
     .outerRadius(function (d) { return d.y1 });
 ```
 
-The above code is identical to Tutorial 1. We've simply moved inside of our new data call, ```d3.json()```.
+The above code is identical to Tutorial 1. We've simply moved inside of our new data call, `d3.json()`.
 
 
 ## Draw a Slice for Each Node
@@ -79,13 +79,13 @@ g.selectAll('g')  // <-- 1
     .style("fill", function (d) { return color((d.children ? d : d.parent).data.name); });
 ```
  
-In the previous tutorial, we selected our non-existent ```<path>``` elements below and used the d3 Update Pattern to add a ```<path>``` for each node in our data. This time, we also want to create a visible label, as a ```<text>``` element in each slice. Sadly, ```<path>``` cannot contain ```<text>``` elements. So, instead of beginning with the <path> element, we'll our container ```<g>``` element. Then we'll add both the ```<path>``` and the ```<text>``` elements to the ```<g>``` element.
+In the previous tutorial, we selected our non-existent `<path>` elements below and used the d3 Update Pattern to add a `<path>` for each node in our data. This time, we also want to create a visible label, as a `<text>` element in each slice. Sadly, `<path>` cannot contain `<text>` elements. So, instead of beginning with the <path> element, we'll our container `<g>` element. Then we'll add both the `<path>` and the `<text>` elements to the `<g>` element.
 
 To be precise, we've made the 2 changes to our code from Tutorial 1:
-1) ```g.selectAll('path')``` --> ```g.selectAll('g')```
-2) ```.enter().append('path')``` --> ```.enter().append('g').attr("class", "node").append('path')```
+1. `g.selectAll('path')` --> `g.selectAll('g')`
+2. `.enter().append('path')` --> `.enter().append('g').attr("class", "node").append('path')`
 
-In step 2, we now append a ```<g>``` element for each data node. To that, we a class attribute ("node").  This will let us get a hold of just these <g class='node'> elements later. _Now_ we're ready to append the ```<path>``` element to the new ```<g class='node'>``` elements. In the end, each data node has an entry that looks like this:
+In step 2, we now append a `<g>` element for each data node. To that, we a class attribute ("node").  This will let us get a hold of just these <g class='node'> elements later. _Now_ we're ready to append the `<path>` element to the new `<g class='node'>` elements. In the end, each data node has an entry that looks like this:
 
 ``` html
 <g class="node">
@@ -109,22 +109,22 @@ g.selectAll(".node")  // <-- 1
     .text(function(d) { return d.parent ? d.data.name : "" });  // <-- 6
 ```
 
-Now we'll add and populate the ```<text>``` elements with our data-driven titles.
+Now we'll add and populate the `<text>` elements with our data-driven titles.
 
-1) ```g.selectAll(".node")``` like the last block, starts with the g variable that we created way above. This variable will select for us the single ```<g>``` element that we originally appended to our ```<svg>``` element. Then it looks for any child elements that have "node" as a class, and selects them. These are the newly created ```<g class='node'>``` elements from the block above.
+1. `g.selectAll(".node")` like the last block, starts with the g variable that we created way above. This variable will select for us the single `<g>` element that we originally appended to our `<svg>` element. Then it looks for any child elements that have "node" as a class, and selects them. These are the newly created `<g class='node'>` elements from the block above.
 
-2) ```.append("text")``` appends an empty ```<text>``` element to each ```<g class='node'>``` element
+2. `.append("text")` appends an empty `<text>` element to each `<g class='node'>` element
 
-3) ```.attr("transform", function(d) { return ...; })``` adds a transform attribute to each our newly created ```<text>``` elements.
-    * ```"translate(" + arc.centroid(d) + ")"``` moves the reference point for this ```<text>``` element to the center of each arc (the variable we defined above). The centroid command from d3 computes the midpoint [x, y] of each arc.
-    * ```"rotate(" + computeTextRotation(d) + ")"``` then we'll rotate our ```<text>``` element a specified number of degrees. We'll do that calc in a separate function below.
+3. `.attr("transform", function(d) { return ...; })` adds a transform attribute to each our newly created `<text>` elements.
+    1. `"translate(" + arc.centroid(d) + ")"` moves the reference point for this `<text>` element to the center of each arc (the variable we defined above). The centroid command from d3 computes the midpoint [x, y] of each arc.
+    2. `"rotate(" + computeTextRotation(d) + ")"` then we'll rotate our `<text>` element a specified number of degrees. We'll do that calc in a separate function below.
 
-4) ```.attr("dx", "-20")```  // Moves the text element to the left, which makes our labels look centered.
+4. `.attr("dx", "-20")`  // Moves the text element to the left, which makes our labels look centered.
 
-5) ```.attr("dy", ".5em")``` // Pulls our text element in closer to the center of the Sunburst, which makes our labels look centered.
+5. `.attr("dy", ".5em")` // Pulls our text element in closer to the center of the Sunburst, which makes our labels look centered.
 
-6) ```.text(function(d) { return d.parent ? d.data.name : "" })``` returns the "name" attribute for each node, unless that particular node has no parents (the "root" node).  In that case, it returns an empty string.
-    * This ```d.parent``` check is an alternative to the ```d.depth``` check that we did in Tutorial 1 for finding our _root_ node. 
+6. `.text(function(d) { return d.parent ? d.data.name : "" })` returns the "name" attribute for each node, unless that particular node has no parents (the "root" node).  In that case, it returns an empty string.
+    1. This `d.parent` check is an alternative to the `d.depth` check that we did in Tutorial 1 for finding our _root_ node. 
 
 Putting this block all together, each data node has an entry that looks like:
 ``` html
@@ -135,7 +135,7 @@ Putting this block all together, each data node has an entry that looks like:
 </g>
 ```
 
-This is the end of the ```d3.json()``` block.
+This is the end of the `d3.json()` block.
 
 
 ## computeTextRotation Function
@@ -154,12 +154,12 @@ function computeTextRotation(d) {
 ```
 
 Three math-rich lines in this function:
-1) ```var angle = (d.x0 + d.x1) / Math.PI * 90``` calculate the angle (in degrees) of the label that will work for 1/2 of the labels.
-* d.x0 = the beginning angle of this node / slice (in radians).
-* d.x1 = the end angle of this node / slice (in radians).
+1. `var angle = (d.x0 + d.x1) / Math.PI * 90` calculate the angle (in degrees) of the label that will work for 1/2 of the labels.
+    1. d.x0 = the beginning angle of this node / slice (in radians).
+    2. d.x1 = the end angle of this node / slice (in radians).
 
-2) ```return (angle < 90 || angle > 270) ? angle : angle + 180``` handles rotation to avoid any upside-down labels: If rotation angle is in the 1st or 2nd quadrants (top 1/2), leave the already calc'd angle. Otherwise, flip the text over so that the text appears right-side-up.
+2. `return (angle < 90 || angle > 270) ? angle : angle + 180` handles rotation to avoid any upside-down labels: If rotation angle is in the 1st or 2nd quadrants (top 1/2), leave the already calc'd angle. Otherwise, flip the text over so that the text appears right-side-up.
 
-3) ```return (angle < 180) ? angle - 90 : angle + 90``` Alternatively, this line rotates the labels so that they appear in the traditional "spoke" formation. And it avoids any upside-down labels. It's currently commented out.
+3. `return (angle < 180) ? angle - 90 : angle + 90` Alternatively, this line rotates the labels so that they appear in the traditional "spoke" formation. And it avoids any upside-down labels. It's currently commented out.
 
 Nice! You've made it through 2 tutorials (or maybe you wandered directly into this one). Either way, great job on making it this far. You're now able to add labels to your sunburst. We've still just scratched the surface. If you're ready, join me for [Tutorial 3](https://bl.ocks.org/denjn5/3b74baf5edc4ac93d5e487136481c601).
