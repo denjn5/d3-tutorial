@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c441bad2-191d-45b8-ba10-9352e30e64c0" name="Default" comment="fixed">
+    <list default="true" id="c441bad2-191d-45b8-ba10-9352e30e64c0" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ReadMePart1.md" afterPath="$PROJECT_DIR$/ReadMePart1.md" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -582,7 +581,14 @@
       <option name="project" value="LOCAL" />
       <updated>1493485673626</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="fixed">
+      <created>1499474652923</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1499474652923</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TodoView">
@@ -633,7 +639,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="A fully commented d3 v4 sunburst diagram." />
     <MESSAGE value="index.html / topicSunburst.js -- GOOD" />
-    <option name="LAST_COMMIT_MESSAGE" value="index.html / topicSunburst.js -- GOOD" />
+    <MESSAGE value="fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
