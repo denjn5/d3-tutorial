@@ -1,11 +1,15 @@
 <!--- Sunburst Tutorial (d3 v4), Part 1 -->
 
 ## A No Frills Sunburst
-In this page, we'll do a detailed walk-through of a basic "no frills" d3 Sunburst.  We'll add features in future tutorials. I strive to explain each line. If I don't explain it, or explain it well, I welcome your input. For each titled section, we'll begin with the code and then explain it. Maybe it'll help you solve a problem in your own code or build something that you're proud of. 
+In this tutorial we'll complete a detailed walk-through of a basic "no frills" d3 Sunburst. Sunbursts are great for explaining relationships in hierarchical data. But the code can get confusing as we mix html, css, svg, json, javascript, and d3.
 
-On the [bl.ocks.org page](https://bl.ocks.org/denjn5/e1cdbbe586ac31747b4a304f8f86efa5), scroll to the bottom to see the uninterrupted code of a Sunburst visual, based on d3 version 4. [Part 2](https://bl.ocks.org/denjn5/f059c1f78f9c39d922b1c208815d18af) builds on this tutorial, but adds labels and pulls the data from a separate json file.
+Each tutorial builds on the previous one, adding new features. I strive to explain every line, and each concept within the line. If I don't explain it, or explain it well, it may be covered in a previous tutorial. Titled sections begin with a code block and then the explanation. The series includes:
 
-Sunbursts are great for explaining relationships in hierarchical data. But the code can get confusing as we mix html, css, svg, json, javascript, and d3. And, bounce between radians and degrees. 
+1. [Sunburst 1](https://bl.ocks.org/denjn5/e1cdbbe586ac31747b4a304f8f86efa5): A "No Frills" Sunburst
+2. [Sunburst 2](https://bl.ocks.org/denjn5/f059c1f78f9c39d922b1c208815d18af): Add Labels & an external json file to our basic sunburst.
+3. [Sunburst 3](https://bl.ocks.org/denjn5/3b74baf5edc4ac93d5e487136481c601): Add smooth updates and sorting
+
+View the entire series on my [bl.ocks.org page](https://bl.ocks.org/denjn5) or my [github page](https://github.com/denjn5/dD3tutorial). Maybe they'll help you extend your skills, solve a problem in your own code, or build something that you're proud of. I welcome your ideas.
 
 Do good!  —David Richards
 

@@ -2,12 +2,14 @@
 
 ## Smooth Updates and Sorting
 In this tutorial we'll begin with our [Tutorial 2](https://bl.ocks.org/denjn5/f059c1f78f9c39d922b1c208815d18af) Sunburst and add just 2 features:
-1) sort slices by size
-2) smooth updating based on user input.
+
+1. sort slices by size
+2. smooth updating based on user input.
 
 We'll explain new features in detail, line-by-line. If we don't explain a line below, it's likely covered in a previous version:
-1) [Tutorial 1](https://bl.ocks.org/denjn5/e1cdbbe586ac31747b4a304f8f86efa5): A "No Frills" Sunburst
-2) [Tutorial 2](https://bl.ocks.org/denjn5/f059c1f78f9c39d922b1c208815d18af): Add Labels & an External json File
+
+1. [Tutorial 1](https://bl.ocks.org/denjn5/e1cdbbe586ac31747b4a304f8f86efa5): A "No Frills" Sunburst
+2. [Tutorial 2](https://bl.ocks.org/denjn5/f059c1f78f9c39d922b1c208815d18af): Add Labels & an External json File
 
 If you're viewing this on [bl.ocks.org page](https://bl.ocks.org/denjn5/3b74baf5edc4ac93d5e487136481c601), scroll to the bottom to see the uninterrupted sunburst code, based on d3 version 4. Feedback welcome.
 
@@ -119,6 +121,7 @@ d3.selectAll(".sizeSelect").on("click", function(d,i) {  // <-- 1
 ```
 
 Let's break down each line above and see what it does:
+
 1. `d3.selectAll(".sizeSelect")` gets a handle on the 2 radio button `<input class="sizeSelect">` elements we defined above (in the same way that it helps us get a hold of elements within the SVG).
     1. `.on("click", function(d,i) { ... })` adds an event listener to our selected elements. The event listener will fire if one of the elements is clicked (we could have called out any other compliant event) and run the code that's in our `function(d,i) {}` block.
     2. The `function(d,i) {}` returns the object where the event occurred as keyword "this". So it'll represent one or the other of our radio button elements.

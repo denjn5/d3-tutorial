@@ -2,15 +2,21 @@
 
 ## Sunburst Labels & an External json File
 In this tutorial, we'll begin with the "no frills" sunburst from [Tutorial 1](https://bl.ocks.org/denjn5/e1cdbbe586ac31747b4a304f8f86efa5). But we'll limit our detailed walk-through to the 2 new features:
+
 1. properly-rotated labels
 2. data loaded from external json file
 
-On the [bl.ocks.org page](https://bl.ocks.org/denjn5/f059c1f78f9c39d922b1c208815d18af), scroll to the bottom to see the uninterrupted code of a Sunburst visual, based on d3 version 4. This tutorial builds on [Part 1](https://bl.ocks.org/denjn5/e1cdbbe586ac31747b4a304f8f86efa5).
+Each tutorial builds on the previous one, adding new features. The goal is to explain every line, and each concept within the line. If I don't explain it, or explain it well, it may be explained in a previous tutorial. Each titled section, will begin with a code block and then explain it. The series of tutorials includes:
+
+1. [Sunburst 1](https://bl.ocks.org/denjn5/e1cdbbe586ac31747b4a304f8f86efa5): A "No Frills" Sunburst
+2. [Sunburst 2](https://bl.ocks.org/denjn5/f059c1f78f9c39d922b1c208815d18af): Add Labels & an external json file to our basic sunburst.
+3. [Sunburst 3](https://bl.ocks.org/denjn5/3b74baf5edc4ac93d5e487136481c601): Add smooth updates and sorting
+
+View the entire series on my [bl.ocks.org page](https://bl.ocks.org/denjn5) or my [github page](https://github.com/denjn5/dD3tutorial). Maybe they'll help you extend your skills, solve a problem in your own code, or build something that you're proud of. I welcome your ideas.
 
 Do good!  —David Richards
 
-
-## Style Block
+## A New Font
 I'm not a fan of the default font for our sunburst labels. We'll add a style block to our html to clean it up.
 
 ``` html
@@ -28,7 +34,7 @@ The `<style>` block creates boasts a surprisingly powerful set of tools for to e
 * `body { font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif; }` tells our page to use Raleway first, but provides alternatives if it's not available.
 
 
-## Get the data
+## Get the Data
 In the first tutorial we began with the web page and variable definitions. This time, we'll skip all of that and go right for the first new code: getting data from our *.json file.
 
 ``` javascript
@@ -41,6 +47,7 @@ d3.json("data.json", function(error, nodeData) {
 ```
 
 d3.json is a super-simple d3 function that allows us to pull our data from a json file (d3 has other similar functions for csv, tsv, etc. files). We include the filename 2 arguments:
+
 1. "data.json" (since we don't have any folder references, it assumes that this file is in the same directory as the current file)
 2. A special _anonymous_ function that returns either an error or the data as a variable, "nodeData". All of our code that processes and presents the data typically fits within this anonymous function block.
 
@@ -82,6 +89,7 @@ g.selectAll('g')  // <-- 1
 In the previous tutorial, we selected our non-existent `<path>` elements below and used the d3 Update Pattern to add a `<path>` for each node in our data. This time, we also want to create a visible label, as a `<text>` element in each slice. Sadly, `<path>` cannot contain `<text>` elements. So, instead of beginning with the <path> element, we'll our container `<g>` element. Then we'll add both the `<path>` and the `<text>` elements to the `<g>` element.
 
 To be precise, we've made the 2 changes to our code from Tutorial 1:
+
 1. `g.selectAll('path')` --> `g.selectAll('g')`
 2. `.enter().append('path')` --> `.enter().append('g').attr("class", "node").append('path')`
 
@@ -154,6 +162,7 @@ function computeTextRotation(d) {
 ```
 
 Three math-rich lines in this function:
+
 1. `var angle = (d.x0 + d.x1) / Math.PI * 90` calculate the angle (in degrees) of the label that will work for 1/2 of the labels.
     1. d.x0 = the beginning angle of this node / slice (in radians).
     2. d.x1 = the end angle of this node / slice (in radians).
